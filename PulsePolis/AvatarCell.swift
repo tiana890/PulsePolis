@@ -10,6 +10,7 @@ import UIKit
 
 class AvatarCell: UITableViewCell {
 
+    @IBOutlet var collectionView: UICollectionView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

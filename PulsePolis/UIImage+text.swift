@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 extension UIImage {
     
     /// Append string to NSMutableData
@@ -19,8 +20,8 @@ extension UIImage {
     func textToImage(drawText: NSString)->UIImage{
         
         // Setup the font specific variables
-        let textColor: UIColor = UIColor.yellowColor()
-        let textFont: UIFont = UIFont(name: "Helvetica Bold", size: 100)!
+        let textColor: UIColor = UIColor.whiteColor()
+        let textFont: UIFont = UIFont(name: "Helvetica Neue", size: 12)!
         
         //Setup the image context using the passed image.
         UIGraphicsBeginImageContext(self.size)
@@ -36,7 +37,7 @@ extension UIImage {
         
 
         // Creating a point within the space that is as bit as the image.
-        let rect: CGRect = CGRectMake(self.size.width - 1500, self.size.height - 500,self.size.width, self.size.height)
+        let rect: CGRect = CGRectMake(self.size.width/2-3, self.size.height/2-10, 8.0, 21.0)
         
         //Now Draw the text into an image.
         drawText.drawInRect(rect, withAttributes: textFontAttributes)
@@ -47,6 +48,7 @@ extension UIImage {
         // End the context now that we have the image we need
         UIGraphicsEndImageContext()
         
+       
         //And pass it back up to the caller.
         return newImage
         

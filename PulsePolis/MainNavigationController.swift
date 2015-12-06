@@ -9,10 +9,26 @@
 import UIKit
 
 class MainNavigationController: UINavigationController {
-
+    
+    let CONTAINER_CONTROLLER_STORYBOARD_ID = "containerVC"
+    let AUTHORIZATION_CONTROLLER_STORYBOARD_ID = "authorizationVC"
+    
+    let START_CONTROLLER_IDENTIFIER = "startViewController"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+        //Авторизован ли пользователь в системе
+        if let u = User.getUserFromDefaults(){
+            APP.i().user = u
+            let svc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(START_CONTROLLER_IDENTIFIER)
+            self.setViewControllers([svc], animated: true)
+        } else {
+            let avc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(AUTHORIZATION_CONTROLLER_STORYBOARD_ID)
+            self.setViewControllers([avc], animated: true)
+        }
+        
         // Do any additional setup after loading the view.
     }
 

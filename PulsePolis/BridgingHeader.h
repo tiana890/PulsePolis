@@ -9,5 +9,12 @@
 #ifndef BridgingHeader_h
 #define BridgingHeader_h
 
+#import "NSString+MD5.h"
+@import FBSDKCoreKit;
+@import FBSDKLoginKit;
+#import "VKSdk.h"
+#import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
+#import "NSMutableArray+SWUtilityButtons.h"
 
 #endif /* BridgingHeader_h */

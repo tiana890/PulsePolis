@@ -10,4 +10,5 @@ import UIKit
 
 class AvatarCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet var avatarImage: UIImageView!
 }
