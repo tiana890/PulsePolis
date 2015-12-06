@@ -1,14 +1,14 @@
 //
-//  ContainerViewController.swift
+//  FeedbackViewController.swift
 //  PulsePolis
 //
-//  Created by IMAC  on 22.11.15.
+//  Created by IMAC  on 06.12.15.
 //  Copyright © 2015 IMAC . All rights reserved.
 //
 
 import UIKit
 
-class ContainerViewController: UIViewController {
+class FeedbackViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
