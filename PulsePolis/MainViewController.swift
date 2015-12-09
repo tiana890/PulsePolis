@@ -33,21 +33,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var mapView: MGLMapView!
     
     @IBOutlet var table: UITableView!
+    
+    var locationManager: LocationManager?
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager = LocationManager()
+        locationManager?.startLocationManager()
+        
          mapView.delegate = self
                let locationCoordinate = CLLocationCoordinate2DMake(
             55.75222, 37.61556)
         
         mapView.setCenterCoordinate(locationCoordinate, zoomLevel: 15, animated: false)
-        
-        /*
-        NSURL *styleURL = [NSURL URLWithString:@"asset://styles/dark-v8.json"];
-        self.mapView = [[MGLMapView alloc] initWithFrame:self.view.bounds
-        styleURL:styleURL];*/
-        
-        //let styleURL = NSURL(string: "asset://styles/streets.json")
-        //mapView.styleURL =
         
         let styleURL = NSURL(string: "mapbox://styles/marinazayceva/cihonrl0x00efawkrwp4tgd9y")
         mapView.styleURL = styleURL
@@ -59,32 +56,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
        
         mapView.userInteractionEnabled = true
         
-        
-
-        /*
-        self.headerView = self.table.tableHeaderView
-        self.table.tableHeaderView = nil
-        
-        self.table.addSubview(self.headerView)
-        */
-        // Do any additional setup after loading the view.
-       // self.table.contentInset = UIEdgeInsets(top: tableHeaderHeight, left: 0, bottom: 0, right: 0)
-       // self.table.contentOffset = CGPoint(x: 0, y: -tableHeaderHeight)
-        //updateHeaderView()
-        
-        ///headerView.layer.borderColor = UIColor.redColor().CGColor
-        //headerView.layer.borderWidth = 3.0
-        /*
-        // Add a bottomBorder.
-        CALayer *bottomBorder = [CALayer layer];
-        
-        bottomBorder.frame = CGRectMake(0.0f, 43.0f, toScrollView.frame.size.width, 1.0f);
-        
-        bottomBorder.backgroundColor = [UIColor colorWithWhite:0.8f
-            alpha:1.0f].CGColor;
-        
-        [toScrollView.layer addSublayer:bottomBorder];
-*/
         if let hitTestView = self.view as? HitTestView{
             hitTestView.mapView = self.mapView
             hitTestView.headerView = self.table.tableHeaderView
@@ -92,23 +63,21 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             hitTestView.statisticsButton = self.statisticsButton
             hitTestView.userLocationButton = self.userLocationButton
-            //hitTestView.headerView!.layer.borderColor = UIColor.redColor().CGColor
-            //hitTestView.headerView!.layer.borderWidth = 3.0
         }
+        
+        var insets = table.contentInset
+        insets.bottom = 44
+        table.contentInset = insets
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named:"nav_background"), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named:"shadow_nav")
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
+        
+        print(self.table.frame)
     }
     
-    
     func setMap(){
-        /*
-        // Declare the annotation `point` and set its coordinates, title, and subtitle
-        MGLPointAnnotation *point = [[MGLPointAnnotation alloc] init];
-        point.coordinate = CLLocationCoordinate2DMake(38.894368, -77.036487);
-        point.title = @"Hello world!";
-        point.subtitle = @"Welcome to The Ellipse.";
-        
-        // Add annotation `point` to the map
-        [self.mapView addAnnotation:point];
-*/
         var point = MGLPointAnnotation()
         point.coordinate = (mapView.userLocation?.coordinate)!
         self.mapView.addAnnotation(point)
@@ -265,7 +234,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UICollectionViewCell()
     }
     
-    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -286,9 +254,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func userLocationPressed(sender: AnyObject) {
         
-        let camera = MGLMapCamera(lookingAtCenterCoordinate: (mapView.userLocation?.coordinate)!, fromDistance: 9000, pitch: 45, heading: 0)
-        
-        mapView.setCamera(camera, withDuration: 5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+        if let loc = locationManager?.locationCoordinate{
+            
+//            let camera = MGLMapCamera(lookingAtCenterCoordinate: loc, fromEyeCoordinate: <#T##CLLocationCoordinate2D#>, eyeAltitude: <#T##CLLocationDistance#>)
+           let camera = MGLMapCamera()
+            camera.centerCoordinate = loc
+//          mapView.setCamera(camera, withDuration: 5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault))
+            mapView.setCenterCoordinate(loc, zoomLevel: 15, animated: false)
+        }
     }
     
     @IBAction func mainBtnPressed(sender: AnyObject) {

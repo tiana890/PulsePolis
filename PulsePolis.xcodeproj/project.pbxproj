@@ -104,6 +104,12 @@
 		8839EB5B1C01DA27007186BA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8839EB5A1C01DA27007186BA /* ProfileViewController.swift */; };
 		8839EB5F1C058DD5007186BA /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8839EB5E1C058DD5007186BA /* MainNavigationController.swift */; };
 		8839EB611C0595C2007186BA /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8839EB601C0595C2007186BA /* StartViewController.swift */; };
+		8853CEFD1C1558A100D6C535 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8853CEFC1C1558A100D6C535 /* LocationManager.swift */; };
+		8853CEFF1C15591500D6C535 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8853CEFE1C15591500D6C535 /* CoreLocation.framework */; };
+		8853CF081C17F8E700D6C535 /* AvatarCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8853CF071C17F8E700D6C535 /* AvatarCollectionViewController.swift */; };
+		8853CF0C1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8853CF0B1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift */; };
+		8853CF0F1C18473500D6C535 /* HelveticaNeueCyr-Roman.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8853CF0D1C1844CA00D6C535 /* HelveticaNeueCyr-Roman.otf */; };
+		8853CF111C1847D100D6C535 /* RomanLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8853CF101C1847D100D6C535 /* RomanLabel.swift */; };
 		BDD354E52657C999FE7D9AB2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D28A489793480251DA7130CB /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -296,6 +302,12 @@
 		8839EB5A1C01DA27007186BA /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		8839EB5E1C058DD5007186BA /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		8839EB601C0595C2007186BA /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		8853CEFC1C1558A100D6C535 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		8853CEFE1C15591500D6C535 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		8853CF071C17F8E700D6C535 /* AvatarCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarCollectionViewController.swift; sourceTree = "<group>"; };
+		8853CF0B1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterCellCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		8853CF0D1C1844CA00D6C535 /* HelveticaNeueCyr-Roman.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeueCyr-Roman.otf"; sourceTree = "<group>"; };
+		8853CF101C1847D100D6C535 /* RomanLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RomanLabel.swift; sourceTree = "<group>"; };
 		8899611D1BFF485C0041264A /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		B1D36D31BFC1F37A6D3C24B6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D28A489793480251DA7130CB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -306,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8853CEFF1C15591500D6C535 /* CoreLocation.framework in Frameworks */,
 				8818FB0A1C07868D00CA51E0 /* CoreGraphics.framework in Frameworks */,
 				BDD354E52657C999FE7D9AB2 /* Pods.framework in Frameworks */,
 			);
@@ -362,6 +375,9 @@
 		8808B9921BF1B504002D3457 /* PulsePolis */ = {
 			isa = PBXGroup;
 			children = (
+				8853CF0E1C18470D00D6C535 /* Resources */,
+				8853CF0A1C17F9B500D6C535 /* Support Classes */,
+				8853CF091C17F9A700D6C535 /* AvatarCollection */,
 				88385BA61C13683B008D8D23 /* SWTableViewCell */,
 				8818FB691C0F020C00CA51E0 /* Extensions */,
 				8818FB641C0EE37B00CA51E0 /* Custom views */,
@@ -369,7 +385,6 @@
 				8818FB4D1C0B25EF00CA51E0 /* Cells */,
 				8839EB1E1BFF5258007186BA /* VK-ios-sdk */,
 				8808B9C31BF1BE48002D3457 /* Settings.bundle */,
-				8808B9931BF1B504002D3457 /* AppDelegate.swift */,
 				88385B911C12CF46008D8D23 /* ContainerViewController.swift */,
 				8808B9951BF1B504002D3457 /* ViewController.swift */,
 				8808B9971BF1B504002D3457 /* Main.storyboard */,
@@ -383,9 +398,6 @@
 				8839EB5A1C01DA27007186BA /* ProfileViewController.swift */,
 				8839EB5E1C058DD5007186BA /* MainNavigationController.swift */,
 				8839EB601C0595C2007186BA /* StartViewController.swift */,
-				8818FB071C06EBFC00CA51E0 /* MapHeaderView.swift */,
-				8818FB0B1C084A8200CA51E0 /* HitTestView.swift */,
-				8818FB551C0B73AC00CA51E0 /* APP.swift */,
 				88385BB21C143638008D8D23 /* SettingsViewController.swift */,
 				88385BB41C145453008D8D23 /* FeedbackViewController.swift */,
 			);
@@ -432,10 +444,13 @@
 		8818FB641C0EE37B00CA51E0 /* Custom views */ = {
 			isa = PBXGroup;
 			children = (
+				8818FB071C06EBFC00CA51E0 /* MapHeaderView.swift */,
+				8818FB0B1C084A8200CA51E0 /* HitTestView.swift */,
 				8818FB601C0CCFAB00CA51E0 /* IndexView.swift */,
 				8818FB651C0EE3B100CA51E0 /* PinView.xib */,
 				8818FB671C0EE62500CA51E0 /* PinView.swift */,
 				88385BB01C1435FC008D8D23 /* IndexSlider.swift */,
+				8853CF101C1847D100D6C535 /* RomanLabel.swift */,
 			);
 			name = "Custom views";
 			sourceTree = "<group>";
@@ -623,9 +638,37 @@
 			path = "../Pods/VK-ios-sdk";
 			sourceTree = "<group>";
 		};
+		8853CF091C17F9A700D6C535 /* AvatarCollection */ = {
+			isa = PBXGroup;
+			children = (
+				8853CF071C17F8E700D6C535 /* AvatarCollectionViewController.swift */,
+				8853CF0B1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift */,
+			);
+			name = AvatarCollection;
+			sourceTree = "<group>";
+		};
+		8853CF0A1C17F9B500D6C535 /* Support Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8853CEFC1C1558A100D6C535 /* LocationManager.swift */,
+				8808B9931BF1B504002D3457 /* AppDelegate.swift */,
+				8818FB551C0B73AC00CA51E0 /* APP.swift */,
+			);
+			name = "Support Classes";
+			sourceTree = "<group>";
+		};
+		8853CF0E1C18470D00D6C535 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8853CF0D1C1844CA00D6C535 /* HelveticaNeueCyr-Roman.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		EBE60E25B371C39C8AB88272 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8853CEFE1C15591500D6C535 /* CoreLocation.framework */,
 				8818FB091C07868D00CA51E0 /* CoreGraphics.framework */,
 				D28A489793480251DA7130CB /* Pods.framework */,
 			);
@@ -745,6 +788,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8853CF0F1C18473500D6C535 /* HelveticaNeueCyr-Roman.otf in Resources */,
 				8808B9C41BF1BE48002D3457 /* Settings.bundle in Resources */,
 				8839EB541BFF5258007186BA /* VKSdkResources.bundle in Resources */,
 				88385BAD1C13683B008D8D23 /* Info.plist in Resources */,
@@ -835,6 +879,7 @@
 				8839EB4B1BFF5258007186BA /* VKSharedTransitioningObject.m in Sources */,
 				8818FB4C1C0B1C5700CA51E0 /* AvatarCollectionViewCell.swift in Sources */,
 				8819AAE61BF4668000FD3BC4 /* AuthorizationViewController.swift in Sources */,
+				8853CF111C1847D100D6C535 /* RomanLabel.swift in Sources */,
 				8839EB381BFF5258007186BA /* VKError.m in Sources */,
 				8839EB321BFF5258007186BA /* VKAuthorizeController.m in Sources */,
 				8839EB221BFF5258007186BA /* OrderedDictionary.m in Sources */,
@@ -856,6 +901,7 @@
 				8839EB281BFF5258007186BA /* VKApiConst.m in Sources */,
 				8839EB401BFF5258007186BA /* VKOperation.m in Sources */,
 				8839EB271BFF5258007186BA /* VKApiCaptcha.m in Sources */,
+				8853CF081C17F8E700D6C535 /* AvatarCollectionViewController.swift in Sources */,
 				88385BA91C13683B008D8D23 /* SWLongPressGestureRecognizer.m in Sources */,
 				8839EB3B1BFF5258007186BA /* VKHTTPOperation.m in Sources */,
 				88385BB51C145453008D8D23 /* FeedbackViewController.swift in Sources */,
@@ -879,7 +925,9 @@
 				8839EB2E1BFF5258007186BA /* VKApiUsers.m in Sources */,
 				8818FB4F1C0B260800CA51E0 /* PlaceCellTableViewCell.swift in Sources */,
 				8839EB511BFF5258007186BA /* VKUploadWallPhotoRequest.m in Sources */,
+				8853CEFD1C1558A100D6C535 /* LocationManager.swift in Sources */,
 				8808B9961BF1B504002D3457 /* ViewController.swift in Sources */,
+				8853CF0C1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift in Sources */,
 				8839EB411BFF5258007186BA /* VKPermissions.m in Sources */,
 				8839EB5B1C01DA27007186BA /* ProfileViewController.swift in Sources */,
 				8839EB301BFF5258007186BA /* VKAudio.m in Sources */,

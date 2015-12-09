@@ -22,7 +22,7 @@ class FeedbackViewController: UIViewController {
     }
     
     @IBAction func backBtnPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+        
     }
 
     /*
