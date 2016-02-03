@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MapHeaderView: UIView {
+class MapHeaderViewCell: UITableViewCell {
 
     /*
     // Only override drawRect: if you perform custom drawing.
