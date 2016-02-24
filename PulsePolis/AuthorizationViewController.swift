@@ -9,10 +9,14 @@
 import UIKit
 import VK_ios_sdk
 import FBSDKLoginKit
+import SwiftyJSON
+import RxAlamofire
+import RxSwift
+import Alamofire
 
-class AuthorizationViewController: UIViewController, VKSdkDelegate {
+class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     let START_SEGUE_IDENTIFIER = "startSegue"
-
+    
     //MARK: -IBOutlets
     @IBOutlet var vkBtn: UIButton!
     @IBOutlet var facebookBtn: UIButton!
@@ -25,26 +29,34 @@ class AuthorizationViewController: UIViewController, VKSdkDelegate {
     @IBOutlet var vkLabel: UILabel!
     
     var url: String?
+    
+    var subscription: Disposable?
+    
+    let AUTH_URL = "http://hotfinder.ru/hotjson/auth.php"
+    
+    //MARK: UIViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        var vksdkInstance = VKSdk.initializeWithAppId("5144665")
-        vksdkInstance.registerDelegate(self)
-    
-        VKSdk.wakeUpSession(nil) { (state, error) -> Void in
-            if(state == VKAuthorizationState.Authorized){
-                print("OK")
-            } else if(error != nil) {
-                print("error")
-            } 
-        }*/
-        // Do any additional setup after loading the view.
+        
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.hideActivityIndicator()
+        APP.i().locationManager?.startLocationManager()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        APP.i().locationManager?.stopLocationManager()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //MARK: UI methods
     
     func showActivityIndicator(){
         self.indicator.hidden = false
@@ -71,9 +83,10 @@ class AuthorizationViewController: UIViewController, VKSdkDelegate {
         self.vkLabel.hidden = ifHidden
     }
     
-   @IBAction func facebookBtnPressed(sender: AnyObject) {
+    //MARK: UI Selectors
+    @IBAction func facebookBtnPressed(sender: AnyObject) {
         self.showActivityIndicator()
-    
+        
         let login = FBSDKLoginManager()
         login.logInWithReadPermissions(["public_profile"], fromViewController: self) { (result, error) -> Void in
             
@@ -85,38 +98,13 @@ class AuthorizationViewController: UIViewController, VKSdkDelegate {
                 print("Cancelled")
             } else {
                 if(FBSDKAccessToken.currentAccessToken() != nil){
-                    let fbGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "bio, first_name, gender, picture.width(180).height(180), age_range"])
-                  
+                    let fbGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "bio, first_name, last_name, gender, picture.width(200).height(200), age_range"])
+                    
                     fbGraphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
                         if(error == nil){
-                            
-                            print(result)
-                            var user = User()
-                            if let res = result as? NSDictionary{
-                                if let firstName = res.valueForKey("first_name") as? String{
-                                    user.name = firstName
-                                }
-                                if let gender = res.valueForKey("gender") as? String{
-                                    if(gender == "female"){
-                                        user.gender = 1
-                                    } else if(gender == "man"){
-                                        user.gender = 2
-                                    }
-                                }
-                                if let picture = res.valueForKey("picture") as? NSDictionary{
-                                    if let data = picture.valueForKey("data") as? NSDictionary{
-                                        if let u = data.valueForKey("url") as? NSString{
-                                            self.url = u as String
-                                            user.small_photo = UIImage(data: NSData(contentsOfURL: NSURL(string: self.url!)!)!)
-                                            user.photo = user.small_photo
-                                            user.photoURL = self.url
-                                            APP.i().user = user
-                                            self.hideActivityIndicator()
-                                            self.performSegueWithIdentifier(self.START_SEGUE_IDENTIFIER, sender: self)
-                                        }
-                                    }
-                                }
-                            }
+                            let user = User(jsonFromFacebook: JSON(result))
+                            APP.i().user = user
+                            self.authRequest(APP.i().user!)
                         } else{
                             self.hideActivityIndicator()
                             print(error.description)
@@ -125,9 +113,9 @@ class AuthorizationViewController: UIViewController, VKSdkDelegate {
                 }
             }
         }
-        
     }
-
+    
+    
     @IBAction func vkBtnPressed(sender: AnyObject) {
         showActivityIndicator()
         var vksdkInstance = VKSdk.initializeWithAppId("5144665")
@@ -140,44 +128,81 @@ class AuthorizationViewController: UIViewController, VKSdkDelegate {
         print(result)
         VKSdk.wakeUpSession([VK_PER_PHOTOS]) { (state, error) -> Void in
             if(state == VKAuthorizationState.Authorized){
-                print("OK")
+                
                 var user = User()
                 user.vkID = VKSdk.accessToken().userId
-                let request = VKApi.users().get([VK_API_FIELDS:"id, first_name, bdate, sex, photo_200"])
+                let request = VKApi.users().get([VK_API_FIELDS:"id, first_name, bdate, sex, photo_200, age"])
                 request.executeWithResultBlock({ (response) -> Void in
+                    print(JSON(response.json))
+                    let user = User(jsonFromVK: JSON(response.json))
                     
-                    if let array = response.json as? NSArray{
-                        print(array)
-                        if let dict = array[0] as? NSDictionary{
-                            if let bdate = dict["bdate"] as? String{
-                            }
-                            if let sex = dict["sex"] as? NSNumber{
-                                user.gender = sex.integerValue
-                            }
-                            if let name = dict["first_name"] as? String{
-                                user.name = name
-                            }
-                            if let photoURL = dict["photo_200"] as? String{
-                                user.photo = UIImage(data: NSData(contentsOfURL: NSURL(string: photoURL)!)!)
-                                user.photoURL = photoURL as String
-                            }
-                            print(user)
-                        }
-                    }
                     APP.i().user = user
-                    self.hideActivityIndicator()
-                    self.performSegueWithIdentifier(self.START_SEGUE_IDENTIFIER, sender: self)
+                    self.authRequest(APP.i().user!)
                     
                     }, errorBlock: { (error) -> Void in
-                    print("error")
+                        self.showAlert("Ошибка", msg: "Ошибка входа")
+                        self.hideActivityIndicator()
                 })
                 
                 
             } else if(error != nil) {
-                print("error")
+                self.showAlert("Ошибка", msg: "Ошибка входа")
+                self.hideActivityIndicator()
             }
         }
         self.hideActivityIndicator()
+    }
+    
+    func authRequest(user: User){
+        
+        let gender = user.gender ?? Gender.None
+        var sex = ""
+        switch(gender){
+        case .Female:
+            sex = "woman"
+            break
+        case .Male:
+            sex = "man"
+            break
+        default:
+            sex = ""
+            break
+        }
+        
+        let parametersDict:[String: AnyObject] = ["type":user.authorizeType?.rawValue ?? "", "id": user.userId ?? 0 , "sex":  sex, "photo": user.photoURL ?? "", "name": user.firstName ?? ""]
+        
+        self.subscription = requestData(.POST, self.AUTH_URL, parameters: parametersDict, encoding: .URL, headers: nil)
+            .observeOn(MainScheduler.instance)
+            .debug()
+            .subscribe(onNext: { (response, data) -> Void in
+                let authResponse = AuthorizeResponse(json: JSON(data: data))
+                print(JSON(data: data))
+                if (authResponse.status == "OK"){
+                    if let userId = authResponse.id{
+                        APP.i().user?.userId = userId
+                        self.hideActivityIndicator()
+                        self.performSegueWithIdentifier(self.START_SEGUE_IDENTIFIER, sender: self)
+                    } else {
+                        self.showAlert("Ошибка", msg: "Произошла ошибка во время авторизации")
+                        self.hideActivityIndicator()
+                    }
+                } else {
+                    self.showAlert("Ошибка", msg: "Произошла ошибка во время авторизации")
+                    self.hideActivityIndicator()
+                }
+                
+                }, onError: { (err) -> Void in
+                    
+                    self.showAlert("Ошибка", msg: "Произошла ошибка во время авторизации")
+                    self.hideActivityIndicator()
+                    
+                }, onCompleted: { () -> Void in
+                    
+                }, onDisposed: { () -> Void in
+                    
+            })
+        
+        self.addSubscription(self.subscription!)
     }
     
     func vkSdkUserAuthorizationFailed() {
@@ -195,9 +220,21 @@ class AuthorizationViewController: UIViewController, VKSdkDelegate {
     //MARK: -Segues
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == START_SEGUE_IDENTIFIER){
-            if let destController = segue.destinationViewController as? StartViewController{
-                destController.avatarURL = self.url
-            }
         }
     }
+    
+    //MARK: Alerts
+    func showAlert(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+            message: msg,
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+            style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 
-class AuthorizeType: NSObject {
-
+enum AuthorizeType: String{
+    case VK = "vk"
+    case Facebook = "facebook"
 }

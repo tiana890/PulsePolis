@@ -15,7 +15,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     //let CONTAINER_OFFSET_VALUE:CGFloat = 260
     var GESTURE_RECOGNIZER_SCOPE: CGFloat = 40.0
     
-    @IBOutlet weak var centerContainer: ContainerHitTestView!
+    @IBOutlet weak var centerContainer: UIView!
     @IBOutlet weak var leftContainer: UIView!
     
     @IBOutlet var centerLeadingContainerConstraint: NSLayoutConstraint!

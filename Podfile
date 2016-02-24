@@ -7,9 +7,9 @@ use_frameworks!
 target 'PulsePolis' do
     pod 'Mapbox-iOS-SDK', '~> 3.0.1'
     pod 'VK-ios-sdk', '~> 1.3.8'
-    #pod 'FBSDKCoreKit'
-    #pod 'FBSDKLoginKit'
-    #pod 'FBSDKShareKit'
+    pod 'FBSDKCoreKit'
+    pod 'FBSDKLoginKit'
+    pod 'FBSDKShareKit'
     pod 'SWTableViewCell', '~> 0.3.7'
     pod 'SwiftyJSON', '~> 2.3.2'
     pod 'AlamofireImage', '~> 2.2.0'

@@ -6,6 +6,14 @@
 //  Copyright © 2015 IMAC . All rights reserved.
 //
 
+//
+//  HitTestView.swift
+//  PulsePolis
+//
+//  Created by IMAC  on 27.11.15.
+//  Copyright © 2015 IMAC . All rights reserved.
+//
+
 import UIKit
 import Mapbox
 
@@ -18,67 +26,48 @@ class HitTestView: UIView {
     var userLocationButton: UIButton?
     var cell0: UIView?
     
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-/*
-    - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    var collection: UICollectionView?
     
-    // Convert the point to the target view's coordinate system.
-    // The target view isn't necessarily the immediate subview
-    CGPoint pointForTargetView = [self.targetView convertPoint:point fromView:self];
+    var arrayOfViews = Array<UIView>()
     
-    if (CGRectContainsPoint(self.targetView.bounds, pointForTargetView)) {
-    
-    // The target view may have its view hierarchy,
-    // so call its hitTest method to return the right hit-test view
-    return [self.targetView hitTest:pointForTargetView withEvent:event];
-    }
-    
-    return [super hitTest:point withEvent:event];
-    }
-    */
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         
         let pointForTargetView = self.convertPoint(point, fromView: self)
-//        print("Point = \(pointForTargetView)")
         let headerFrame = self.convertRect((self.headerView?.frame)!, fromView: self.headerView?.superview)
-//        print("Header bounds = \(headerFrame)")
         
         let statisticsButtonFrame = self.convertRect((self.statisticsButton?.frame)!, fromView: self.statisticsButton?.superview)
-        let userLocationButtonFrame =  self.convertRect((self.userLocationButton?.frame)!, fromView: self.statisticsButton?.superview)
         
-//        let cell0Frame = self.convertRect((self.cell0?.frame)!, fromView: self.cell0?.superview)
-        //print(cell0Frame)
         if(CGRectContainsPoint(statisticsButtonFrame, pointForTargetView)){
             return statisticsButton
         }
         
+        let userLocationButtonFrame =  self.convertRect((self.userLocationButton?.frame)!, fromView: self.statisticsButton?.superview)
+        
         if(CGRectContainsPoint(userLocationButtonFrame, pointForTargetView)){
             return userLocationButton
         }
+        
         /*
-        if(CGRectContainsPoint(cell0Frame, pointForTargetView)){
-            if let v = cell0?.hitTest(point, withEvent: event){
-                return v
-            } else {
-                return cell0
-            }
+        let collectionFrame =  self.convertRect((cell0?.frame)!, fromView: cell0?.superview)
+        
+        if(CGRectContainsPoint(collectionFrame, pointForTargetView)){
+        return cell0?.hitTest(point, withEvent: event)
         }*/
+        
+        for(var i = 0; i < arrayOfViews.count; i++){
+            let viewFrame = self.convertRect(self.arrayOfViews[i].frame, fromView: arrayOfViews[i].superview)
+            
+            if(CGRectContainsPoint(viewFrame, pointForTargetView) && arrayOfViews[i].hidden == false){
+                return arrayOfViews[i]
+            }
+        }
         
         if(CGRectContainsPoint(headerFrame, pointForTargetView)){
             self.table?.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             return mapView?.hitTest(point, withEvent: event)
         }
-        /*
-        if let t = table?.hitTest(point, withEvent: event){
-            return  t.hitTest(point, withEvent: event)
-        }*/
+        
         return super.hitTest(point, withEvent: event)
     }
 }

@@ -1,18 +1,4 @@
-//
-//  PreferencesManager.swift
-//  PulsePolis
-//
-//  Created by IMAC  on 02.02.16.
-//  Copyright © 2016 IMAC . All rights reserved.
-//
 
-//
-//  PreferencesManager.swift
-//  GBU
-//
-//  Created by Agentum on 13.01.16.
-//  Copyright © 2016 IMAC . All rights reserved.
-//
 
 import Foundation
 
@@ -63,6 +49,14 @@ class FavoritesManager: NSObject {
             }
         }
         return false
+    }
+    
+    func addRemoveFromFavorites(id: Int){
+        if(favContainsPlace(id)){
+            removeFromFavorites(id)
+        } else {
+            saveFavoriteId(id)
+        }
     }
 }
 

@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
 
+class ProfileViewController: UIViewController {
+    
     @IBOutlet var ageLabel: UILabel!
     @IBOutlet var avatarXConstraint: NSLayoutConstraint!
     @IBOutlet var avatar: UIImageView!
@@ -17,14 +18,20 @@ class ProfileViewController: UIViewController {
     @IBOutlet var nameLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        avatar.image = UIImage(data: NSData(contentsOfURL: NSURL(string: APP.i().user!.photoURL!)!)!)
+        if let photoUrl = APP.i().user?.photoURL{
+            if let url = NSURL(string: photoUrl){
+                if let data = NSData(contentsOfURL: url){
+                    avatar.image = UIImage(data: data)
+                }
+            }
+        }
         createMaskForImage(avatar)
         // Do any additional setup after loading the view.
-        
-        nameLabel.text = APP.i().user?.name
+        self.ageLabel.hidden = true
+        nameLabel.text = (APP.i().user?.firstName ?? "") + " " + (APP.i().user?.lastName ?? "")
         ageLabel.text = "\(APP.i().user?.age)"
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -51,7 +58,7 @@ class ProfileViewController: UIViewController {
         default:
             break
         }
-
+        
     }
     
     /*
@@ -64,15 +71,15 @@ class ProfileViewController: UIViewController {
     image.layer.mask = mask;
     image.layer.masksToBounds = YES;
     }
-*/
+    */
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
 }

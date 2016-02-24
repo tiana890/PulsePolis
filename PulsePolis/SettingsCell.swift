@@ -6,7 +6,7 @@
 //  Copyright © 2016 IMAC . All rights reserved.
 //
 
-import Cocoa
+import UIKit
 
 class SettingsCell: UITableViewCell {
 

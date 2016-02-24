@@ -8,6 +8,8 @@
 
 import UIKit
 
-class Gender: NSObject {
-
+enum Gender: Int{
+    case None
+    case Female
+    case Male
 }
