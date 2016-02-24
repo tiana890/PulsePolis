@@ -59,10 +59,12 @@ class StartViewController: BaseViewController {
         }
         
         self.nameLabel.text = (APP.i().user?.firstName ?? "") + " " + (APP.i().user?.lastName ?? "")
-        
+        self.hideIndicator()
         if (APP.i().city == nil){
             defineCity()
         }
+        
+        
         
         //startBtn.enabled = false
         

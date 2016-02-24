@@ -26,13 +26,7 @@ class APP{
         }
     }
     
-    var city: City?{
-        didSet{
-            
-            loadPlaces()
-        }
-    }
-    
+    var city: City?    
     var containerController: ContainerViewController?
     
     var locationManager: LocationManager?
@@ -86,7 +80,7 @@ class APP{
         //        let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? ""]
         
         
-        requestData(.GET, sourceStringURL, parameters: nil, encoding: .URL, headers: nil)
+        requestData(.GET, citiesStringURL, parameters: nil, encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)
             .debug()
             .subscribe({ (event) -> Void in

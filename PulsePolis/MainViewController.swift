@@ -159,7 +159,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.refreshDate = NSDate()
         
         customizeTabBar()
-        self.hideActualLabel()
         
         
         let tableViewBackground = UIView(frame: self.table.frame)
@@ -677,7 +676,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             url = self.sourceStringURL
         }
         print(params)
-        url += (APP.i().city?.id)!
+        url += "3" /*(APP.i().city?.id)!*/
         
         print(url)
         subscription = requestJSON(.GET, url, parameters: params, encoding: .URL, headers: nil)
@@ -703,8 +702,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                         self.visitors = []
                     }
                     APP.i().places = self.places
-                    
-                    self.setActualLabel()
                     
                     self.table.reloadData()
                     self.ifLoading = false
@@ -788,21 +785,21 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
     }
     
-    func setActualLabel(){
-        let components = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: NSDate())
-        let hour = components.hour
-        let minute = components.minute
-        self.actualLabel.hidden = false
-        self.timeLabel.hidden = false
-        
-        self.timeLabel.text = (minute > 10) ? "на \(hour):\(minute)" : " на \(hour):0\(minute)"
-    }
-    
-    func hideActualLabel(){
-        self.actualLabel.hidden = true
-        self.timeLabel.hidden = true
-    }
-    
+//    func setActualLabel(){
+//        let components = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: NSDate())
+//        let hour = components.hour
+//        let minute = components.minute
+//        self.actualLabel.hidden = false
+//        self.timeLabel.hidden = false
+//        
+//        self.timeLabel.text = (minute > 10) ? "на \(hour):\(minute)" : " на \(hour):0\(minute)"
+//    }
+//    
+//    func hideActualLabel(){
+//        self.actualLabel.hidden = true
+//        self.timeLabel.hidden = true
+//    }
+//    
     @IBAction func chooseTimePressed(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID")
