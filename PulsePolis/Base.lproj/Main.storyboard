@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0eZ-eB-915">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0eZ-eB-915">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -945,7 +945,6 @@
         <!--Navigation Controller-->
         <scene sceneID="3X8-4k-14w">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="406-fU-Xh3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="CQh-el-q5A" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="oKz-AB-4yx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -957,6 +956,7 @@
                         <segue destination="tUe-tE-uwG" kind="relationship" relationship="rootViewController" id="bty-Oe-GTR"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="406-fU-Xh3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1601" y="1067"/>
         </scene>
@@ -1783,7 +1783,7 @@
         <image name="feedback_icon" width="20" height="20"/>
         <image name="female" width="84" height="84"/>
         <image name="female_selected" width="84" height="84"/>
-        <image name="logo" width="143" height="23"/>
+        <image name="logo" width="144" height="27"/>
         <image name="male" width="84" height="84"/>
         <image name="male_selected" width="84" height="84"/>
         <image name="map_icon" width="20" height="20"/>
@@ -1803,7 +1803,7 @@
         <image name="tabbar_background" width="321" height="48"/>
         <image name="tabbar_fav" width="22" height="21"/>
         <image name="time" width="14" height="14"/>
-        <image name="title_logo" width="93" height="15"/>
+        <image name="title_logo" width="123" height="23"/>
         <image name="track" width="290" height="2"/>
         <image name="user_location" width="31" height="31"/>
         <image name="vk" width="84" height="83"/>
