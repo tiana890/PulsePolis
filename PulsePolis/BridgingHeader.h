@@ -16,5 +16,6 @@
 #import <UIKit/UIKit.h>
 #import "SWTableViewCell.h"
 #import "NSMutableArray+SWUtilityButtons.h"
+#import "NMRangeSlider.h"
 
 #endif /* BridgingHeader_h */

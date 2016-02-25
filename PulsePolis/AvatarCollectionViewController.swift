@@ -70,7 +70,7 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.collection.contentSize = CGSize(width: 2000, height: 600)
+        //self.collection.contentSize = CGSize(width: 2000, height: 600)
     }
     
     enum Gender: Int{

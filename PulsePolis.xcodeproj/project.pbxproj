@@ -133,6 +133,7 @@
 		887333981C7D9AEC001A1771 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8873337E1C7D9AEC001A1771 /* TabBarController.swift */; };
 		887333991C7D9AEC001A1771 /* TodayStatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8873337F1C7D9AEC001A1771 /* TodayStatisticsManager.swift */; };
 		8873339A1C7D9AEC001A1771 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887333801C7D9AEC001A1771 /* Visitor.swift */; };
+		8873339F1C7ECF18001A1771 /* NMRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8873339E1C7ECF18001A1771 /* NMRangeSlider.m */; };
 		8C5A7CEC7ADD06FD2A656703 /* Pods_PulsePolis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C778F76FBA671BB60F8D2C25 /* Pods_PulsePolis.framework */; };
 		D002B28848CB45D3C6CCC7A6 /* Pods_PulsePolisTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AE3D4CDD943E89C77E0BE42 /* Pods_PulsePolisTests.framework */; };
 		F897AB703E0045E461CD9A8D /* Pods_PulsePolisUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1400A259A066802ED6557D7 /* Pods_PulsePolisUITests.framework */; };
@@ -361,6 +362,8 @@
 		8873337E1C7D9AEC001A1771 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		8873337F1C7D9AEC001A1771 /* TodayStatisticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayStatisticsManager.swift; sourceTree = "<group>"; };
 		887333801C7D9AEC001A1771 /* Visitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
+		8873339D1C7ECF18001A1771 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
+		8873339E1C7ECF18001A1771 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
 		8899611D1BFF485C0041264A /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		9ADD6881A0AAF72B4F2035BC /* Pods-PulsePolisTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PulsePolisTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PulsePolisTests/Pods-PulsePolisTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AD9BCC0BA6A0174A29381F42 /* Pods-PulsePolisUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PulsePolisUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PulsePolisUITests/Pods-PulsePolisUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -442,6 +445,7 @@
 		8808B9921BF1B504002D3457 /* PulsePolis */ = {
 			isa = PBXGroup;
 			children = (
+				8873339C1C7ECF18001A1771 /* src */,
 				8873339B1C7D9BC8001A1771 /* Responses */,
 				887333691C7D9AEC001A1771 /* AuthorizeType.swift */,
 				8873336A1C7D9AEC001A1771 /* BaseTableViewController.swift */,
@@ -773,6 +777,15 @@
 			name = Responses;
 			sourceTree = "<group>";
 		};
+		8873339C1C7ECF18001A1771 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8873339D1C7ECF18001A1771 /* NMRangeSlider.h */,
+				8873339E1C7ECF18001A1771 /* NMRangeSlider.m */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		EBE60E25B371C39C8AB88272 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1099,6 +1112,7 @@
 				88385BB51C145453008D8D23 /* FeedbackViewController.swift in Sources */,
 				8818FB6B1C0F022100CA51E0 /* UIImage+text.swift in Sources */,
 				887333321C7D9074001A1771 /* VKApiBase.m in Sources */,
+				8873339F1C7ECF18001A1771 /* NMRangeSlider.m in Sources */,
 				887333971C7D9AEC001A1771 /* SettingsTableViewController.swift in Sources */,
 				88385BAC1C13683B008D8D23 /* SWUtilityButtonView.m in Sources */,
 				887333871C7D9AEC001A1771 /* City.swift in Sources */,

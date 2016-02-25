@@ -417,10 +417,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
         
         let place = array[selectedAnnotationIndex]
-        
+        /*
         self.places = self.places.sort({ (pl1, pl2) -> Bool in
             return Int(pl1.visitIndex!) > Int(pl2.visitIndex!)
-        })
+        })*/
         
         if let index = self.places.indexOf(place){
             self.places.removeAtIndex(index)
@@ -676,7 +676,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             url = self.sourceStringURL
         }
         print(params)
-        url += "3" /*(APP.i().city?.id)!*/
+        url += "1" /*(APP.i().city?.id)!*/
         
         print(url)
         subscription = requestJSON(.GET, url, parameters: params, encoding: .URL, headers: nil)

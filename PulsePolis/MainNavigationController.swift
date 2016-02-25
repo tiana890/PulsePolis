@@ -14,6 +14,7 @@ class MainNavigationController: UINavigationController {
     let AUTHORIZATION_CONTROLLER_STORYBOARD_ID = "authorizationVC"
     
     let START_CONTROLLER_IDENTIFIER = "startViewController"
+    let MAIN_CONTROLLER_IDENTIFIER = "mainViewController"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,7 @@ class MainNavigationController: UINavigationController {
         //Авторизован ли пользователь в системе
         if let u = User.getUserFromDefaults(){
             APP.i().user = u
-            let svc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(START_CONTROLLER_IDENTIFIER)
+            let svc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(CONTAINER_CONTROLLER_STORYBOARD_ID)
             self.setViewControllers([svc], animated: true)
         } else {
             let avc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(AUTHORIZATION_CONTROLLER_STORYBOARD_ID)
