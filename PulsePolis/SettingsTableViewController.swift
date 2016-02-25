@@ -89,6 +89,12 @@ class SettingsTableViewController: BaseTableViewController, UISearchBarDelegate{
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.tableView.reloadData()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named:"nav_background"), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage(named:"shadow_nav")
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
+
     }
     
     
@@ -108,7 +114,7 @@ class SettingsTableViewController: BaseTableViewController, UISearchBarDelegate{
 //    }
     
     @IBAction func backBtnPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
