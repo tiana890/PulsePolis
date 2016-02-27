@@ -91,15 +91,17 @@ class APP{
                     let citiesResponse = CitiesResponse(json: JSON(data: data))
                     if(citiesResponse.status == "OK"){
                         self.cities = citiesResponse.cities
-                        self.defineCity()
+                        self.defineCity({ () -> Void in
+                            
+                        })
                     }
                 }
             }).addDisposableTo(self.disposeBag)
         
-        
+
     }
     
-    func defineCity(){
+    func defineCity(handler: () -> Void){
         
         let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? ""]
         
@@ -121,6 +123,8 @@ class APP{
                     
                 }
                 
+                handler()
+                
                 }, onError: { (err) -> Void in
                     //self.showAlert("Ошибка", msg: "Произошла ошибка при определении города")
                     
@@ -130,8 +134,6 @@ class APP{
                 }, onDisposed: { () -> Void in
                     
             }).addDisposableTo(self.disposeBag)
-        
-        
         
     }
 

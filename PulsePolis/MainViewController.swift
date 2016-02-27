@@ -125,28 +125,13 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         locationManager?.startLocationManager()
         
         mapView.delegate = self
-        let locationCoordinate = CLLocationCoordinate2DMake(
-            55.75222, 37.61556)
-        mapView.setCenterCoordinate(locationCoordinate, zoomLevel: 12, animated: false)
         
-        //        let styleURL = NSURL(string: "mapbox://styles/marinazayceva/cihonrl0x00efawkrwp4tgd9y")
         let styleURL = NSURL(string: "mapbox://styles/marinazayceva/cik6w72v300g1btj77hydn79p")
         mapView.styleURL = styleURL
         mapView.userInteractionEnabled = true
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .None
         
-        //        if let hitTestView = self.view as? HitTestView{
-        //            hitTestView.mapView = self.mapView
-        //            if let mapHeaderview =  self.table.dequeueReusableCellWithIdentifier(HEADER_CELL_IDENTIFIER) as? MapHeaderViewCell{
-        //                hitTestView.headerView = mapHeaderview
-        //
-        //                hitTestView.statisticsButton = mapHeaderview.statisticsBtn
-        //                hitTestView.userLocationButton = mapHeaderview.userLocationBtn
-        //            }
-        //            hitTestView.table = self.table
-        //
-        //        }
         
         var insets = table.contentInset
         insets.bottom = 44
@@ -156,19 +141,40 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         customizeTabBar()
         
+        self.setTableBackground()
+        
+        self.loadPlaces()
+        
+    }
+    
+    func setTableBackground(){
+        var height = self.tableHeaderHeight
+        if(self.favoritesMode){
+            height = (self.favorites.count == 0) ? 0 : UIScreen.mainScreen().bounds.height
+        } else {
+            height = (self.filteredPlaces.count == 0) ? 0 : UIScreen.mainScreen().bounds.height
+        }
         
         let tableViewBackground = UIView(frame: self.table.frame)
         tableViewBackground.backgroundColor = UIColor.clearColor()
-        partialBackgroundView = UIView(frame: CGRect(x: 0.0, y: self.tableHeaderHeight, width: UIScreen.mainScreen().bounds.width, height: UIScreen.mainScreen().bounds.height))
+        partialBackgroundView = UIView(frame: CGRect(x: 0.0, y: self.tableHeaderHeight, width: UIScreen.mainScreen().bounds.width, height: height))
         partialBackgroundView.backgroundColor = UIColor(red: 33.0/255.0, green: 40.0/255.0, blue: 47.0/255.0, alpha: 1.0)
         
         tableViewBackground.addSubview(partialBackgroundView)
         self.table.backgroundView = tableViewBackground
+        
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        partialBackgroundView.frame = CGRect(x: 0.0, y: self.tableHeaderHeight - scrollView.contentOffset.y, width: UIScreen.mainScreen().bounds.width, height: self.view.frame.height - (self.tableHeaderHeight - scrollView.contentOffset.y))
-        print(partialBackgroundView.frame)
+        
+        var height = self.tableHeaderHeight
+        if(self.favoritesMode){
+            height = (self.favorites.count == 0) ? 0 : self.view.frame.height - (self.tableHeaderHeight - scrollView.contentOffset.y)
+        } else {
+            height = (self.filteredPlaces.count == 0) ? 0 : self.view.frame.height - (self.tableHeaderHeight - scrollView.contentOffset.y)
+        }
+        
+        partialBackgroundView.frame = CGRect(x: 0.0, y: self.tableHeaderHeight - scrollView.contentOffset.y, width: UIScreen.mainScreen().bounds.width, height: height)
     }
     
     
@@ -183,8 +189,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.view.backgroundColor = UIColor.clearColor()
         
         self.cityLabel.text = APP.i().city?.city ?? ""
-        
-        loadPlaces()
     }
     
     func customizeTabBar(){
@@ -215,19 +219,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         self.customTabBar.tintColor = ColorHelper.defaultColor
         self.customTabBar.barTintColor = UIColor.whiteColor()
-        //self.customTabBar.selectedImageTintColor = ColorHelper.defaultColor
         
     }
     
-//    func showTabBar(){
-//        self.tabBarController?.tabBar.hidden = false
-//        
-//        if let tabBarController = self.tabBarController as? TabBarController{
-//            tabBarController.mainButton?.hidden = false
-//            tabBarController.mainButton?.addTarget(self, action: "mainButtonPressed:", forControlEvents: .TouchUpInside)
-//        }
-//    }
-//    
+
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         for(var i = 0; i < tabBar.items?.count; i++){
             if(item == tabBar.items![i]){
@@ -236,7 +231,13 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     loadPlaces()
                 } else if(i == 2){
                     self.favoritesMode = true
-                    loadPlaces()
+                    self.setMap()
+                    self.table.reloadData()
+                    if(self.favorites.count > 0){
+                        if let placeId = self.favorites[0].id{
+                            self.loadVisitors(placeId)
+                        }
+                    }
                 }
             }
         }
@@ -525,10 +526,11 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        self.setTableBackground()
         if(self.favoritesMode){
-            return self.favorites.count + 2
+            return (self.favorites.count == 0) ? 0 : self.favorites.count + 2
         } else {
-            return self.filteredPlaces.count + 2
+            return (self.filteredPlaces.count == 0) ? 0 : self.filteredPlaces.count + 2
         }
     }
     
@@ -633,7 +635,13 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             url = self.sourceStringURL
         }
         print(params)
-        url += "1" /*(APP.i().city?.id)!*/
+        
+        guard let cityId = APP.i().city?.id else { APP.i().defineCity({ () -> Void in
+            self.loadPlaces()
+        })
+            return
+        }
+        url += cityId
         
         print(url)
         subscription = requestJSON(.GET, url, parameters: params, encoding: .URL, headers: nil)
@@ -675,16 +683,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     
-    func showFavorites(){
-        if(self.favorites.count > 0){
-            self.loadVisitors(self.favorites[0].id!)
-        } else {
-            self.visitors = []
-        }
-        self.setMap()
-        self.table.reloadData()
-    }
-    
+
     func loadVisitors(placeId: String){
         visitorsSubscription = requestJSON(.GET, visitorsSourceUrl+placeId)
             .observeOn(MainScheduler.instance)
@@ -804,7 +803,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == AVATAR_SEGUE_IDENTIFIER){
             if let avatarCollectionVC = segue.destinationViewController as? AvatarCollectionViewController{
-                print("selected = ")
                 print(self.selectedPlace?.id)
                 avatarCollectionVC.place = self.selectedPlace
                 avatarCollectionVC.visitors = self.visitors
