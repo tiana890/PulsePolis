@@ -35,15 +35,9 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     var visitorsSubscription: Disposable?
     var favoritesSubscription: Disposable?
     
-    var selectedAnnotationIndex = 0
+    var selectedAnnotation: MGLPointAnnotation?
     
-    var statisticsMode = false{
-        didSet{
-            //            let ip = NSIndexPath(forRow: 0, inSection: 0)
-            //            self.table.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
-        }
-    }
-    
+    var statisticsMode = false
     var ifTodayMode = true
     
     @IBOutlet var cityLabel: UILabel!
@@ -59,6 +53,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet var timeLabel: UILabel!
     
     var places = [Place]()
+    var selectedPlace: Place?
     
     var favorites: [Place]{
         get{
@@ -89,6 +84,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     var annotations = [MGLPointAnnotation]()
+    var annotationDict = [MGLPointAnnotation: String]()
     
     var visitors = [Visitor]()
     
@@ -264,24 +260,31 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func setMap(){
         self.mapView.removeAnnotations(self.annotations)
         self.annotations.removeAll()
+        self.annotationDict.removeAll()
         
         var array = self.filteredPlaces
         if(favoritesMode){
             array = self.favorites
-            if(!array.isEmpty){
-                self.selectedAnnotationIndex = 0
-            }
         }
+        
         for(place) in array{
+            
             if let lat = place.lat{
                 if let lon = place.lon{
                     let point = MGLPointAnnotation()
                     point.coordinate = CLLocationCoordinate2D(latitude: (lat as NSString).doubleValue, longitude: (lon as NSString).doubleValue)
                     self.annotations.append(point)
+                    self.annotationDict[point] = place.id!
+                    if(place == array.first!){
+                        self.selectedAnnotation = point
+                        self.selectedPlace = place
+                    }
                     self.mapView.addAnnotation(point)
                 }
             }
         }
+        
+
         self.mapView.showAnnotations(self.annotations, animated: true)
     }
     
@@ -290,20 +293,20 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
-        if let i = self.annotations.indexOf(annotation as! MGLPointAnnotation){
-            var place: Place!
-            if(favoritesMode){
-                place = self.favorites[i]
-            } else {
-                place = self.filteredPlaces[i]
+        
+        var place: Place?
+        if let placeId = self.annotationDict[annotation as! MGLPointAnnotation]{
+            if let placeIndex = self.places.indexOf({ $0.id! == placeId}){
+                place = self.places[placeIndex]
             }
-            
+        }
+        
             let color: UIColor!
-            if(i == selectedAnnotationIndex){
+            if((annotation as! MGLPointAnnotation) == selectedAnnotation){
                 color = ColorHelper.defaultColor
                 //let filledImage = self.filledImageFrom(UIImage(named: "pin")!, color: color)
                 let filledImage = UIImage(named:"annotation_select")!
-                if let visIndex = place.visitIndex{
+                if let visIndex = place!.visitIndex{
                     let image = filledImage.textToImage(visIndex, selected: true)
                     let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotation.description)
                     return annotationImage
@@ -314,22 +317,22 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 
             } else {
                 var color = UIColor.yellowColor()
-                if let visIndex = place.visitIndex{
+                if let visIndex = place!.visitIndex{
                     color = ColorHelper.getColorByIndex(visIndex)
                 }
                 //let filledImage = self.filledImageFrom(UIImage(named: "pin")!, color: color)
-                let filledImage = UIImage(named:self.imageNameByVisitIndex(place.visitIndex))!
-                if let visIndex = place.visitIndex{
+                let filledImage = UIImage(named:self.imageNameByVisitIndex(place!.visitIndex))!
+                if let visIndex = place!.visitIndex{
                     let image = filledImage.textToImage(visIndex, selected: false)
-                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: place.visitIndex!)
+                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: place!.visitIndex!)
                     return annotationImage
                 } else {
                     let annotationImage = MGLAnnotationImage(image: filledImage, reuseIdentifier: "notdefined")
                     return annotationImage
                 }
             }
-        }
-        
+    //}
+    
         return MGLAnnotationImage()
     }
     
@@ -354,85 +357,39 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     func mapView(mapView: MGLMapView, didSelectAnnotation annotation: MGLAnnotation) {
         
-        if let i = self.annotations.indexOf(annotation as! MGLPointAnnotation){
-            if(i != selectedAnnotationIndex){
-                //Меняем текущую аннотацию на невыделенную
-                var array = self.filteredPlaces
-                if(favoritesMode){
-                    array = self.favorites
-                }
-                
-                let currentSelectedPlace = array[selectedAnnotationIndex]
-                let currentAnnotation = self.annotations[selectedAnnotationIndex]
-                
-                self.annotations.removeAtIndex(selectedAnnotationIndex)
-                mapView.removeAnnotation(currentAnnotation)
-                
-                let oldPoint = MGLPointAnnotation()
-                let newPoint = MGLPointAnnotation()
-                
-                if let lat = currentSelectedPlace.lat{
-                    if let lon = currentSelectedPlace.lon{
-                        oldPoint.coordinate = CLLocationCoordinate2D(latitude: (lat as NSString).doubleValue, longitude: (lon as NSString).doubleValue)
-                        self.annotations.insert(oldPoint, atIndex: selectedAnnotationIndex)
-                        selectedAnnotationIndex = i
-                    }
-                }
-                
-                self.annotations.removeAtIndex(i)
-                mapView.removeAnnotation(annotation)
-                
-                let place = array[i]
-                if let lat = place.lat{
-                    if let lon = place.lon{
-                        newPoint.coordinate = CLLocationCoordinate2D(latitude: (lat as NSString).doubleValue, longitude: (lon as NSString).doubleValue)
-                        self.annotations.insert(newPoint, atIndex: i)
-                        
-                    }
-                }
-                self.mapView.addAnnotation(oldPoint)
-                self.mapView.addAnnotation(newPoint)
-                
-                selectedPlaceChanged()
-                
-                array = self.filteredPlaces
-                if(favoritesMode){
-                    array = self.favorites
-                }
-                
-                if (array.count > 0){
-                    loadVisitors(array.first!.id!)
-                }
-            }
+        //Удаляем старую аннотацию
+        if let previousSelectedAnnotation = self.selectedAnnotation{
+            self.mapView.removeAnnotation(previousSelectedAnnotation)
+            
+            //Новая аннотация выделена
+            self.selectedAnnotation = annotation as? MGLPointAnnotation
+            self.mapView.removeAnnotation(annotation)
+            
+            self.mapView.addAnnotation(previousSelectedAnnotation)
+            self.mapView.addAnnotation(annotation)
+            
+            self.selectedPlaceChanged()
         }
-        
     }
     
     
     func selectedPlaceChanged(){
         
-        var array = self.filteredPlaces
-        if(favoritesMode){
-            array = self.favorites
-        }
-        
-        let place = array[selectedAnnotationIndex]
-        /*
         self.places = self.places.sort({ (pl1, pl2) -> Bool in
             return Int(pl1.visitIndex!) > Int(pl2.visitIndex!)
-        })*/
+        })
         
-        if let index = self.places.indexOf(place){
-            self.places.removeAtIndex(index)
-            self.places.insert(place, atIndex: 0)
+        if let placeId = self.annotationDict[self.selectedAnnotation!]{
+            
+            if let index = self.places.indexOf({ $0.id! == placeId}){
+                let place = self.places[index]
+                self.places.removeAtIndex(index)
+                self.places.insert(place, atIndex: 0)
+                self.selectedPlace = place
+                
+                self.loadVisitors(placeId)
+            }
         }
-        
-        let annotation = self.annotations[selectedAnnotationIndex]
-        self.annotations.removeAtIndex(selectedAnnotationIndex)
-        self.annotations.insert(annotation, atIndex: 0)
-        
-        selectedAnnotationIndex = 0
-        
         self.table.reloadData()
         
     }
@@ -504,7 +461,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     button.addTarget(self, action: "favButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
                 }
                 cell.delegate = self
-                cell.tag = indexPath.row
                 
                 var place: Place?
                 if(self.favoritesMode){
@@ -512,8 +468,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 } else {
                     place = filteredPlaces[indexPath.row-2]
                 }
-                cell.indexView.tag = 1234
                 
+                cell.indexView.tag = 1234
                 cell.configureCell(place!)
                 cell.setNeedsDisplay()
                 return cell
@@ -622,7 +578,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCellWithReuseIdentifier(COLLECTION_CELL_IDENTIFIER, forIndexPath: indexPath) as? AvatarCollectionViewCell{
             let visitor = self.visitors[indexPath.row]
-            
+            cell.tag = indexPath.row
             cell.avatarImage.image = UIImage()
             if let avatarUrl = visitor.avatarUrl{
                 self.createMaskForImage(cell.avatarImage)
@@ -640,6 +596,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -847,9 +804,20 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == AVATAR_SEGUE_IDENTIFIER){
             if let avatarCollectionVC = segue.destinationViewController as? AvatarCollectionViewController{
-                avatarCollectionVC.place = self.places[(sender?.tag)!]
+                print("selected = ")
+                print(self.selectedPlace?.id)
+                avatarCollectionVC.place = self.selectedPlace
                 avatarCollectionVC.visitors = self.visitors
+                avatarCollectionVC.selectedIndex = sender!.tag
             }
         } 
+    }
+    
+    func findPlaceWithPlaceId(placeId: String) -> Place?{
+        if let index = self.places.indexOf({ $0.id == placeId }){
+            
+            return self.places[index]
+        }
+        return nil
     }
 }

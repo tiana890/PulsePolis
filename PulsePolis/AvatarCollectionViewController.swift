@@ -13,6 +13,7 @@ import RxSwift
 import RxBlocking
 
 class AvatarCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    let CELL_SIZE_WIDTH = 180.0
     
     @IBOutlet var femaleBtn: UIButton!
     @IBOutlet var maleBtn: UIButton!
@@ -27,6 +28,8 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
     @IBOutlet var collection: UICollectionView!
     var place: Place?
     var visitors:[Visitor]?
+    
+    var selectedIndex: Int?
     
     var maleVisitors:[Visitor]?{
         get{
@@ -68,11 +71,8 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        //self.collection.contentSize = CGSize(width: 2000, height: 600)
-    }
-    
+
+  
     enum Gender: Int{
         case None
         case Female
@@ -85,17 +85,8 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         self.navigationController?.navigationBar.shadowImage = UIImage(named:"shadow_nav")
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.navigationBar.backgroundColor = UIColor(red: 52.0/255.0, green: 52.0/255.0, blue: 52.0/255.0, alpha: 0.15)
-        //hideTabBar()
         
     }
-    
-//    func hideTabBar(){
-//        self.tabBarController?.tabBar.hidden = true
-//        
-//        if let tabBarController = self.tabBarController as? TabBarController{
-//            tabBarController.mainButton?.hidden = true
-//        }
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -110,6 +101,12 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         insets.right = value
         self.collection.contentInset = insets
         self.collection.decelerationRate = UIScrollViewDecelerationRateFast;
+        
+        if let ind = self.selectedIndex{
+           let x = CGFloat(ind) * CGFloat((CELL_SIZE_WIDTH + 35.0))
+           self.collection.setContentOffset(CGPoint(x: x - CGFloat(CELL_SIZE_WIDTH/2) , y: 0), animated: false)
+        }
+        
     }
     
     //MARK: Collection view

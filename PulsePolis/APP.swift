@@ -45,6 +45,7 @@ class APP{
     
     let sourceStringURL = "http://hotfinder.ru/hotjson/places.php?city_id="
     let citiesStringURL = "http://hotfinder.ru/hotjson/cities.php"
+    let postLocationCoordinates = "http://hotfinder.ru/hotjson/definecity.php"
     
     var settingsManager: SettingsManager?
     
@@ -86,12 +87,54 @@ class APP{
             .subscribe({ (event) -> Void in
                 if let element = event.element{
                     let data = element.1
-                    print(JSON(data: data))
+                    
+                    let citiesResponse = CitiesResponse(json: JSON(data: data))
+                    if(citiesResponse.status == "OK"){
+                        self.cities = citiesResponse.cities
+                        self.defineCity()
+                    }
                 }
             }).addDisposableTo(self.disposeBag)
         
         
     }
+    
+    func defineCity(){
+        
+        let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? ""]
+        
+        requestData(.POST, postLocationCoordinates, parameters: parametersDict, encoding: .URL, headers: nil)
+            .observeOn(MainScheduler.instance)
+            .debug()
+            .subscribe(onNext: { (response, data) -> Void in
+                
+                let defineCityResponse = DefineCityResponse(json: JSON(data: data))
+                print(JSON(data: data))
+                if(defineCityResponse.status == "OK"){
+                    let city = City()
+                    city.id = defineCityResponse.id
+                    city.city = defineCityResponse.city
+                    APP.i().city = city
+                   
+                } else {
+                    //self.showAlert("Ошибка", msg: "Произошла ошибка при определении города")
+                    
+                }
+                
+                }, onError: { (err) -> Void in
+                    //self.showAlert("Ошибка", msg: "Произошла ошибка при определении города")
+                    
+                    
+                }, onCompleted: { () -> Void in
+                    
+                }, onDisposed: { () -> Void in
+                    
+            }).addDisposableTo(self.disposeBag)
+        
+        
+        
+    }
+
     
     func loadPlaces(){
         if(!ifLoading){

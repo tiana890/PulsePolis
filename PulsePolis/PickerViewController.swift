@@ -78,7 +78,6 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
     }
     
     
-    
     func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let string = self.cities![row].city
         //        if(row == picker.selectedRowInComponent(0)){
