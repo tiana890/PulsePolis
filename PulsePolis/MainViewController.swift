@@ -309,10 +309,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 let filledImage = UIImage(named:"annotation_select")!
                 if let visIndex = place!.visitIndex{
                     let image = filledImage.textToImage(visIndex, selected: true)
-                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotation.description)
+                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "selected\(visIndex)")
                     return annotationImage
                 } else {
-                    let annotationImage = MGLAnnotationImage(image: filledImage, reuseIdentifier: annotation.description)
+                    let annotationImage = MGLAnnotationImage(image: filledImage, reuseIdentifier: "selected")
                     return annotationImage
                 }
                 
@@ -357,19 +357,25 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     
     func mapView(mapView: MGLMapView, didSelectAnnotation annotation: MGLAnnotation) {
-        
+
         //Удаляем старую аннотацию
         if let previousSelectedAnnotation = self.selectedAnnotation{
-            self.mapView.removeAnnotation(previousSelectedAnnotation)
-            
-            //Новая аннотация выделена
-            self.selectedAnnotation = annotation as? MGLPointAnnotation
-            self.mapView.removeAnnotation(annotation)
-            
-            self.mapView.addAnnotation(previousSelectedAnnotation)
-            self.mapView.addAnnotation(annotation)
-            
-            self.selectedPlaceChanged()
+            if let ann = annotation as? MGLPointAnnotation{
+                if(ann == previousSelectedAnnotation){
+                    return
+                }
+                
+                self.mapView.removeAnnotation(previousSelectedAnnotation)
+                
+                //Новая аннотация выделена
+                self.selectedAnnotation = ann
+                self.mapView.removeAnnotation(annotation)
+                
+                self.mapView.addAnnotation(previousSelectedAnnotation)
+                self.mapView.addAnnotation(ann)
+                
+                self.selectedPlaceChanged()
+            }
         }
     }
     

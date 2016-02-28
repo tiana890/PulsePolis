@@ -100,11 +100,11 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         insets.left = value
         insets.right = value
         self.collection.contentInset = insets
-        self.collection.decelerationRate = UIScrollViewDecelerationRateFast;
+        self.collection.decelerationRate = UIScrollViewDecelerationRateFast
         
         if let ind = self.selectedIndex{
            let x = CGFloat(ind) * CGFloat((CELL_SIZE_WIDTH + 35.0))
-           self.collection.setContentOffset(CGPoint(x: x - CGFloat(CELL_SIZE_WIDTH/2) , y: 0), animated: false)
+           self.collection.setContentOffset(CGPoint(x: x - CGFloat(CELL_SIZE_WIDTH/2) + CGFloat(35.0), y: 0), animated: false)
         }
         
     }
