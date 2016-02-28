@@ -57,12 +57,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         return true
     }
-    /*
-    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        VKSdk.processOpenURL(url, fromApplication: (options[UIApplicationOpenURLOptionsSourceApplicationKey] as! String))
-        return true
-
+    
+    /*-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    [VKSdk processOpenURL:url fromApplication:sourceApplication];
+    return YES;
     }*/
+    
+    
+//    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+//        VKSdk.processOpenURL(url, fromApplication: (options[UIApplicationOpenURLOptionsSourceApplicationKey] as! String))
+//        return true
+//
+//    }
     /*
     -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
     {

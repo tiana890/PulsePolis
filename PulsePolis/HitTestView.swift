@@ -34,15 +34,15 @@ class HitTestView: UIView {
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         
         let pointForTargetView = self.convertPoint(point, fromView: self)
-        let headerFrame = self.convertRect((self.headerView?.frame)!, fromView: self.headerView?.superview)
+        let headerFrame = self.convertRect((self.headerView?.frame) ?? CGRectZero, fromView: self.headerView?.superview)
         
-        let statisticsButtonFrame = self.convertRect((self.statisticsButton?.frame)!, fromView: self.statisticsButton?.superview)
+        let statisticsButtonFrame = self.convertRect((self.statisticsButton?.frame) ?? CGRectZero, fromView: self.statisticsButton?.superview)
         
         if(CGRectContainsPoint(statisticsButtonFrame, pointForTargetView)){
             return statisticsButton
         }
         
-        let userLocationButtonFrame =  self.convertRect((self.userLocationButton?.frame)!, fromView: self.statisticsButton?.superview)
+        let userLocationButtonFrame =  self.convertRect((self.userLocationButton?.frame) ?? CGRectZero, fromView: self.statisticsButton?.superview)
         
         if(CGRectContainsPoint(userLocationButtonFrame, pointForTargetView)){
             return userLocationButton

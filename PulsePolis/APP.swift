@@ -91,9 +91,6 @@ class APP{
                     let citiesResponse = CitiesResponse(json: JSON(data: data))
                     if(citiesResponse.status == "OK"){
                         self.cities = citiesResponse.cities
-                        self.defineCity({ () -> Void in
-                            
-                        })
                     }
                 }
             }).addDisposableTo(self.disposeBag)

@@ -11,6 +11,13 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    enum ButtonType: Int{
+        case Map
+        case Profile
+        case Feedback
+        case Exit
+    }
+    
     @IBOutlet var ageLabel: UILabel!
     @IBOutlet var avatarXConstraint: NSLayoutConstraint!
     @IBOutlet var avatar: UIImageView!
@@ -49,11 +56,19 @@ class ProfileViewController: UIViewController {
     
     @IBAction func btnPressed(sender: AnyObject) {
         switch(sender.tag){
-        case 0:
+        case ButtonType.Map.rawValue:
             APP.i().showCenterPanel()
             break
-        case 1:
+        case ButtonType.Profile.rawValue:
             self.navigationController?.popViewControllerAnimated(true)
+            break
+        case ButtonType.Feedback.rawValue:
+            self.navigationController?.popViewControllerAnimated(true)
+            break
+        case ButtonType.Exit.rawValue:
+            if let mainNavigationController = self.navigationController as? MainNavigationController{
+                mainNavigationController.exit()
+            }
             break
         default:
             break

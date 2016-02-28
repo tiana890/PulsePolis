@@ -169,14 +169,17 @@ class User: NSObject {
     
     func deleteUser(){
         let def = NSUserDefaults.standardUserDefaults()
-        def.setValue(nil, forKey: "name")
-        def.setValue(nil, forKey: "photoURL")
-        def.setValue(nil, forKey: "gender")
-        def.setValue(nil, forKey: "vkID")
-        def.setValue(nil, forKey: "facebookID")
-        def.setValue(nil, forKey: "age")
-        def.setValue(nil, forKeyPath: "userID")
-        def.setValue(nil, forKeyPath: "authType")
+        
+        def.removeObjectForKey("firstName")
+        def.removeObjectForKey("lastName")
+        def.removeObjectForKey("photoURL")
+        def.removeObjectForKey("gender")
+        def.removeObjectForKey("vkID")
+        def.removeObjectForKey("facebookID")
+        def.removeObjectForKey("age")
+        def.removeObjectForKey("userID")
+        def.removeObjectForKey("authType")
+        
         def.synchronize()
         
         var u: User?

@@ -32,12 +32,13 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     
     var subscription: Disposable?
     
+    
     let AUTH_URL = "http://hotfinder.ru/hotjson/auth.php"
     
     //MARK: UIViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -120,8 +121,11 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
         showActivityIndicator()
         var vksdkInstance = VKSdk.initializeWithAppId("5144665")
         vksdkInstance.registerDelegate(self)
-        VKSdk.authorize([VK_PER_PHOTOS], withOptions: VKAuthorizationOptions.UnlimitedToken)
-        
+        //VKSdk.authorize([VK_PER_PHOTOS], withOptions: VKAuthorizationOptions.UnlimitedToken)
+        if(VKSdk.isLoggedIn()){
+            VKSdk.forceLogout()
+        }
+        VKSdk.authorize([VK_PER_PHOTOS])
     }
     
     func vkSdkAccessAuthorizationFinishedWithResult(result: VKAuthorizationResult!) {
@@ -152,6 +156,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
         }
         self.hideActivityIndicator()
     }
+    
     
     func authRequest(user: User){
         
@@ -206,14 +211,17 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     }
     
     func vkSdkUserAuthorizationFailed() {
+        self.showAlert("Ошибка", msg: "Невозможно авторизоваться")
         self.hideActivityIndicator()
     }
     
     func vkSdkAccessTokenUpdated(newToken: VKAccessToken!, oldToken: VKAccessToken!) {
-        self.hideActivityIndicator()
+        print("newToken")
+
     }
     
     func vkSdkTokenHasExpired(expiredToken: VKAccessToken!) {
+        print("hasExpired")
         self.hideActivityIndicator()
     }
     

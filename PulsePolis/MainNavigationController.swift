@@ -19,18 +19,22 @@ class MainNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        updateNavigationStack()
+       
+    }
+    
+    func updateNavigationStack(){
         //Авторизован ли пользователь в системе
         if let u = User.getUserFromDefaults(){
             APP.i().user = u
-            let svc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(CONTAINER_CONTROLLER_STORYBOARD_ID)
-            self.setViewControllers([svc], animated: true)
+            let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(CONTAINER_CONTROLLER_STORYBOARD_ID)
+            let svc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(START_CONTROLLER_IDENTIFIER)
+            self.setViewControllers([svc, cvc], animated: true)
         } else {
             let avc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(AUTHORIZATION_CONTROLLER_STORYBOARD_ID)
+            
             self.setViewControllers([avc], animated: true)
         }
-        
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,6 +43,13 @@ class MainNavigationController: UINavigationController {
     }
     
 
+    func exit(){
+        if let u = APP.i().user{
+            u.deleteUser()
+        }
+        updateNavigationStack()
+    }
+    
     /*
     // MARK: - Navigation
 

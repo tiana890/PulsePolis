@@ -60,18 +60,11 @@ class StartViewController: BaseViewController {
         
         self.nameLabel.text = (APP.i().user?.firstName ?? "") + " " + (APP.i().user?.lastName ?? "")
         self.hideIndicator()
-//        if (APP.i().city == nil){
-//            defineCity()
-//        }
-//        
-        
-        
-        //startBtn.enabled = false
-        
-        
-        
-        //        request(.POST, postLocationCoordinates, parameters: ["userid":"2", "lat": "\(APP.i().locationManager!.location!.lat)", "lon": "\(APP.i().locationManager!.location!.lon])", encoding: .JSON, headers: nil).
-        
+
+        if (APP.i().city == nil){
+            defineCity()
+            self.showIndicator()
+        }
     }
     
     func showIndicator(){
@@ -108,7 +101,7 @@ class StartViewController: BaseViewController {
                     APP.i().city = city
                     self.hideIndicator()
                 } else {
-                    self.showAlert("Ошибка", msg: "Произошла ошибка при определении города")
+                    self.showAlert("Ошибка", msg: "Невозможно определить город")
                     self.hideIndicator()
                 }
                 
