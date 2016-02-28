@@ -85,14 +85,14 @@ class TodayStatisticsCell: UITableViewCell {
         self.segmentedControl.selectedSegmentIndex = manager.segmentIndex
         self.todaySegmentedControl.selectedSegmentIndex = manager.todaySelectedSegmentIndex
         self.statisticsSegmentedControl.selectedSegmentIndex = manager.statisticsSelectedSegmentIndex
-        self.statisticsTimeLabel.text = manager.statisticsTime ?? getTimeString()
+        print(manager.statisticsTime)
+        self.statisticsTimeLabel.text = manager.statisticsTimeString ?? getTimeString()
     }
     
     func getTimeString() -> String{
         let components = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: NSDate())
         let hour = components.hour
         let minute = components.minute
-        
         
         return (minute > 10) ? "\(hour):\(minute)" : "\(hour):0\(minute)"
     }

@@ -1243,6 +1243,7 @@
 /* Begin XCBuildConfiguration section */
 		8808B9B61BF1B504002D3457 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B835BDF61A20F69C0FAC620C /* Pods-PulsePolis.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1332,7 +1333,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PulsePolis/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Zayceva.PulsePolis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1348,7 +1349,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PulsePolis/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Zayceva.PulsePolis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1418,7 +1419,7 @@
 				8808B9B71BF1B504002D3457 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolis" */ = {
 			isa = XCConfigurationList;
@@ -1427,7 +1428,7 @@
 				8808B9BA1BF1B504002D3457 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		8808B9BB1BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolisTests" */ = {
 			isa = XCConfigurationList;
@@ -1436,7 +1437,7 @@
 				8808B9BD1BF1B504002D3457 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		8808B9BE1BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolisUITests" */ = {
 			isa = XCConfigurationList;
@@ -1445,7 +1446,7 @@
 				8808B9C01BF1B504002D3457 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

@@ -42,6 +42,9 @@ class ColorHelper: NSObject {
         case "9":
             return UIColor(red: 255.0/255.0, green: 47.0/255.0, blue: 91.0/255.0, alpha: 1.0)
             
+        case "10":
+            return UIColor(red: 255.0/255.0, green: 47.0/255.0, blue: 91.0/255.0, alpha: 1.0)
+            
         default:
             return UIColor.clearColor()
         }

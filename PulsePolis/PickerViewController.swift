@@ -16,23 +16,56 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet var picker: UIPickerView!
     @IBOutlet var datePicker: UIDatePicker!
     
+    @IBOutlet var navBar: UINavigationBar!
     var cities: [City]?
+    
+    var sourceController: UIViewController?
+    
+    @IBOutlet var titleLabel: UILabel!
+    var ifDate = false
+    var date: NSDate?
     
     var subscription: Disposable?
     
     let sourceStringURL = "http://hotfinder.ru/hotjson/cities.php"
     
+    var newDate: NSDate?
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBarHidden = true
         getCities()
         
+    }
+    
+    func customizeNavBar(){
+    self.navBar.setBackgroundImage(UIImage(named:"nav_background"), forBarMetrics: UIBarMetrics.Default)
+        self.navBar.translucent = true
+        self.navBar.shadowImage = UIImage(named:"shadow_nav")
+        self.navBar.translucent = true
+        self.navBar.barTintColor = UIColor.clearColor()
+        self.navBar.barStyle = .Default
+        
+//        self.navBar.view.backgroundColor = UIColor.clearColor()
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        if(ifDate){
+            self.picker.hidden = true
+            self.datePicker.hidden = false
+            
+            self.titleLabel.text = "Выбор города"
+            if let vc = self.sourceController as? MainViewController{
+                let time = vc.todayStatisticsManager.statisticsTime
+                self.datePicker.setDate(time ?? NSDate(), animated: false)
+                self.titleLabel.text = "Выбор времени"
+                self.datePicker.setValue(ColorHelper.defaultColor, forKey: "textColor")
+                
+                self.datePicker.datePickerMode = UIDatePickerMode.Time
+            }
+        }
     }
     
     func getCities(){
@@ -46,6 +79,21 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
         }
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if(self.ifDate){
+            if let vc = self.sourceController as? MainViewController{
+                if let nDate = self.newDate{
+                    vc.todayStatisticsManager.statisticsTime = nDate
+                    print(vc.todayStatisticsManager.statisticsTime)
+                    print(vc.todayStatisticsManager.statisticsTimeString)
+                }
+
+            }
+        }
+        
+    }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return cities?.count ?? 0
@@ -56,9 +104,6 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
         APP.i().city = self.cities![row]
     }
     
-    //    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    //        return self.cities![row].city
-    //    }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
@@ -86,6 +131,10 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
         //            return NSAttributedString(string: string!, attributes: [NSForegroundColorAttributeName:UIColor.whiteColor()])
         //        }
         return NSAttributedString(string: string!, attributes: [NSForegroundColorAttributeName:ColorHelper.defaultColor])
+    }
+    
+    @IBAction func datePickerValueChanged(sender: UIDatePicker) {
+        self.newDate = sender.date
     }
     
 }

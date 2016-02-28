@@ -18,6 +18,20 @@ class TodayStatisticsManager: NSObject {
     }
     var todayValue: String?
     var statisticsSelectedSegmentIndex = 0
-    var statisticsTime: String?
+    var statisticsTime: NSDate?
     
+    var statisticsTimeString: String{
+        get{
+            let date = self.statisticsTime ?? NSDate()
+            return getTimeString(date)
+        }
+    }
+    
+    func getTimeString(date: NSDate) -> String{
+        let components = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: date)
+        let hour = components.hour
+        let minute = components.minute
+        
+        return (minute >= 10) ? "\(hour):\(minute)" : "\(hour):0\(minute)"
+    }
 }

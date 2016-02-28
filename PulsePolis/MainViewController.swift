@@ -189,6 +189,11 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.view.backgroundColor = UIColor.clearColor()
         
         self.cityLabel.text = APP.i().city?.city ?? ""
+        
+        //if(self.statisticsMode){
+            self.table.reloadData()
+            self.loadPlaces()
+        //}
     }
     
     func customizeTabBar(){
@@ -228,7 +233,9 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             if(item == tabBar.items![i]){
                 if(i == 0){
                     self.favoritesMode = false
-                    loadPlaces()
+                    self.setMap()
+                    self.table.reloadData()
+                    //loadPlaces()
                 } else if(i == 2){
                     self.favoritesMode = true
                     self.setMap()
@@ -541,8 +548,13 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
         if(indexPath.row == 0){
-            return self.tableHeaderHeight
+            if(self.favoritesMode){
+                return (self.favorites.count == 0) ? 0 : self.tableHeaderHeight
+            } else {
+                return (self.filteredPlaces.count == 0) ? 0 : self.tableHeaderHeight
+            }
         }
         else if(indexPath.row == 1){
             return 84
@@ -635,7 +647,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             } else {
                 url = self.statStringUrl
                 params["day"] = "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)"
-                params["time"] = self.todayStatisticsManager.statisticsTime ?? ""
+                params["time"] = self.todayStatisticsManager.statisticsTimeString ?? ""
             }
         } else {
             url = self.sourceStringURL
@@ -643,11 +655,12 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         print(params)
         
         guard let cityId = APP.i().city?.id else { APP.i().defineCity({ () -> Void in
+            self.cityLabel.text = APP.i().city?.city ?? ""
             self.loadPlaces()
         })
             return
         }
-        url += cityId
+        url += "3"
         
         print(url)
         subscription = requestJSON(.GET, url, parameters: params, encoding: .URL, headers: nil)
@@ -740,6 +753,16 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         APP.i().moveCenterPanel()
     }
     
+    
+    @IBAction func statisticsTimePressed(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID") as? PickerViewController{
+            pickerViewController.ifDate = true
+            pickerViewController.sourceController = self
+            self.navigationController?.pushViewController(pickerViewController, animated: true)
+        }
+    }
+    
     @IBAction func selectCity(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID")
@@ -804,6 +827,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         image.layer.masksToBounds = true
         
     }
+    
     
     //MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

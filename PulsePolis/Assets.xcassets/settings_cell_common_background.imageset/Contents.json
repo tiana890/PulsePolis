@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "slider_track_1@2x.png",
+      "filename" : "settings_cell_common_background@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "slider_track_1@3x.png",
+      "filename" : "settings_cell_common_background@2x-1.png",
       "scale" : "3x"
     }
   ],

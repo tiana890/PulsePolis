@@ -35,10 +35,10 @@ class SettingsCell: UITableViewCell {
         rangeSlider.upperHandleImageNormal = UIImage(named: "slider_thumb")
         
         self.rangeSlider.minimumValue = 0;
-        self.rangeSlider.maximumValue = 9;
+        self.rangeSlider.maximumValue = 10;
         
         self.rangeSlider.setLowerValue(0, animated: false)
-        self.rangeSlider.setUpperValue(9, animated: false)
+        self.rangeSlider.setUpperValue(10, animated: false)
         
         self.rangeSlider.minimumRange = 1
         
