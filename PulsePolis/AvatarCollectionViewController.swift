@@ -31,6 +31,8 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
     
     var selectedIndex: Int?
     
+    var _viewDidLayoutSubviewsForTheFirstTime = true
+    
     var maleVisitors:[Visitor]?{
         get{
             return self.visitors?.filter({ (element) -> Bool in
@@ -102,10 +104,26 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         self.collection.contentInset = insets
         self.collection.decelerationRate = UIScrollViewDecelerationRateFast
         
-        if let ind = self.selectedIndex{
-           let x = CGFloat(ind) * CGFloat((CELL_SIZE_WIDTH + 35.0))
-           self.collection.setContentOffset(CGPoint(x: x - CGFloat(CELL_SIZE_WIDTH/2) + CGFloat(35.0), y: 0), animated: false)
+        if(self._viewDidLayoutSubviewsForTheFirstTime){
+            self._viewDidLayoutSubviewsForTheFirstTime = false
+            if let ind = self.selectedIndex{
+                /*
+                // Calling collectionViewContentSize forces the UICollectionViewLayout to actually render the layout
+                [self.collectionView.collectionViewLayout collectionViewContentSize];
+                // Now you can scroll to your desired indexPath or contentOffset
+                [self.collectionView scrollToItemAtIndexPath:yourDesiredIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
+                */
+                self.collection.collectionViewLayout.collectionViewContentSize()
+                self.collection.scrollToItemAtIndexPath(NSIndexPath(forItem: ind, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+//                let x = CGFloat(ind) * CGFloat((self.CELL_SIZE_WIDTH + 35.0))
+//                self.collection.setContentOffset(CGPoint(x: x - CGFloat(self.CELL_SIZE_WIDTH/2) + CGFloat(35.0), y: 0), animated: false)
+            }
         }
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
     }
     

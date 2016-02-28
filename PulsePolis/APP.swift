@@ -104,6 +104,7 @@ class APP{
     func defineCity(handler: () -> Void){
         
         let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? ""]
+        print(parametersDict)
         
         requestData(.POST, postLocationCoordinates, parameters: parametersDict, encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)

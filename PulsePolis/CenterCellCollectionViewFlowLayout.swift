@@ -12,6 +12,10 @@ class CenterCellCollectionViewFlowLayout: UICollectionViewFlowLayout {
     let CELL_SIZE_WIDTH:CGFloat = 180.0
     let CELL_SIZE_HEIGHT:CGFloat = 240.0
     
+    var selectedIndex: Int?
+    
+    
+    
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var elementsInRect = [UICollectionViewLayoutAttributes]()
         
@@ -77,8 +81,6 @@ class CenterCellCollectionViewFlowLayout: UICollectionViewFlowLayout {
                     return proposedContentOffset
                 }
                 
-                print("\(CGPoint(x: floor(candidateAttributes!.center.x - halfWidth), y: proposedContentOffset.y).x) - \(proposedContentOffset.x)");
-                
                 return CGPoint(x: floor(candidateAttributes!.center.x - halfWidth), y: proposedContentOffset.y)
                 
             }
@@ -87,6 +89,7 @@ class CenterCellCollectionViewFlowLayout: UICollectionViewFlowLayout {
         }
         
         // fallback
+        
         return super.targetContentOffsetForProposedContentOffset(proposedContentOffset)
     }
     
