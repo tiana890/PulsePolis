@@ -10,7 +10,6 @@
 import UIKit
 
 
-
 class SettingsCell: UITableViewCell {
     
     @IBOutlet var cityLabel: UILabel!
@@ -25,6 +24,7 @@ class SettingsCell: UITableViewCell {
     
     @IBOutlet var searchBar: UISearchBar!
     
+    
     func configureRangeSlider(){
         self.configureLabelSlider()
         self.updateSliderLabels()
@@ -34,11 +34,11 @@ class SettingsCell: UITableViewCell {
         rangeSlider.lowerHandleImageNormal = UIImage(named: "slider_thumb")
         rangeSlider.upperHandleImageNormal = UIImage(named: "slider_thumb")
         
-        self.rangeSlider.minimumValue = 0;
-        self.rangeSlider.maximumValue = 10;
+        self.rangeSlider.minimumValue = 0
+        self.rangeSlider.maximumValue = 10
         
-        self.rangeSlider.setLowerValue(0, animated: false)
-        self.rangeSlider.setUpperValue(10, animated: false)
+        self.rangeSlider.setExplicitLower(Float(APP.i().settingsManager!.lowerIndex))
+        self.rangeSlider.setUpperValue(Float(APP.i().settingsManager!.upperIndex), animated: false)
         
         self.rangeSlider.minimumRange = 1
         
@@ -47,12 +47,21 @@ class SettingsCell: UITableViewCell {
     }
     
     func updateSliderLabels(){
-        self.lowerLabelHorizontalConstraint.constant = self.rangeSlider.lowerCenter.x - self.lowerLabel.frame.width/2
-        self.lowerLabel.text = "\(self.rangeSlider.lowerValue)"
-        print(self.rangeSlider.lowerCenter)
+        self.rangeSlider.layoutSubviews()
         
-        self.upperLabelHorizontalConstraint.constant = self.rangeSlider.upperCenter.x - self.upperLabel.frame.width/2
-        self.upperLabel.text = "\(self.rangeSlider.upperValue)"
+        self.lowerLabelHorizontalConstraint.constant = self.rangeSlider.lowerCenter.x - self.lowerLabel.frame.width/2
+        self.lowerLabel.text = "\(Int(self.rangeSlider.lowerValue))"
+        
+        
+        if(Int(self.rangeSlider.upperValue) == 10){
+            self.upperLabelHorizontalConstraint.constant = self.rangeSlider.upperCenter.x - self.upperLabel.frame.width/2
+            
+        } else {
+            self.upperLabelHorizontalConstraint.constant = self.rangeSlider.upperCenter.x - self.upperLabel.frame.width/4
+        }
+        
+        self.upperLabel.text = "\(Int(self.rangeSlider.upperValue))"
+        print("upperConstraintConstant = \(self.upperLabelHorizontalConstraint.constant)")
     }
     
     func configureSearchCell(){
@@ -65,6 +74,8 @@ class SettingsCell: UITableViewCell {
     
     @IBAction func labelSliderChanged(sender: AnyObject) {
         self.updateSliderLabels()
+        APP.i().settingsManager?.lowerIndex = Int(self.rangeSlider.lowerValue)
+        APP.i().settingsManager?.upperIndex = Int(self.rangeSlider.upperValue)
     }
     
 }

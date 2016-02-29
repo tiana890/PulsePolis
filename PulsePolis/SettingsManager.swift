@@ -19,7 +19,7 @@ import UIKit
 class SettingsManager: NSObject {
     
     var lowerIndex = 0
-    var upperIndex = 9
+    var upperIndex = 10
     
     var placeTypes = [String]()
     

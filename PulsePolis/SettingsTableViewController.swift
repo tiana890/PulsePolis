@@ -80,9 +80,9 @@ class SettingsTableViewController: BaseTableViewController, UISearchBarDelegate{
         //        //txtField.font = UIFont(name: "HelveticaNeue Thin", size: 11.0)
         self.tableView.allowsMultipleSelection = true
         
-        let imageView = UIImageView(frame: self.view.frame)
-        imageView.image = UIImage(named: "background_gradient")
-        self.tableView.backgroundView = imageView
+//        let imageView = UIImageView(frame: self.view.frame)
+//        imageView.image = UIImage(named: "background_gradient")
+//        self.tableView.backgroundView = imageView
         
     }
     
@@ -210,6 +210,7 @@ class SettingsTableViewController: BaseTableViewController, UISearchBarDelegate{
             case 2:
                 if let cell = tableView.dequeueReusableCellWithIdentifier(CELL_IDENTIFIER_INDEX) as? SettingsCell{
                     cell.configureRangeSlider()
+            
                     return cell
                 }
                 break
@@ -239,7 +240,7 @@ class SettingsTableViewController: BaseTableViewController, UISearchBarDelegate{
                     return cell
                 }
                 break
-            case 7:
+            case 8:
                 if let cell = tableView.dequeueReusableCellWithIdentifier(CELL_IDENTIFIER_SEARCH) as? SettingsCell
                 {
                     cell.configureSearchCell()
@@ -264,7 +265,7 @@ class SettingsTableViewController: BaseTableViewController, UISearchBarDelegate{
                     return cell
                 }
                 break
-            case 8:
+            case 7:
                 if let cell = tableView.dequeueReusableCellWithIdentifier(CELL_IDENTIFIER_SHOW_FAVORITES){
                     return cell
                 }
