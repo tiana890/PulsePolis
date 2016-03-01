@@ -8,7 +8,9 @@
 
 import UIKit
 import CoreLocation
-
+import RxAlamofire
+import RxSwift
+import SwiftyJSON
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
     var locationManager: CLLocationManager?
@@ -19,6 +21,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 //    var delegate: LocationManagerProtocol?
     
+    var prevLocation: CLLocation?
+    var disposeBag = DisposeBag()
     var isAvailable: Bool{
         get{
             let status = CLLocationManager.authorizationStatus()
@@ -48,14 +52,35 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         self.locationManager?.delegate = self
         self.locationManager?.requestWhenInUseAuthorization()
+        self.locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        self.locationManager?.distanceFilter = 500
+        self.locationManager?.allowsBackgroundLocationUpdates = true
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "inBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "inForeground", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        
+        // Do any additional setup after loading the view, typically from a nib.
     }
-    
+
+    func inBackground()
+    {
+        self.locationManager?.startMonitoringSignificantLocationChanges()
+        self.locationManager?.stopUpdatingLocation()
+    }
+    func inForeground()
+    {
+//        self.locationManager?.startMonitoringSignificantLocationChanges()
+//        self.locationManager?.stopUpdatingLocation()
+        self.locationManager?.startUpdatingLocation()
+        self.locationManager?.stopMonitoringSignificantLocationChanges()
+    }
     //MARK: -CLLocationManagerProtocol methods
-    
+
     func startLocationManager(){
         self.locationManager?.delegate = self
         
         let status = CLLocationManager.authorizationStatus()
+        
         if(status != CLAuthorizationStatus.Denied && status != CLAuthorizationStatus.NotDetermined){
             self.locationManager?.startUpdatingLocation()
         }
@@ -104,10 +129,31 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //print(locations.last?.description)
-//        delegate?.locationManagerGetCoordinates((locationManager?.location?.coordinate.latitude)!, lng: (locationManager?.location?.coordinate.longitude)!)
+       
+        print(locations.last)
+        let sourceStringURL = "http://hotfinder.ru/hotjson/userlocation.php"
+        var parametersDict = ["user_id":"39", "lat":"55.398492374", "lon":"60.379483758", "type":"facebook", "sex":"woman"]
+        
+        requestData(.POST, sourceStringURL, parameters: parametersDict, encoding: .URL, headers: nil)
+            .observeOn(MainScheduler.instance)
+            .debug()
+            .subscribe(onNext: { (response, data) -> Void in
+                print(JSON(data: data))
+                if let loc = self.prevLocation{
+                    if let currentLocation = locations.last{
+                        print("DISTANCE")
+                        print(loc.distanceFromLocation(currentLocation))
+                        self.prevLocation = currentLocation
+                    }
+                }
+                    
+            }).addDisposableTo(self.disposeBag)
+
     }
     
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+        print(newLocation)
+    }
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
     }

@@ -40,9 +40,13 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     var statisticsMode = false
     var ifTodayMode = true
     
+    var fromAvatar = false
+    
     @IBOutlet var cityLabel: UILabel!
     @IBOutlet var userLocationButton: UIButton!
     @IBOutlet var statisticsButton: UIButton!
+    @IBOutlet var selectCityButton: UIButton!
+    
     private let tableHeaderHeight: CGFloat = UIScreen.mainScreen().bounds.height - 49.0 - 180.0
     var headerView: UIView!
     @IBOutlet var mapView: MGLMapView!
@@ -145,6 +149,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         self.loadPlaces()
         
+       
     }
     
     func setTableBackground(){
@@ -190,10 +195,20 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         self.cityLabel.text = APP.i().city?.city ?? ""
         
-        //if(self.statisticsMode){
+        if(self.fromAvatar){
+            self.fromAvatar = false
+        } else {
             self.table.reloadData()
             self.loadPlaces()
-        //}
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let hitTestView = self.view as? HitTestView{
+            hitTestView.arrayOfViews.append(self.selectCityButton)
+        }
     }
     
     func customizeTabBar(){
@@ -660,7 +675,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         })
             return
         }
-        url += "3"
+        url += cityId
         
         print(url)
         subscription = requestJSON(.GET, url, parameters: params, encoding: .URL, headers: nil)
@@ -837,6 +852,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 avatarCollectionVC.place = self.selectedPlace
                 avatarCollectionVC.visitors = self.visitors
                 avatarCollectionVC.selectedIndex = sender!.tag
+                avatarCollectionVC.sourceController = self
             }
         } 
     }

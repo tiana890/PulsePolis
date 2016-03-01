@@ -22,7 +22,7 @@ class CenterCellCollectionViewFlowLayout: UICollectionViewFlowLayout {
         for(var j = 0; j < collectionView?.numberOfSections(); j++){
             for(var i = 0; i < collectionView?.numberOfItemsInSection(j); i++){
                 var x:CGFloat = 0.0
-                var y:CGFloat = (collectionView?.frame.height)!/2 - CELL_SIZE_HEIGHT/2
+                var y:CGFloat = 35.0/*(collectionView?.frame.height)!/2 - CELL_SIZE_HEIGHT/2*/
                 if(i != 0){
                      x = CGFloat(i) * (CELL_SIZE_WIDTH + 35.0)
                 }

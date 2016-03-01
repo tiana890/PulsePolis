@@ -108,22 +108,22 @@ class PlaceCellTableViewCell: SWTableViewCell{
         if let cocktailPrice = place.cocktailPrice{
             switch(cocktailPrice){
             case "1":
-                self.ruble0.image = UIImage(named: "ruble_selected")
+                self.ruble0.image = UIImage(named: "ruble")
                 break
             case "2":
-                self.ruble0.image = UIImage(named: "ruble_selected")
-                self.ruble1.image = UIImage(named: "ruble_selected")
+                self.ruble0.image = UIImage(named: "ruble")
+                self.ruble1.image = UIImage(named: "ruble")
                 break
             case "3":
-                self.ruble0.image = UIImage(named: "ruble_selected")
-                self.ruble1.image = UIImage(named: "ruble_selected")
-                self.ruble2.image = UIImage(named: "ruble_selected")
+                self.ruble0.image = UIImage(named: "ruble")
+                self.ruble1.image = UIImage(named: "ruble")
+                self.ruble2.image = UIImage(named: "ruble")
                 break
             case "4":
-                self.ruble0.image = UIImage(named: "ruble_selected")
-                self.ruble1.image = UIImage(named: "ruble_selected")
-                self.ruble2.image = UIImage(named: "ruble_selected")
-                self.ruble3.image = UIImage(named: "ruble_selected")
+                self.ruble0.image = UIImage(named: "ruble")
+                self.ruble1.image = UIImage(named: "ruble")
+                self.ruble2.image = UIImage(named: "ruble")
+                self.ruble3.image = UIImage(named: "ruble")
                 break
             default:
                 break

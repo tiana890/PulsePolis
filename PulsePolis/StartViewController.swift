@@ -46,6 +46,7 @@ class StartViewController: BaseViewController {
         
         APP.i().locationManager?.startLocationManager()
         
+        print(APP.i().user?.userId)
         var u = APP.i().user
         print(APP.i().user?.photoURL)
         

@@ -22,9 +22,10 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
     let selectedColor = UIColor(red: 31.0/255.0, green: 108.0/255.0, blue: 118.0/255.0, alpha: 0.7)
     
     @IBOutlet var name: UILabel!
-    @IBOutlet var femaleLabel: UILabel!
-    @IBOutlet var maleLabel: UILabel!
+//    @IBOutlet var femaleLabel: UILabel!
+//    @IBOutlet var maleLabel: UILabel!
     
+    var sourceController: MainViewController?
     @IBOutlet var collection: UICollectionView!
     var place: Place?
     var visitors:[Visitor]?
@@ -36,7 +37,7 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
     var maleVisitors:[Visitor]?{
         get{
             return self.visitors?.filter({ (element) -> Bool in
-                if(element.sex == "man"){
+                if(element.sex == "man" || element.sex != "woman"){
                     return true
                 }
                 return false
@@ -47,7 +48,7 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
     var femaleVisitors:[Visitor]?{
         get{
             return self.visitors?.filter({ (element) -> Bool in
-                if(element.sex == "woman"){
+                if(element.sex == "woman" || element.sex != "man"){
                     return true
                 }
                 return false
@@ -63,14 +64,14 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         
         self.name.text = place?.name
         
-        self.femaleLabel.text = ""
-        if let w = self.place?.woman{
-            self.femaleLabel.text = "\(w)%"
-        }
-        self.maleLabel.text = ""
-        if let m = self.place?.man{
-            self.maleLabel.text = "\(m)%"
-        }
+//        self.femaleLabel.text = ""
+//        if let w = self.place?.woman{
+//            self.femaleLabel.text = "\(w)%"
+//        }
+//        self.maleLabel.text = ""
+//        if let m = self.place?.man{
+//            self.maleLabel.text = "\(m)%"
+//        }
     }
     
 
@@ -88,6 +89,12 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.navigationBar.backgroundColor = UIColor(red: 52.0/255.0, green: 52.0/255.0, blue: 52.0/255.0, alpha: 0.15)
         
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.sourceController?.fromAvatar = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -143,8 +150,11 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
             let visitor = visitorsArray?[indexPath.row]
             cell.avatarImage.image = UIImage()
             if let avatarUrl = visitor?.avatarUrl{
-                cell.avatarImage.af_setImageWithURL(NSURL(string: avatarUrl)!)
+                let filter = AspectScaledToFillSizeFilter(size: CGSizeMake(cell.avatarImage.frame.width, cell.avatarImage.frame.height))
+                cell.avatarImage.af_setImageWithURL(NSURL(string: avatarUrl)!, filter: filter)
                 createMaskForImage(cell.avatarImage)
+//                cell.avatarImage.af_setImageWithURL(NSURL(string: avatarUrl)!)
+//                createMaskForImage(cell.avatarImage)
             }
             if let checkin = visitor?.checkin{
                 if (checkin.characters.count > 18){

@@ -76,6 +76,8 @@ class APP{
         containerController?.moveCenterPanel()
     }
     
+    
+    
     //MARK
     func getCities(){
         //        let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? ""]
