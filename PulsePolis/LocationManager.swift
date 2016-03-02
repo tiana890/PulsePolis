@@ -130,24 +130,34 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
        
-        print(locations.last)
+        let updatedLocation = locations.last
         let sourceStringURL = "http://hotfinder.ru/hotjson/userlocation.php"
-        var parametersDict = ["user_id":"39", "lat":"55.398492374", "lon":"60.379483758", "type":"facebook", "sex":"woman"]
+        let myQueue = dispatch_queue_create("backgroundqueue", nil)
         
-        requestData(.POST, sourceStringURL, parameters: parametersDict, encoding: .URL, headers: nil)
-            .observeOn(MainScheduler.instance)
-            .debug()
-            .subscribe(onNext: { (response, data) -> Void in
-                print(JSON(data: data))
-                if let loc = self.prevLocation{
-                    if let currentLocation = locations.last{
-                        print("DISTANCE")
-                        print(loc.distanceFromLocation(currentLocation))
-                        self.prevLocation = currentLocation
+        if let user = APP.i().user{
+            if let userId = APP.i().user?.userId{
+                
+                var gender = "notdefined"
+                if let g = APP.i().user?.gender{
+                    if(g == .Female){
+                        gender = "woman"
+                    } else if(g == .Male){
+                        gender = "man"
                     }
                 }
-                    
-            }).addDisposableTo(self.disposeBag)
+                
+                let parametersDict = ["user_id":"\(userId)", "lat":"\(updatedLocation?.coordinate.latitude ?? 0)",  "lon":"\(updatedLocation?.coordinate.longitude ?? 0)", "type":"\(APP.i().user?.authorizeType?.rawValue ?? "")", "sex":gender]
+                print(parametersDict)
+                
+                requestData(.POST, sourceStringURL, parameters: parametersDict, encoding: .URL, headers: nil)
+                    .observeOn(ConcurrentDispatchQueueScheduler(queue: myQueue))
+                    .debug()
+                    .subscribe(onNext: { (response, data) -> Void in
+                        print(JSON(data: data))
+                            
+                    }).addDisposableTo(self.disposeBag)
+            }
+        }
 
     }
     

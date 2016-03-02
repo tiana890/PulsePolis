@@ -86,6 +86,8 @@ class PlaceCellTableViewCell: SWTableViewCell{
         configureCocktailPrice(place)
     }
     
+    
+    
     func configureIndexView(place: Place){
         
         var col: UIColor?

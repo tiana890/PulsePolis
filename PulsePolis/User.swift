@@ -22,6 +22,8 @@ class User: NSObject {
     var vkID: String?
     var facebookID: String?
     
+    var auth: String?
+    
     var userId: Int?{
         didSet{
             self.saveUser()
@@ -72,6 +74,7 @@ class User: NSObject {
         }
         
         self.authorizeType = AuthorizeType.Facebook
+        self.auth = AuthorizeType.Facebook.rawValue
         
     }
     
@@ -105,6 +108,7 @@ class User: NSObject {
                 }
             }
             self.authorizeType = AuthorizeType.VK
+            self.auth = AuthorizeType.VK.rawValue
         }
     }
     
@@ -144,9 +148,11 @@ class User: NSObject {
                 u?.userId = id
             }
             if let authType = def.valueForKey("authType") as? String{
-                if let newAuthType = AuthorizeType(rawValue: authType){
-                    u?.authorizeType = newAuthType
-                }
+                u?.auth = authType
+                u?.authorizeType = AuthorizeType(rawValue: authType)
+//                if let newAuthType = AuthorizeType(rawValue: authType){
+//                    u?.authorizeType = newAuthType
+//                }
             }
         }
         
@@ -163,7 +169,7 @@ class User: NSObject {
         def.setValue(facebookID, forKey: "facebookID")
         def.setValue(age, forKey: "age")
         def.setValue(userId, forKeyPath: "userID")
-        def.setValue(authorizeType?.rawValue, forKeyPath: "authType")
+        def.setValue(auth, forKeyPath: "authType")
         def.synchronize()
     }
     
