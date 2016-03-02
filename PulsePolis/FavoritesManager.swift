@@ -58,5 +58,11 @@ class FavoritesManager: NSObject {
             saveFavoriteId(id)
         }
     }
+    
+    func removeAllFromFavorites(){
+        for(favId) in self.getFavouriteIds(){
+            self.removeFromFavorites(favId)
+        }
+    }
 }
 

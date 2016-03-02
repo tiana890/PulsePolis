@@ -34,24 +34,7 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         getCities()
-        
-    }
-    
-    func customizeNavBar(){
-    self.navBar.setBackgroundImage(UIImage(named:"nav_background"), forBarMetrics: UIBarMetrics.Default)
-        self.navBar.translucent = true
-        self.navBar.shadowImage = UIImage(named:"shadow_nav")
-        self.navBar.translucent = true
-        self.navBar.barTintColor = UIColor.clearColor()
-        self.navBar.barStyle = .Default
-        
-//        self.navBar.view.backgroundColor = UIColor.clearColor()
-
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+        customizeNavBar()
         if(ifDate){
             self.picker.hidden = true
             self.datePicker.hidden = false
@@ -66,7 +49,23 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
                 self.datePicker.datePickerMode = UIDatePickerMode.Time
             }
         }
+
     }
+    
+    func customizeNavBar(){
+        self.navBar.setBackgroundImage(UIImage(named:"nav_background"), forBarMetrics: UIBarMetrics.Default)
+        self.navBar.translucent = true
+        self.navBar.shadowImage = UIImage(named:"shadow_nav")
+        self.navBar.barTintColor = UIColor.clearColor()
+        self.navBar.barStyle = .Default
+        self.navBar.backgroundColor = UIColor.clearColor()
+
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+            }
     
     func getCities(){
         

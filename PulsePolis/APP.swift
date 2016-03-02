@@ -26,7 +26,13 @@ class APP{
         }
     }
     
-    var city: City?    
+    var city: City? {
+        didSet{
+            self.places.removeAll()
+            loadPlaces()
+        }
+    }
+    
     var containerController: ContainerViewController?
     
     var locationManager: LocationManager?

@@ -53,6 +53,7 @@ class StartViewController: BaseViewController {
         avatar.image = UIImage(data: NSData(contentsOfURL: NSURL(string: APP.i().user!.photoURL!)!)!)
         createMaskForImage(avatar)
         
+        
         if(APP.i().user?.gender == .Female){
             femaleSelected()
         } else if(APP.i().user?.gender == .Male){
@@ -66,6 +67,21 @@ class StartViewController: BaseViewController {
             defineCity()
             self.showIndicator()
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        cityLabel.text = APP.i().city?.city ?? "не определено"
+    }
+    
+    @IBAction func selectCity(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID")
+        self.presentViewController(pickerViewController, animated: true, completion: nil)
+        //self.navigationController?.pushViewController(pickerViewController, animated: true)
+        
     }
     
     func showIndicator(){

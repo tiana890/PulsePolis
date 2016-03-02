@@ -198,7 +198,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         if(self.fromAvatar){
             self.fromAvatar = false
         } else {
-            self.table.reloadData()
+            //self.table.reloadData()
             self.loadPlaces()
         }
     }
@@ -251,16 +251,26 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     self.setMap()
                     self.table.reloadData()
                     //loadPlaces()
-                } else if(i == 2){
-                    self.favoritesMode = true
-                    self.setMap()
-                    self.table.reloadData()
-                    if(self.favorites.count > 0){
-                        if let placeId = self.favorites[0].id{
+                    if(self.filteredPlaces.count > 0){
+                        if let placeId = self.filteredPlaces[0].id{
                             self.loadVisitors(placeId)
                         }
                     }
+                } else if(i == 2){
+                    self.favoritesMode = true
+                    setFavorites()
                 }
+            }
+        }
+    }
+    
+    
+    func setFavorites(){
+        self.setMap()
+        self.table.reloadData()
+        if(self.favorites.count > 0){
+            if let placeId = self.favorites[0].id{
+                self.loadVisitors(placeId)
             }
         }
     }
@@ -540,12 +550,15 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     
                     if let ip = self.table.indexPathForCell(cell){
                         if(!favoritesMode){
-                            var place = self.filteredPlaces[ip.row - 2]
+                            let place = self.filteredPlaces[ip.row - 2]
                             self.addToFavorites(place)
                         } else {
-                            var place = self.favorites[ip.row - 2]
+                            let place = self.favorites[ip.row - 2]
                             self.addToFavorites(place)
                         }
+                    }
+                    if(self.favoritesMode){
+                        self.setFavorites()
                     }
                 }
             }
@@ -695,7 +708,9 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     }
                     self.setMap()
                     
-                    if(self.filteredPlaces.count > 0 && !self.statisticsMode){
+                    if(self.favoritesMode && self.favorites.count > 0){
+                        self.loadVisitors(self.favorites[0].id!)
+                    } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
                         self.loadVisitors(self.filteredPlaces[0].id!)
                     } else {
                         self.visitors = []
@@ -774,14 +789,16 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         if let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID") as? PickerViewController{
             pickerViewController.ifDate = true
             pickerViewController.sourceController = self
-            self.navigationController?.pushViewController(pickerViewController, animated: true)
+            //self.navigationController?.pushViewController(pickerViewController, animated: true)
+            self.presentViewController(pickerViewController, animated: true, completion: nil)
         }
     }
     
     @IBAction func selectCity(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID")
-        self.navigationController?.pushViewController(pickerViewController, animated: true)
+        self.presentViewController(pickerViewController, animated: true, completion: nil)
+        //self.navigationController?.pushViewController(pickerViewController, animated: true)
         
     }
     

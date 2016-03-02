@@ -22,7 +22,7 @@ class FeedbackViewController: UIViewController {
     }
     
     @IBAction func backBtnPressed(sender: AnyObject) {
-        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     /*

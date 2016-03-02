@@ -48,6 +48,9 @@ class MainNavigationController: UINavigationController {
             u.deleteUser()
         }
         updateNavigationStack()
+        let favManager = FavoritesManager()
+        favManager.removeAllFromFavorites()
+        APP.i().settingsManager = SettingsManager()
     }
     
     /*
