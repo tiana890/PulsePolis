@@ -5,7 +5,7 @@ use_frameworks!
 
 
 target 'PulsePolis' do
-    pod 'Mapbox-iOS-SDK', '~> 3.0.1'
+    pod 'Mapbox-iOS-SDK'
     pod 'VK-ios-sdk', '~> 1.3.8'
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'

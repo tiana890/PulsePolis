@@ -33,7 +33,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     var subscription: Disposable?
     
     
-    let AUTH_URL = "http://hotfinder.ru/hotjson/auth.php"
+    let AUTH_URL = "http://hotfinder.ru/hotjson/v1.0/auth.php"
     
     //MARK: UIViewController methods
     override func viewDidLoad() {
@@ -49,7 +49,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        APP.i().locationManager?.stopLocationManager()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -182,7 +182,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
             .subscribe(onNext: { (response, data) -> Void in
                 let authResponse = AuthorizeResponse(json: JSON(data: data))
                 print(JSON(data: data))
-                if (authResponse.status == "OK"){
+                if (authResponse.status == Status.Success){
                     if let userId = authResponse.id{
                         APP.i().user?.userId = userId
                         self.hideActivityIndicator()

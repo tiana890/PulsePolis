@@ -27,7 +27,7 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
     
     var subscription: Disposable?
     
-    let sourceStringURL = "http://hotfinder.ru/hotjson/cities.php"
+    let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/cities.php"
     
     var newDate: NSDate?
     

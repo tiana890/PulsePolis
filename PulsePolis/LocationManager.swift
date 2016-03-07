@@ -53,6 +53,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.locationManager?.delegate = self
         self.locationManager?.requestWhenInUseAuthorization()
         self.locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        
         self.locationManager?.distanceFilter = 500
         self.locationManager?.allowsBackgroundLocationUpdates = true
 
@@ -129,9 +130,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-       
+        print("UPDATED LOCATION")
         let updatedLocation = locations.last
-        let sourceStringURL = "http://hotfinder.ru/hotjson/userlocation.php"
+        let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/userlocation.php"
         let myQueue = dispatch_queue_create("backgroundqueue", nil)
         
         if let user = APP.i().user{
@@ -146,7 +147,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                     }
                 }
                 
-                let parametersDict = ["user_id":"\(userId)", "lat":"\(updatedLocation?.coordinate.latitude ?? 0)",  "lon":"\(updatedLocation?.coordinate.longitude ?? 0)", "type":"\(APP.i().user?.authorizeType?.rawValue ?? "")", "sex":gender]
+                let parametersDict = ["user_id":"\(userId)", "lat":"\(updatedLocation?.coordinate.latitude ?? 0)",  "lon":"\(updatedLocation?.coordinate.longitude ?? 0)", "type":"\(APP.i().user?.auth ?? "")", "sex":gender]
                 print(parametersDict)
                 
                 requestData(.POST, sourceStringURL, parameters: parametersDict, encoding: .URL, headers: nil)

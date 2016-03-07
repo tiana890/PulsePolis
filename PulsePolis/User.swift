@@ -74,7 +74,7 @@ class User: NSObject {
         }
         
         self.authorizeType = AuthorizeType.Facebook
-        self.auth = AuthorizeType.Facebook.rawValue
+        self.auth = "facebook"
         
     }
     
@@ -108,7 +108,7 @@ class User: NSObject {
                 }
             }
             self.authorizeType = AuthorizeType.VK
-            self.auth = AuthorizeType.VK.rawValue
+            self.auth = "vk"
         }
     }
     
@@ -120,34 +120,34 @@ class User: NSObject {
         let def = NSUserDefaults.standardUserDefaults()
         var u: User?
         
-        if let fName = def.valueForKey("firstName") as? String{
+        if let fName = def.objectForKey("firstName") as? String{
             u = User()
             u?.firstName = fName
             
-            if let lName = def.valueForKey("lastName") as? String{
+            if let lName = def.objectForKey("lastName") as? String{
                 u?.lastName = lName
             }
-            if let vkid = def.valueForKey("vkID") as? String{
+            if let vkid = def.objectForKey("vkID") as? String{
                 u?.vkID = vkid
             }
-            if let facebookid = def.valueForKey("facebookID") as? String{
+            if let facebookid = def.objectForKey("facebookID") as? String{
                 u?.facebookID = facebookid
             }
-            if let ag = def.valueForKey("age") as? NSNumber{
+            if let ag = def.objectForKey("age") as? NSNumber{
                 u?.age = ag
             }
-            if let gend = def.valueForKey("gender") as? Int{
+            if let gend = def.objectForKey("gender") as? Int{
                 if let newGender = Gender(rawValue: gend){
                     u?.gender = newGender
                 }
             }
-            if let phURL = def.valueForKey("photoURL") as? String{
+            if let phURL = def.objectForKey("photoURL") as? String{
                 u?.photoURL = phURL
             }
-            if let id = def.valueForKey("userID") as? Int{
+            if let id = def.objectForKey("userID") as? Int{
                 u?.userId = id
             }
-            if let authType = def.valueForKey("authType") as? String{
+            if let authType = def.objectForKey("auth") as? String{
                 u?.auth = authType
                 u?.authorizeType = AuthorizeType(rawValue: authType)
 //                if let newAuthType = AuthorizeType(rawValue: authType){
@@ -161,15 +161,33 @@ class User: NSObject {
     
     func saveUser(){
         let def = NSUserDefaults.standardUserDefaults()
-        def.setValue(firstName, forKey: "firstName")
-        def.setValue(lastName, forKey: "lastName")
-        def.setValue(photoURL, forKey: "photoURL")
-        def.setValue(gender.rawValue, forKey: "gender")
-        def.setValue(vkID, forKey: "vkID")
-        def.setValue(facebookID, forKey: "facebookID")
-        def.setValue(age, forKey: "age")
-        def.setValue(userId, forKeyPath: "userID")
-        def.setValue(auth, forKeyPath: "authType")
+        if let fName = self.firstName{
+            def.setObject(fName, forKey: "firstName")
+        }
+        if let lName = self.lastName{
+            def.setObject(lName, forKey: "lastName")
+        }
+        if let phURL = self.photoURL{
+            def.setObject(phURL, forKey: "photoURL")
+        }
+        
+        def.setObject(gender.rawValue, forKey: "gender")
+        
+        if let vId = self.vkID{
+            def.setObject(vId, forKey: "vkID")
+        }
+        if let fId = self.facebookID{
+            def.setValue(fId, forKey: "facebookID")
+        }
+        if let ag = self.age{
+            def.setObject(ag, forKey: "age")
+        }
+        if let uId = self.userId{
+            def.setObject(uId, forKey: "userID")
+        }
+        if let aut = self.auth{
+            def.setObject(aut, forKey: "auth")
+        }
         def.synchronize()
     }
     
@@ -184,7 +202,7 @@ class User: NSObject {
         def.removeObjectForKey("facebookID")
         def.removeObjectForKey("age")
         def.removeObjectForKey("userID")
-        def.removeObjectForKey("authType")
+        def.removeObjectForKey("auth")
         
         def.synchronize()
         

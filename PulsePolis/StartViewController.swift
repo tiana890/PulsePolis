@@ -38,13 +38,11 @@ class StartViewController: BaseViewController {
     let selectedColor = ColorHelper.defaultColor
     let color = UIColor(red: 150.0/255.0, green: 153.0/255.0, blue: 157.0/255.0, alpha: 1.0)
     
-    let sourceStringURL = "http://hotfinder.ru/hotjson/cities.php"
-    let postLocationCoordinates = "http://hotfinder.ru/hotjson/definecity.php"
+    let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/cities.php"
+    let postLocationCoordinates = "http://hotfinder.ru/hotjson/v1.0/definecity.php"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        APP.i().locationManager?.startLocationManager()
         
         print(APP.i().user?.userId)
         var u = APP.i().user
@@ -111,7 +109,7 @@ class StartViewController: BaseViewController {
                 
                 let defineCityResponse = DefineCityResponse(json: JSON(data: data))
                 print(JSON(data: data))
-                if(defineCityResponse.status == "OK"){
+                if(defineCityResponse.status == Status.Success){
                     let city = City()
                     city.id = defineCityResponse.id
                     city.city = defineCityResponse.city

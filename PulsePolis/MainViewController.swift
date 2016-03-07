@@ -102,11 +102,11 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    let sourceStringURL = "http://hotfinder.ru/hotjson/places.php?city_id="
-    let visitorsSourceUrl = "http://hotfinder.ru/hotjson/visitors.php?place_id="
-    let favoritesSourceUrl = "http://hotfinder.ru/hotjson/favorites.php"
-    let todayStringUrl = "http://hotfinder.ru/hotjson/forecast.php?city_id="
-    let statStringUrl = "http://hotfinder.ru/hotjson/stat.php?city_id="
+    let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/places.php?city_id="
+    let visitorsSourceUrl = "http://hotfinder.ru/hotjson/v1.0/visitors.php?place_id="
+    let favoritesSourceUrl = "http://hotfinder.ru/hotjson/v1.0/favorites.php"
+    let todayStringUrl = "http://hotfinder.ru/hotjson/v1.0/forecast.php?city_id="
+    let statStringUrl = "http://hotfinder.ru/hotjson/v1.0/stat.php?city_id="
     
     var ifLoading = false
     
@@ -169,19 +169,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.table.backgroundView = tableViewBackground
         
     }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        var height = self.tableHeaderHeight
-        if(self.favoritesMode){
-            height = (self.favorites.count == 0) ? 0 : self.view.frame.height - (self.tableHeaderHeight - scrollView.contentOffset.y)
-        } else {
-            height = (self.filteredPlaces.count == 0) ? 0 : self.view.frame.height - (self.tableHeaderHeight - scrollView.contentOffset.y)
-        }
-        
-        partialBackgroundView.frame = CGRect(x: 0.0, y: self.tableHeaderHeight - scrollView.contentOffset.y, width: UIScreen.mainScreen().bounds.width, height: height)
-    }
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -287,7 +274,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.locationManager?.stopLocationManager()
     }
     
     func setMap(){
@@ -345,6 +331,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     return annotationImage
                 } else {
                     let annotationImage = MGLAnnotationImage(image: filledImage, reuseIdentifier: "selected")
+                    //annotationImage
                     return annotationImage
                 }
                 
@@ -365,7 +352,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 }
             }
     //}
-    
+        
         return MGLAnnotationImage()
     }
     
@@ -510,6 +497,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 
                 cell.indexView.tag = 1234
                 cell.configureCell(place!)
+                
+                cell.tag = indexPath.row
                 cell.setNeedsDisplay()
                 return cell
             }
@@ -860,16 +849,80 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if(indexPath != 0 && indexPath != 1){
+            let cell = self.table.cellForRowAtIndexPath(indexPath)
+            self.performSegueWithIdentifier(AVATAR_SEGUE_IDENTIFIER, sender: cell)
+            
+        }
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+//        var place: Place?
+//        if(self.favoritesMode){
+//            place = favorites[indexPath.row-2]
+//        } else {
+//            place = filteredPlaces[indexPath.row-2]
+//        }
+//        
+//        var cell = self.table.cellForRowAtIndexPath(indexPath) as! PlaceCellTableViewCell
+//        cell.configureCell(place!)
+    }
+    
+    //MARK: Scroll delegate
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        var height = self.tableHeaderHeight
+        if(self.favoritesMode){
+            height = (self.favorites.count == 0) ? 0 : self.view.frame.height - (self.tableHeaderHeight - scrollView.contentOffset.y)
+        } else {
+            height = (self.filteredPlaces.count == 0) ? 0 : self.view.frame.height - (self.tableHeaderHeight - scrollView.contentOffset.y)
+        }
+        
+        partialBackgroundView.frame = CGRect(x: 0.0, y: self.tableHeaderHeight - scrollView.contentOffset.y, width: UIScreen.mainScreen().bounds.width, height: height)
+        
+       
+    }
+    
+
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if(scrollView.contentOffset.y <= 100.0 && scrollView.contentOffset.y > 0.0){
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        }
+    }
+    
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        if(fabs(scrollView.contentOffset.y - targetContentOffset.memory.y) < 100.0 && scrollView.contentOffset.y == 0.0){
+//            scrollView.setContentOffset(scrollView.contentOffset, animated: true)
+//        }
+        
+    }
     
     //MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == AVATAR_SEGUE_IDENTIFIER){
             if let avatarCollectionVC = segue.destinationViewController as? AvatarCollectionViewController{
-                print(self.selectedPlace?.id)
-                avatarCollectionVC.place = self.selectedPlace
-                avatarCollectionVC.visitors = self.visitors
-                avatarCollectionVC.selectedIndex = sender!.tag
-                avatarCollectionVC.sourceController = self
+               
+                if let _ = sender as? UITableViewCell{
+                    var place: Place?
+                    if(self.favoritesMode){
+                        place = favorites[sender!.tag - 2]
+                    } else {
+                        place = filteredPlaces[sender!.tag - 2]
+                    }
+                    
+                    avatarCollectionVC.place = place
+                    avatarCollectionVC.ifLoadVisitors = true
+                    avatarCollectionVC.sourceController = self
+                    
+                } else {
+                    avatarCollectionVC.place = self.selectedPlace
+                    avatarCollectionVC.visitors = self.visitors
+                    avatarCollectionVC.selectedIndex = sender!.tag
+                    avatarCollectionVC.sourceController = self
+                }
             }
         } 
     }

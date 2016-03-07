@@ -50,6 +50,12 @@
 		8853CF0C1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8853CF0B1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift */; };
 		8853CF0F1C18473500D6C535 /* HelveticaNeueCyr-Roman.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8853CF0D1C1844CA00D6C535 /* HelveticaNeueCyr-Roman.otf */; };
 		8853CF111C1847D100D6C535 /* RomanLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8853CF101C1847D100D6C535 /* RomanLabel.swift */; };
+		886E685E1C8ADFCA0008AB22 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E685D1C8ADFCA0008AB22 /* NetworkClient.swift */; };
+		886E68601C8AE0420008AB22 /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E685F1C8AE0420008AB22 /* NetworkResponse.swift */; };
+		886E68641C8AE1820008AB22 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68631C8AE1820008AB22 /* Status.swift */; };
+		886E68661C8AE3E00008AB22 /* PlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68651C8AE3E00008AB22 /* PlacesResponse.swift */; };
+		886E68681C8AE51C0008AB22 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68671C8AE51C0008AB22 /* NetworkManager.swift */; };
+		886E686A1C8AE6110008AB22 /* MethodsStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68691C8AE6110008AB22 /* MethodsStructure.swift */; };
 		8873332B1C7D9074001A1771 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B21C7D9074001A1771 /* NSData+MD5.m */; };
 		8873332C1C7D9074001A1771 /* NSError+VKError.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B41C7D9074001A1771 /* NSError+VKError.m */; };
 		8873332D1C7D9074001A1771 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B61C7D9074001A1771 /* NSString+MD5.m */; };
@@ -219,6 +225,12 @@
 		8853CF0B1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterCellCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		8853CF0D1C1844CA00D6C535 /* HelveticaNeueCyr-Roman.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeueCyr-Roman.otf"; sourceTree = "<group>"; };
 		8853CF101C1847D100D6C535 /* RomanLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RomanLabel.swift; sourceTree = "<group>"; };
+		886E685D1C8ADFCA0008AB22 /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		886E685F1C8AE0420008AB22 /* NetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
+		886E68631C8AE1820008AB22 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		886E68651C8AE3E00008AB22 /* PlacesResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesResponse.swift; sourceTree = "<group>"; };
+		886E68671C8AE51C0008AB22 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		886E68691C8AE6110008AB22 /* MethodsStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodsStructure.swift; sourceTree = "<group>"; };
 		887332B11C7D9074001A1771 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5.h"; path = "library/Source/Utils/NSData+MD5.h"; sourceTree = "<group>"; };
 		887332B21C7D9074001A1771 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MD5.m"; path = "library/Source/Utils/NSData+MD5.m"; sourceTree = "<group>"; };
 		887332B31C7D9074001A1771 /* NSError+VKError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+VKError.h"; path = "library/Source/Core/NSError+VKError.h"; sourceTree = "<group>"; };
@@ -447,7 +459,6 @@
 			children = (
 				8873339C1C7ECF18001A1771 /* src */,
 				8873339B1C7D9BC8001A1771 /* Responses */,
-				887333691C7D9AEC001A1771 /* AuthorizeType.swift */,
 				8873336A1C7D9AEC001A1771 /* BaseTableViewController.swift */,
 				8873336B1C7D9AEC001A1771 /* BaseViewController.swift */,
 				8873336F1C7D9AEC001A1771 /* ColorHelper.swift */,
@@ -485,8 +496,10 @@
 				8839EB581C01AEF8007186BA /* MainViewController.swift */,
 				8839EB5A1C01DA27007186BA /* ProfileViewController.swift */,
 				8839EB5E1C058DD5007186BA /* MainNavigationController.swift */,
+				887333691C7D9AEC001A1771 /* AuthorizeType.swift */,
 				8839EB601C0595C2007186BA /* StartViewController.swift */,
 				88385BB41C145453008D8D23 /* FeedbackViewController.swift */,
+				886E685D1C8ADFCA0008AB22 /* NetworkClient.swift */,
 			);
 			path = PulsePolis;
 			sourceTree = "<group>";
@@ -599,6 +612,8 @@
 				8853CEFC1C1558A100D6C535 /* LocationManager.swift */,
 				8808B9931BF1B504002D3457 /* AppDelegate.swift */,
 				8818FB551C0B73AC00CA51E0 /* APP.swift */,
+				886E68671C8AE51C0008AB22 /* NetworkManager.swift */,
+				886E68691C8AE6110008AB22 /* MethodsStructure.swift */,
 			);
 			name = "Support Classes";
 			sourceTree = "<group>";
@@ -773,6 +788,9 @@
 				887333721C7D9AEC001A1771 /* DefineCityResponse.swift */,
 				8873336E1C7D9AEC001A1771 /* CityResponse.swift */,
 				887333681C7D9AEC001A1771 /* AuthorizeResponse.swift */,
+				886E685F1C8AE0420008AB22 /* NetworkResponse.swift */,
+				886E68631C8AE1820008AB22 /* Status.swift */,
+				886E68651C8AE3E00008AB22 /* PlacesResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -1101,6 +1119,7 @@
 				8873339A1C7D9AEC001A1771 /* Visitor.swift in Sources */,
 				887333521C7D9074001A1771 /* VKRelative.m in Sources */,
 				887333561C7D9074001A1771 /* VKSchool.m in Sources */,
+				886E68661C8AE3E00008AB22 /* PlacesResponse.swift in Sources */,
 				8839EB591C01AEF8007186BA /* MainViewController.swift in Sources */,
 				8873338E1C7D9AEC001A1771 /* Gender.swift in Sources */,
 				88385B921C12CF46008D8D23 /* ContainerViewController.swift in Sources */,
@@ -1128,6 +1147,7 @@
 				8818FB4F1C0B260800CA51E0 /* PlaceCellTableViewCell.swift in Sources */,
 				887333491C7D9074001A1771 /* VKHTTPOperation.m in Sources */,
 				8873338F1C7D9AEC001A1771 /* MapHeaderViewCell.swift in Sources */,
+				886E68601C8AE0420008AB22 /* NetworkResponse.swift in Sources */,
 				887333451C7D9074001A1771 /* VKDocs.m in Sources */,
 				887333441C7D9074001A1771 /* VKCounters.m in Sources */,
 				887333891C7D9AEC001A1771 /* ColorHelper.swift in Sources */,
@@ -1141,6 +1161,7 @@
 				8808B9961BF1B504002D3457 /* ViewController.swift in Sources */,
 				887333991C7D9AEC001A1771 /* TodayStatisticsManager.swift in Sources */,
 				887333851C7D9AEC001A1771 /* BaseViewController.swift in Sources */,
+				886E685E1C8ADFCA0008AB22 /* NetworkClient.swift in Sources */,
 				887333331C7D9074001A1771 /* VKApiCaptcha.m in Sources */,
 				887333861C7D9AEC001A1771 /* CitiesResponse.swift in Sources */,
 				887333511C7D9074001A1771 /* VKPhotoSize.m in Sources */,
@@ -1153,12 +1174,14 @@
 				8839EB5B1C01DA27007186BA /* ProfileViewController.swift in Sources */,
 				887333651C7D9074001A1771 /* VK-ios-sdk-dummy.m in Sources */,
 				88385BAA1C13683B008D8D23 /* SWTableViewCell.m in Sources */,
+				886E68681C8AE51C0008AB22 /* NetworkManager.swift in Sources */,
 				887333921C7D9AEC001A1771 /* SearchTableViewCell.swift in Sources */,
 				887333591C7D9074001A1771 /* VKSharedTransitioningObject.m in Sources */,
 				8873334A1C7D9074001A1771 /* VKImageParameters.m in Sources */,
 				887333411C7D9074001A1771 /* VKBundle.m in Sources */,
 				887333881C7D9AEC001A1771 /* CityResponse.swift in Sources */,
 				887333541C7D9074001A1771 /* VKRequestsScheduler.m in Sources */,
+				886E68641C8AE1820008AB22 /* Status.swift in Sources */,
 				8808B9941BF1B504002D3457 /* AppDelegate.swift in Sources */,
 				887333431C7D9074001A1771 /* VKCaptchaViewController.m in Sources */,
 				887333821C7D9AEC001A1771 /* AuthorizeResponse.swift in Sources */,
@@ -1168,6 +1191,7 @@
 				8839EB611C0595C2007186BA /* StartViewController.swift in Sources */,
 				8839EB5F1C058DD5007186BA /* MainNavigationController.swift in Sources */,
 				88385BB11C1435FC008D8D23 /* IndexSlider.swift in Sources */,
+				886E686A1C8AE6110008AB22 /* MethodsStructure.swift in Sources */,
 				8873335A1C7D9074001A1771 /* VKUniversity.m in Sources */,
 				887333611C7D9074001A1771 /* VKUtil.m in Sources */,
 				8873332F1C7D9074001A1771 /* VKAccessToken.m in Sources */,
@@ -1333,7 +1357,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PulsePolis/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Zayceva.PulsePolis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1349,7 +1373,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PulsePolis/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Zayceva.PulsePolis;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -8,7 +8,7 @@
 import UIKit
 import SwiftyJSON
 
-class CityResponse: NSObject {
+class CityResponse: NetworkClient {
     //
     //    {
     //    "4" : {
@@ -41,8 +41,8 @@ class CityResponse: NSObject {
     var status: String?
     var cities: [City]?
     
-    init(json: JSON) {
-        self.status = json["status"].string
-        
+    init(json: JSON){
+//        super.init(_status: json["status"].string, _errMsg: json["error"].string)
+//        self.cities = json[]
     }
 }

@@ -40,20 +40,18 @@ class APP{
     var places:[Place] = []
     var refreshDate: NSDate?
     
-    var cities:[City]?//{
-    //        get{
-    //            var array = [City(_id: 31, _name: "Екатеринбург"), City(_id: 3, _name: "Челябинск"), City(_id: 1, _name: "Москва"), City(_id: 2, _name: "Санкт-Петербург"), City(_id: 30, _name: "Омск")]
-    //            return array
-    //        }
-    //}
+    var cities:[City]?
     var disposeBag = DisposeBag()
     var ifLoading = false
     
-    let sourceStringURL = "http://hotfinder.ru/hotjson/places.php?city_id="
-    let citiesStringURL = "http://hotfinder.ru/hotjson/cities.php"
-    let postLocationCoordinates = "http://hotfinder.ru/hotjson/definecity.php"
+    
+    let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/places.php?city_id="
+    let citiesStringURL = "http://hotfinder.ru/hotjson/v1.0/cities.php"
+    let postLocationCoordinates = "http://hotfinder.ru/hotjson/v1.0/definecity.php"
     
     var settingsManager: SettingsManager?
+    
+    var networkManager: NetworkManager?
     
     static func i() -> APP{
         struct Static {
@@ -65,6 +63,7 @@ class APP{
             Static.instance?.locationManager = LocationManager()
             Static.instance?.user = User.getUserFromDefaults()
             Static.instance?.settingsManager = SettingsManager()
+            Static.instance?.networkManager = NetworkManager()
             Static.instance?.getCities()
         }
         return Static.instance!
@@ -97,7 +96,7 @@ class APP{
                     let data = element.1
                     
                     let citiesResponse = CitiesResponse(json: JSON(data: data))
-                    if(citiesResponse.status == "OK"){
+                    if(citiesResponse.status == Status.Success){
                         self.cities = citiesResponse.cities
                     }
                 }
@@ -118,7 +117,7 @@ class APP{
                 
                 let defineCityResponse = DefineCityResponse(json: JSON(data: data))
                 print(JSON(data: data))
-                if(defineCityResponse.status == "OK"){
+                if(defineCityResponse.status == Status.Success){
                     let city = City()
                     city.id = defineCityResponse.id
                     city.city = defineCityResponse.city

@@ -11,12 +11,16 @@ import AlamofireImage
 import RxCocoa
 import RxSwift
 import RxBlocking
+import RxAlamofire
+import SwiftyJSON
 
-class AvatarCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     let CELL_SIZE_WIDTH = 180.0
     
     @IBOutlet var femaleBtn: UIButton!
     @IBOutlet var maleBtn: UIButton!
+    
+    var visitorsSubscription: Disposable?
     
     let defaultColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.7)
     let selectedColor = UIColor(red: 31.0/255.0, green: 108.0/255.0, blue: 118.0/255.0, alpha: 0.7)
@@ -33,6 +37,10 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
     var selectedIndex: Int?
     
     var _viewDidLayoutSubviewsForTheFirstTime = true
+    
+    var ifLoadVisitors = false
+    
+    let visitorsSourceUrl = "http://hotfinder.ru/hotjson/v1.0/visitors.php?place_id="
     
     var maleVisitors:[Visitor]?{
         get{
@@ -56,13 +64,18 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         }
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = true
         
         self.name.text = place?.name
+        
+        if(ifLoadVisitors){
+            if let placeId = self.place?.id{
+               self.visitors = [Visitor]()
+               self.loadVisitors(placeId)
+            }
+        }
         
 //        self.femaleLabel.text = ""
 //        if let w = self.place?.woman{
@@ -87,9 +100,7 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage(named:"shadow_nav")
         self.navigationController?.navigationBar.translucent = true
-        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 52.0/255.0, green: 52.0/255.0, blue: 52.0/255.0, alpha: 0.15)
-        
-    }
+        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 52.0/255.0, green: 52.0/255.0, blue: 52.0/255.0, alpha: 0.15)    }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -133,6 +144,35 @@ class AvatarCollectionViewController: UIViewController, UICollectionViewDataSour
         super.viewDidAppear(animated)
         
     }
+    
+    func loadVisitors(placeId: String){
+        visitorsSubscription = requestJSON(.GET, visitorsSourceUrl+placeId)
+            .observeOn(MainScheduler.instance)
+            .debug()
+            .subscribe(onNext: { (r, json) -> Void in
+                let js = JSON(json)
+                let status = js["status"]
+                if (status == "OK"){
+                    self.visitors?.removeAll()
+                    if let arrayOfVisitors = js["visitors"].array{
+                        for (j) in arrayOfVisitors{
+                            let visitor = Visitor(json: j)
+                            self.visitors?.append(visitor)
+                        }
+                    }
+                    self.collection.reloadData()
+                    
+                } else {
+                    //ERROR MSG
+                }
+                
+                }, onError: { (e) -> Void in
+                    
+                    
+            })
+        addSubscription(visitorsSubscription!)
+    }
+
     
     //MARK: Collection view
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

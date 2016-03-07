@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-class AuthorizeResponse: NSObject {
+class AuthorizeResponse: NetworkResponse {
     /*
     {
     "status" : "OK",
@@ -17,12 +17,11 @@ class AuthorizeResponse: NSObject {
     "error": "Error text"
     }
     */
-    var status: String?
     var id: Int?
     var error: String?
     
     init(json: JSON){
-        self.status = json["status"].string
+        super.init(_status: json["status"].string, _errMsg: json["errormsg"].string)
         self.id = json["id"].int
         self.error = json["error"].string
     }

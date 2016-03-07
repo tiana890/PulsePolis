@@ -28,7 +28,8 @@ extension UIImage {
     func textToImage(drawText: NSString, selected: Bool)->UIImage{
         
         // Setup the font specific variables
-        
+        print("BEFORE SIZE")
+        print(self.size)
         let textColor: UIColor = UIColor.whiteColor()
         
         var size = 13.0
@@ -56,7 +57,7 @@ extension UIImage {
             size = 17.0
         }
         
-        let textFont: UIFont = UIFont(name: "Helvetica Neue", size: CGFloat(size))!
+        let textFont: UIFont = UIFont(name: "Helvetica Neue", size: CGFloat(size*2 ))!
         
         //Setup the image context using the passed image.
         UIGraphicsBeginImageContext(self.size)
@@ -88,10 +89,16 @@ extension UIImage {
         
         //Put the image into a rectangle as large as the original image.
         self.drawInRect(CGRectMake(0.0, 0.0, self.size.width, self.size.height))
+        print(CGRectMake(0.0, 0.0, self.size.width, self.size.height))
         
         
         // Creating a point within the space that is as bit as the image.
-        let rect: CGRect = CGRectMake(2.0, self.size.height/2 - CGFloat(size) + 2.0, self.size.width, 21.0)
+        var rect = CGRect()
+        if(self.size.width == 33.0){
+            rect = CGRectMake(1.0, self.size.height/2 - CGFloat(size) + 1.0, self.size.width, 21.0)
+        } else {
+            rect = CGRectMake(1.0, self.size.height/2 - CGFloat(size) + 2.0, self.size.width, 21.0)
+        }
         
         //Now Draw the text into an image.
         drawText.drawInRect(rect, withAttributes: textFontAttributes)
@@ -102,7 +109,8 @@ extension UIImage {
         // End the context now that we have the image we need
         UIGraphicsEndImageContext()
         
-        
+        print("AFTER SIZE")
+        print(newImage.size)
         //And pass it back up to the caller.
         return newImage
         
