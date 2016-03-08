@@ -18,6 +18,9 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var centerContainer: UIView!
     @IBOutlet weak var leftContainer: UIView!
     
+    var centerController: UINavigationController?
+    let CENTER_EMBED_SEGUE_IDENTIFIER = "centerEmbedSegue"
+    
     @IBOutlet var centerLeadingContainerConstraint: NSLayoutConstraint!
    
     var gestureRecognizer = UIPanGestureRecognizer()
@@ -29,6 +32,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         APP.i().containerController = self
         setInitialState()
+    
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -110,10 +114,16 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func animatedPanelMoveViewToLeftEdge(){
         animatedLeftPanelMoveToX(0.0)
+        for(ch) in (self.centerController?.childViewControllers)!{
+            ch.view.userInteractionEnabled = true
+        }
     }
     
     func animatedPanelMoveViewToRightEdge(){
         animatedLeftPanelMoveToX(CONTAINER_OFFSET_VALUE)
+        for(ch) in (self.centerController?.childViewControllers)!{
+           ch.view.userInteractionEnabled = false
+        }
     }
     
     func moveCenterPanel(){
@@ -148,6 +158,13 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         } else {
            return true
+        }
+    }
+    
+    //MARK: Segue
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == CENTER_EMBED_SEGUE_IDENTIFIER){
+            self.centerController = segue.destinationViewController as! UINavigationController
         }
     }
 }

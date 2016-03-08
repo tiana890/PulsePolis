@@ -28,8 +28,6 @@ extension UIImage {
     func textToImage(drawText: NSString, selected: Bool)->UIImage{
         
         // Setup the font specific variables
-        print("BEFORE SIZE")
-        print(self.size)
         let textColor: UIColor = UIColor.whiteColor()
         
         var size = 13.0
@@ -109,8 +107,6 @@ extension UIImage {
         // End the context now that we have the image we need
         UIGraphicsEndImageContext()
         
-        print("AFTER SIZE")
-        print(newImage.size)
         //And pass it back up to the caller.
         return newImage
         

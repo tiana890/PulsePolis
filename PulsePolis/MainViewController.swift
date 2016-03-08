@@ -122,6 +122,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     var partialBackgroundView: UIView!
     
+    var disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -148,7 +150,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.setTableBackground()
         
         self.loadPlaces()
-        
        
     }
     
@@ -227,6 +228,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.customTabBar.tintColor = ColorHelper.defaultColor
         self.customTabBar.barTintColor = UIColor.whiteColor()
         
+        self.customTabBar.items![2].selectedImage = UIImage(named: "tabbar_fav_selected")
+        
+        print("BUTTON FRAME")
+        print(btn.frame)
     }
     
 
@@ -298,13 +303,15 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                         self.selectedAnnotation = point
                         self.selectedPlace = place
                     }
+                    
                     self.mapView.addAnnotation(point)
                 }
             }
         }
         
 
-        self.mapView.showAnnotations(self.annotations, animated: true)
+        //self.mapView.showAnnotations(self.annotations, animated: true)
+        self.mapView.showAnnotations(self.annotations, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: UIScreen.mainScreen().bounds.height - self.tableHeaderHeight + 30.0, right: 30.0), animated: true)
     }
     
     func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
@@ -655,68 +662,126 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     //NETWORK FUNCTIONS
     func loadPlaces(){
         ifLoading =  true
-        var url = ""
-        var params = [String: String]()
-        if(self.statisticsMode){
-            if(self.todayStatisticsManager.segmentIndex == 0){
-                url = self.todayStringUrl
-                params["time"] = self.todayStatisticsManager.todayValue ?? ""
-            } else {
-                url = self.statStringUrl
-                params["day"] = "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)"
-                params["time"] = self.todayStatisticsManager.statisticsTimeString ?? ""
-            }
-        } else {
-            url = self.sourceStringURL
-        }
-        print(params)
-        
         guard let cityId = APP.i().city?.id else { APP.i().defineCity({ () -> Void in
             self.cityLabel.text = APP.i().city?.city ?? ""
             self.loadPlaces()
         })
             return
         }
-        url += cityId
-        
-        print(url)
-        subscription = requestJSON(.GET, url, parameters: params, encoding: .URL, headers: nil)
-            .observeOn(MainScheduler.instance)
-            .debug()
-            .subscribe(onNext: { (r, json) -> Void in
-                let js = JSON(json)
-                let status = js["status"]
-                self.places.removeAll()
-                if (status == "OK"){
-                    self.refreshDate = NSDate()
-                    if let arrayOfPlaces = js["places"].array{
-                        for (j) in arrayOfPlaces{
-                            let place = Place(json: j)
-                            self.places.append(place)
-                        }
-                    }
-                    self.setMap()
-                    
-                    if(self.favoritesMode && self.favorites.count > 0){
-                        self.loadVisitors(self.favorites[0].id!)
-                    } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
-                        self.loadVisitors(self.filteredPlaces[0].id!)
+        let networkClient = NetworkClient()
+        networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext { (networkResponse) -> Void in
+            if(networkResponse.status == Status.Success){
+                
+                //
+                let observePlaces:Observable<NetworkResponse>!
+                if(self.statisticsMode){
+                    if(self.todayStatisticsManager.segmentIndex == 0){
+                        observePlaces = networkClient.getForecastPlaces(cityId ?? "", time: self.todayStatisticsManager.todayValue ?? "")
                     } else {
-                        self.visitors = []
+                        observePlaces = networkClient.getStatisticsPlaces(cityId ?? "", time: self.todayStatisticsManager.statisticsTimeString ?? "", day: "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)")
                     }
-                    APP.i().places = self.places
-                    
-                    self.table.reloadData()
-                    self.ifLoading = false
                 } else {
-                    //ERROR MSG
-                    self.ifLoading = false
+                    observePlaces = networkClient.getPlaces(cityId ?? "")
                 }
                 
-                }, onError: { (e) -> Void in
-                    
-                    
-            })
+                observePlaces.observeOn(MainScheduler.instance).subscribeNext({ (response) -> Void in
+                    if let placesResponse = response as? PlacesResponse{
+                        if(placesResponse.status == Status.Success){
+                            if let _places = placesResponse.places{
+                                self.places = _places
+                                self.setMap()
+                                if(self.favoritesMode && self.favorites.count > 0){
+                                    self.loadVisitors(self.favorites[0].id!)
+                                } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
+                                    self.loadVisitors(self.filteredPlaces[0].id!)
+                                } else {
+                                    self.visitors = []
+                                }
+                                APP.i().places = self.places
+                                
+                                self.table.reloadData()
+                            }
+                        } else {
+                            //ALERT!!!
+
+                        }
+                    }
+                    self.ifLoading = false
+                }).addDisposableTo(self.disposeBag)
+            } else{
+                //ALERT!!!
+                self.ifLoading = false
+            }
+            }.addDisposableTo(self.disposeBag)
+        
+        
+        
+//        var url = ""
+//        var params = [String: String]()
+//        if(self.statisticsMode){
+//            if(self.todayStatisticsManager.segmentIndex == 0){
+//                url = self.todayStringUrl
+//                params["time"] = self.todayStatisticsManager.todayValue ?? ""
+//            } else {
+//                url = self.statStringUrl
+//                params["day"] = "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)"
+//                params["time"] = self.todayStatisticsManager.statisticsTimeString ?? ""
+//            }
+//        } else {
+//            url = self.sourceStringURL
+//        }
+//        print(params)
+//        
+//        guard let cityId = APP.i().city?.id else { APP.i().defineCity({ () -> Void in
+//            self.cityLabel.text = APP.i().city?.city ?? ""
+//            self.loadPlaces()
+//        })
+//            return
+//        }
+//        url += cityId
+//        
+//        print(url)
+//        
+//
+//        
+//
+//        subscription = requestJSON(.GET, url, parameters: params, encoding: .URL, headers: nil)
+//            .observeOn(MainScheduler.instance)
+//            .debug()
+//            .subscribe(onNext: { (r, json) -> Void in
+//                let js = JSON(json)
+//                let status = js["status"]
+//                self.places.removeAll()
+//                if (status == "OK"){
+//                    self.refreshDate = NSDate()
+//                    if let arrayOfPlaces = js["places"].array{
+//                        for (j) in arrayOfPlaces{
+//                            let place = Place(json: j)
+//                            self.places.append(place)
+//                        }
+//                    }
+//                    self.setMap()
+//                    
+//                    if(self.favoritesMode && self.favorites.count > 0){
+//                        self.loadVisitors(self.favorites[0].id!)
+//                    } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
+//                        self.loadVisitors(self.filteredPlaces[0].id!)
+//                    } else {
+//                        self.visitors = []
+//                    }
+//                    APP.i().places = self.places
+//                    
+//                    self.table.reloadData()
+//                    self.ifLoading = false
+//                } else {
+//                    //ERROR MSG
+//                    self.ifLoading = false
+//                }
+//                
+//                }, onError: { (e) -> Void in
+//                    
+//                    
+//            })
         
     }
     

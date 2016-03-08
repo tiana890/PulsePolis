@@ -132,7 +132,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("UPDATED LOCATION")
         let updatedLocation = locations.last
-        let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/userlocation.php"
+        let sourceStringURL = (APP.i().networkManager?.domain ??  "") + (APP.i().networkManager?.methodsStructure?.getUserLocation() ?? "")
         let myQueue = dispatch_queue_create("backgroundqueue", nil)
         
         if let user = APP.i().user{
@@ -146,7 +146,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                         gender = "man"
                     }
                 }
-                
                 let parametersDict = ["user_id":"\(userId)", "lat":"\(updatedLocation?.coordinate.latitude ?? 0)",  "lon":"\(updatedLocation?.coordinate.longitude ?? 0)", "type":"\(APP.i().user?.auth ?? "")", "sex":gender]
                 print(parametersDict)
                 

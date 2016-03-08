@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class MethodsStructure: NSObject {
     var dict = [String: String]()
@@ -24,4 +25,10 @@ class MethodsStructure: NSObject {
     func getUserLocation() -> String{ return dict["userlocation"] ?? "" }
     func getVisitors() -> String{ return dict["visitors"] ?? "" }
     func getStat() -> String{ return dict["stat"] ?? "" }
+    
+    init(dictionary: [String: AnyObject]) {
+        super.init()
+        
+        self.dict = dictionary as! [String: String]
+    }
 }

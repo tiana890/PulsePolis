@@ -83,100 +83,75 @@ class APP{
     
     
     
-    //MARK
+    //MARK: methods
     func getCities(){
-        //        let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? ""]
-        
-        
-        requestData(.GET, citiesStringURL, parameters: nil, encoding: .URL, headers: nil)
-            .observeOn(MainScheduler.instance)
-            .debug()
-            .subscribe({ (event) -> Void in
-                if let element = event.element{
-                    let data = element.1
-                    
-                    let citiesResponse = CitiesResponse(json: JSON(data: data))
-                    if(citiesResponse.status == Status.Success){
-                        self.cities = citiesResponse.cities
+        let networkClient = NetworkClient()
+        networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext { (networkResponse) -> Void in
+            if(networkResponse.status == Status.Success){
+                networkClient.getCities().observeOn(MainScheduler.instance).subscribeNext({ (response) -> Void in
+                    if let citiesResponse = response as? CitiesResponse{
+                        if(citiesResponse.status == Status.Success){
+                            APP.i().cities = citiesResponse.cities
+                        } else {
+                             //ALERT!!!
+                        }
                     }
-                }
-            }).addDisposableTo(self.disposeBag)
-        
+                }).addDisposableTo(self.disposeBag)
+            } else{
+                //ALERT!!!
+            }
+        }.addDisposableTo(self.disposeBag)
 
     }
     
     func defineCity(handler: () -> Void){
-        
-        let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? ""]
-        print(parametersDict)
-        
-        requestData(.POST, postLocationCoordinates, parameters: parametersDict, encoding: .URL, headers: nil)
-            .observeOn(MainScheduler.instance)
-            .debug()
-            .subscribe(onNext: { (response, data) -> Void in
-                
-                let defineCityResponse = DefineCityResponse(json: JSON(data: data))
-                print(JSON(data: data))
-                if(defineCityResponse.status == Status.Success){
-                    let city = City()
-                    city.id = defineCityResponse.id
-                    city.city = defineCityResponse.city
-                    APP.i().city = city
-                   
-                } else {
-                    //self.showAlert("Ошибка", msg: "Произошла ошибка при определении города")
-                    
-                }
-                
-                handler()
-                
-                }, onError: { (err) -> Void in
-                    //self.showAlert("Ошибка", msg: "Произошла ошибка при определении города")
-                    
-                    
-                }, onCompleted: { () -> Void in
-                    
-                }, onDisposed: { () -> Void in
-                    
-            }).addDisposableTo(self.disposeBag)
-        
+        let networkClient = NetworkClient()
+        networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext { (networkResponse) -> Void in
+            if(networkResponse.status == Status.Success){
+                networkClient.defineCity().observeOn(MainScheduler.instance).subscribeNext({ (response) -> Void in
+                    if let defineCityResponse = response as? DefineCityResponse{
+                        if(defineCityResponse.status == Status.Success){
+                            let city = City()
+                            city.city = defineCityResponse.city
+                            city.id = defineCityResponse.id
+                            APP.i().city = city
+                        } else {
+                            //ALERT!!!
+                        }
+                    }
+                    handler()
+                }).addDisposableTo(self.disposeBag)
+            } else{
+                //ALERT!!!
+            }
+            }.addDisposableTo(self.disposeBag)
     }
 
     
     func loadPlaces(){
         if(!ifLoading){
-            ifLoading =  true
-            
-            print(sourceStringURL + "\(self.city!.id!)")
-            requestJSON(.GET, sourceStringURL + "\(self.city!.id!)")
-                .observeOn(MainScheduler.instance)
-                .debug()
-                .subscribe(onNext: { (r, json) -> Void in
-                    let js = JSON(json)
-                    print(r)
-                    let status = js["status"]
-                    
-                    if (status == "OK"){
-                        self.refreshDate = NSDate()
-                        var arr = [Place]()
-                        if let arrayOfPlaces = js["places"].array{
-                            for (j) in arrayOfPlaces{
-                                let place = Place(json: j)
-                                arr.append(place)
+            ifLoading = true
+            let networkClient = NetworkClient()
+            networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext { (networkResponse) -> Void in
+                if(networkResponse.status == Status.Success){
+                    networkClient.getPlaces(self.city?.id ?? "").observeOn(MainScheduler.instance).subscribeNext({ (response) -> Void in
+                        if let placesResponse = response as? PlacesResponse{
+                            if(placesResponse.status == Status.Success){
+                                if let _places = placesResponse.places{
+                                    APP.i().places = _places
+                                }
+                            } else {
+                                //ALERT!!!
+                               
                             }
                         }
-                        self.places = arr
                         self.ifLoading = false
-                        self.city?.saveCity()
-                    } else {
-                        //ERROR MSG
-                        self.ifLoading = false
-                    }
-                    
-                    }, onError: { (e) -> Void in
-                        self.ifLoading = false
-                        
-                }).addDisposableTo(self.disposeBag)
+                    }).addDisposableTo(self.disposeBag)
+                } else{
+                    //ALERT!!!
+                    self.ifLoading = false
+                }
+                }.addDisposableTo(self.disposeBag)
         }
     }
     

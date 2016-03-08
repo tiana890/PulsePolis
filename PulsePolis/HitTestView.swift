@@ -32,6 +32,7 @@ class HitTestView: UIView {
     
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        if(self.userInteractionEnabled == false) { return nil }
         
         let pointForTargetView = self.convertPoint(point, fromView: self)
         let headerFrame = self.convertRect((self.headerView?.frame) ?? CGRectZero, fromView: self.headerView?.superview)
