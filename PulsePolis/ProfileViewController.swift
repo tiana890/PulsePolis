@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet var nameLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        avatar.image = UIImage(named: "ava_big")
         if let photoUrl = APP.i().user?.photoURL{
             if let url = NSURL(string: photoUrl){
                 if let data = NSData(contentsOfURL: url){

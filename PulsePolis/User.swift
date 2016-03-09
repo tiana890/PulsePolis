@@ -30,6 +30,14 @@ class User: NSObject {
         }
     }
     
+    func getSocialId() -> String?{
+        if (self.auth == "facebook"){
+            return self.facebookID
+        } else {
+            return self.vkID
+        }
+    }
+    
     init(jsonFromFacebook: JSON) {
         super.init()
         /*

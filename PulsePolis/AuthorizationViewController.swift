@@ -172,7 +172,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
             break
         }
         
-        let parametersDict:[String: AnyObject] = ["type":user.authorizeType?.rawValue ?? "", "id": 0, "sex":  sex, "photo": user.photoURL ?? "", "name": user.firstName ?? ""]
+        let parametersDict:[String: AnyObject] = ["type":user.authorizeType?.rawValue ?? "", "id": user.getSocialId() ?? "", "sex":  sex, "photo": user.photoURL ?? "", "name": user.firstName ?? ""]
         
         self.subscription = requestData(.POST, self.AUTH_URL, parameters: parametersDict, encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)

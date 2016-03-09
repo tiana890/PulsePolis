@@ -331,13 +331,15 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             if((annotation as! MGLPointAnnotation) == selectedAnnotation){
                 color = ColorHelper.defaultColor
                 //let filledImage = self.filledImageFrom(UIImage(named: "pin")!, color: color)
-                let filledImage = UIImage(named:"annotation_select")!
+                //let filledImage = UIImage(named:"annotation_select")!
                 if let visIndex = place!.visitIndex{
-                    let image = filledImage.textToImage(visIndex, selected: true)
-                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "selected\(visIndex)")
+                    //let image = filledImage.textToImage(visIndex, selected: true)
+                    let image = UIImage(named: "\(visIndex)_ann_select")!
+                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "\(visIndex)")
                     return annotationImage
                 } else {
-                    let annotationImage = MGLAnnotationImage(image: filledImage, reuseIdentifier: "selected")
+                    let image = UIImage()
+                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "selected")
                     //annotationImage
                     return annotationImage
                 }
@@ -348,13 +350,14 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     color = ColorHelper.getColorByIndex(visIndex)
                 }
                 //let filledImage = self.filledImageFrom(UIImage(named: "pin")!, color: color)
-                let filledImage = UIImage(named:self.imageNameByVisitIndex(place!.visitIndex))!
+                //let filledImage = UIImage(named:self.imageNameByVisitIndex(place!.visitIndex))!
                 if let visIndex = place!.visitIndex{
-                    let image = filledImage.textToImage(visIndex, selected: false)
-                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: place!.visitIndex!)
+                    let image = UIImage(named: "\(visIndex)_ann")!
+                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "selected\(visIndex)")
                     return annotationImage
                 } else {
-                    let annotationImage = MGLAnnotationImage(image: filledImage, reuseIdentifier: "notdefined")
+                    let image = UIImage()
+                    let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "notdefined")
                     return annotationImage
                 }
             }
@@ -623,7 +626,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         if let cell = collectionView.dequeueReusableCellWithReuseIdentifier(COLLECTION_CELL_IDENTIFIER, forIndexPath: indexPath) as? AvatarCollectionViewCell{
             let visitor = self.visitors[indexPath.row]
             cell.tag = indexPath.row
-            cell.avatarImage.image = UIImage()
+            cell.avatarImage.image = UIImage(named:"ava_small")!
             if let avatarUrl = visitor.avatarUrl{
                 self.createMaskForImage(cell.avatarImage)
                 cell.avatarImage.af_setImageWithURL(NSURL(string: avatarUrl)!)

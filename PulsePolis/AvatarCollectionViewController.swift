@@ -188,7 +188,7 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
             }
             
             let visitor = visitorsArray?[indexPath.row]
-            cell.avatarImage.image = UIImage()
+            cell.avatarImage.image = UIImage(named: "ava_big_big")
             if let avatarUrl = visitor?.avatarUrl{
                 let filter = AspectScaledToFillSizeFilter(size: CGSizeMake(cell.avatarImage.frame.width, cell.avatarImage.frame.height))
                 cell.avatarImage.af_setImageWithURL(NSURL(string: avatarUrl)!, filter: filter)
