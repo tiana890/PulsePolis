@@ -44,13 +44,9 @@ class StartViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(APP.i().user?.userId)
         var u = APP.i().user
-        print(APP.i().user?.photoURL)
-        
         avatar.image = UIImage(data: NSData(contentsOfURL: NSURL(string: APP.i().user!.photoURL!)!)!)
         createMaskForImage(avatar)
-        
         
         if(APP.i().user?.gender == .Female){
             femaleSelected()
@@ -65,11 +61,11 @@ class StartViewController: BaseViewController {
             defineCity()
             self.showIndicator()
         }
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         
         cityLabel.text = APP.i().city?.city ?? "не определено"
     }
@@ -78,8 +74,6 @@ class StartViewController: BaseViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID")
         self.presentViewController(pickerViewController, animated: true, completion: nil)
-        //self.navigationController?.pushViewController(pickerViewController, animated: true)
-        
     }
     
     func showIndicator(){
@@ -131,7 +125,6 @@ class StartViewController: BaseViewController {
             })
         
         self.addSubscription(self.subscription!)
-        
     }
     
     func femaleSelected(){
@@ -158,7 +151,6 @@ class StartViewController: BaseViewController {
     @IBAction func maleBtnPressed(sender: AnyObject) {
         maleSelected()
         APP.i().user?.gender = Gender.Male
-        
     }
     
     func createMaskForImage(image: UIImageView){

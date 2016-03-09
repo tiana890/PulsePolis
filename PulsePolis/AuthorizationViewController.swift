@@ -119,7 +119,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     
     @IBAction func vkBtnPressed(sender: AnyObject) {
         showActivityIndicator()
-        var vksdkInstance = VKSdk.initializeWithAppId("5144665")
+        let vksdkInstance = VKSdk.initializeWithAppId("5144665")
         vksdkInstance.registerDelegate(self)
         //VKSdk.authorize([VK_PER_PHOTOS], withOptions: VKAuthorizationOptions.UnlimitedToken)
         if(VKSdk.isLoggedIn()){
@@ -133,13 +133,12 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
         VKSdk.wakeUpSession([VK_PER_PHOTOS]) { (state, error) -> Void in
             if(state == VKAuthorizationState.Authorized){
                 
-                var user = User()
+                let user = User()
                 user.vkID = VKSdk.accessToken().userId
                 let request = VKApi.users().get([VK_API_FIELDS:"id, first_name, bdate, sex, photo_200, age"])
                 request.executeWithResultBlock({ (response) -> Void in
                     print(JSON(response.json))
                     let user = User(jsonFromVK: JSON(response.json))
-                    
                     APP.i().user = user
                     self.authRequest(APP.i().user!)
                     
@@ -147,7 +146,6 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
                         self.showAlert("Ошибка", msg: "Ошибка входа")
                         self.hideActivityIndicator()
                 })
-                
                 
             } else if(error != nil) {
                 self.showAlert("Ошибка", msg: "Ошибка входа")
@@ -174,7 +172,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
             break
         }
         
-        let parametersDict:[String: AnyObject] = ["type":user.authorizeType?.rawValue ?? "", "id": user.userId ?? 0 , "sex":  sex, "photo": user.photoURL ?? "", "name": user.firstName ?? ""]
+        let parametersDict:[String: AnyObject] = ["type":user.authorizeType?.rawValue ?? "", "id": 0, "sex":  sex, "photo": user.photoURL ?? "", "name": user.firstName ?? ""]
         
         self.subscription = requestData(.POST, self.AUTH_URL, parameters: parametersDict, encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)
