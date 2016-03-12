@@ -23,6 +23,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     var prevLocation: CLLocation?
     var disposeBag = DisposeBag()
+    
+    var lastUpdateDate: NSDate?
     var isAvailable: Bool{
         get{
             let status = CLLocationManager.authorizationStatus()
@@ -131,13 +133,19 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("UPDATED LOCATION")
-        let updatedLocation = locations.last
-        let sourceStringURL = (APP.i().networkManager?.domain ??  "") + (APP.i().networkManager?.methodsStructure?.getUserLocation() ?? "")
-        let myQueue = dispatch_queue_create("backgroundqueue", nil)
         
-        if let user = APP.i().user{
-            if let userId = APP.i().user?.userId{
-                
+        var checkSecondsValue = 61
+        if let lUpdateDate = self.lastUpdateDate{
+            checkSecondsValue = self.getSecondsDiffBetweenCurrentDateAnd(lUpdateDate)
+        }
+        print(checkSecondsValue)
+        if(checkSecondsValue > 60){
+            let updatedLocation = locations.last
+            let sourceStringURL = (APP.i().networkManager?.domain ??  "") + (APP.i().networkManager?.methodsStructure?.getUserLocation() ?? "")
+            let myQueue = dispatch_queue_create("backgroundqueue", nil)
+            
+            print(APP.i().user)
+            if let user = APP.i().user{
                 var gender = "notdefined"
                 if let g = APP.i().user?.gender{
                     if(g == .Female){
@@ -146,19 +154,31 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                         gender = "man"
                     }
                 }
-                let parametersDict = ["user_id":"\(userId)", "lat":"\(updatedLocation?.coordinate.latitude ?? 0)",  "lon":"\(updatedLocation?.coordinate.longitude ?? 0)", "type":"\(APP.i().user?.auth ?? "")", "sex":gender]
+                let parametersDict = ["lat":"\(updatedLocation?.coordinate.latitude ?? 0)",  "lon":"\(updatedLocation?.coordinate.longitude ?? 0)", "type":"\(APP.i().user?.auth ?? "")", "sex":gender, "token": APP.i().user?.token ?? ""]
                 print(parametersDict)
                 
                 requestData(.POST, sourceStringURL, parameters: parametersDict, encoding: .URL, headers: nil)
                     .observeOn(ConcurrentDispatchQueueScheduler(queue: myQueue))
                     .debug()
                     .subscribe(onNext: { (response, data) -> Void in
-                        print(JSON(data: data))
+                       
+                        let jsonResponse = JSON(data: data)
+                        print(jsonResponse)
+                        if let status = jsonResponse["status"].string{
+                            if(status == Status.Success.rawValue){
+                                self.lastUpdateDate = NSDate()
+                            }
+                        }
                             
                     }).addDisposableTo(self.disposeBag)
+                
             }
         }
 
+    }
+    
+    func getSecondsDiffBetweenCurrentDateAnd(date: NSDate) -> Int{
+        return Int(NSDate().timeIntervalSinceDate(date))
     }
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {

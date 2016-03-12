@@ -24,6 +24,7 @@ class User: NSObject {
     
     var auth: String?
     
+    var token: String?
     var userId: Int?{
         didSet{
             self.saveUser()
@@ -31,6 +32,7 @@ class User: NSObject {
     }
     
     func getSocialId() -> String?{
+        print(self.auth)
         if (self.auth == "facebook"){
             return self.facebookID
         } else {
@@ -103,7 +105,8 @@ class User: NSObject {
         if(array?.isEmpty == false){
             self.firstName = array?[0]["first_name"].string
             self.lastName = array?[0]["last_name"].string
-            self.vkID = array?[0]["id"].string
+            self.vkID = "\(array?[0]["id"].int64 ?? 0)"
+            print(self.vkID)
             self.photoURL = array?[0]["photo_200"].string
             
             if let gender = array?[0]["sex"].int{
@@ -162,6 +165,10 @@ class User: NSObject {
 //                    u?.authorizeType = newAuthType
 //                }
             }
+            if let tok = def.objectForKey("token") as? String{
+                u?.token = tok
+            }
+
         }
         
         return u
@@ -196,6 +203,9 @@ class User: NSObject {
         if let aut = self.auth{
             def.setObject(aut, forKey: "auth")
         }
+        if let tok = self.token{
+            def.setObject(tok, forKey: "token")
+        }
         def.synchronize()
     }
     
@@ -211,6 +221,7 @@ class User: NSObject {
         def.removeObjectForKey("age")
         def.removeObjectForKey("userID")
         def.removeObjectForKey("auth")
+        def.removeObjectForKey("token")
         
         def.synchronize()
         

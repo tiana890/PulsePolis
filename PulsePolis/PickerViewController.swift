@@ -27,7 +27,6 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
     
     var subscription: Disposable?
     
-    let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/cities.php"
     
     var newDate: NSDate?
     
@@ -124,11 +123,6 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
     
     func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let string = self.cities![row].city
-        //        if(row == picker.selectedRowInComponent(0)){
-        //            return NSAttributedString(string: string!, attributes: [NSForegroundColorAttributeName:ColorHelper.defaultColor])
-        //        } else {
-        //            return NSAttributedString(string: string!, attributes: [NSForegroundColorAttributeName:UIColor.whiteColor()])
-        //        }
         return NSAttributedString(string: string!, attributes: [NSForegroundColorAttributeName:ColorHelper.defaultColor])
     }
     

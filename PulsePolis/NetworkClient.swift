@@ -14,7 +14,6 @@ class NetworkClient: NSObject {
     let disposeBag = DisposeBag()
     
     let BASE_SETTINGS_URL = "http://hotfinder.ru/hotjson/settings"
-    //func authorize(params: [String: AnyObject]) ->
     
     func updateSettings() -> Observable<NetworkResponse>{
        return requestJSON(.GET, BASE_SETTINGS_URL)
@@ -32,20 +31,20 @@ class NetworkClient: NSObject {
         response.status = Status(rawValue: json["status"].string ?? "ERR")
         if(response.status == Status.Success){
             APP.i().networkManager?.domain = json["domain"].string
-            APP.i().networkManager?.version = json["version"].string
+            //APP.i().networkManager?.version = json["version"].string
             APP.i().networkManager?.token = json["token"].string
             
-            if let version = json["version"].string{
-                if let apiDict = json["api"][version]["methods"].dictionaryObject{
+//            if let version = json["1.0"].string{
+                if let apiDict = json["api"]["1.0"]["methods"].dictionaryObject{
                     APP.i().networkManager?.methodsStructure = MethodsStructure(dictionary: apiDict)
-                }
+               //}
             }
         }
         return response
     }
     
     func getCities() -> Observable<NetworkResponse>{
-        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getCitiesURL() ?? ""), parameters: ["token": (APP.i().networkManager?.token ?? "")], encoding: .URL, headers: nil)
+        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getCitiesURL() ?? ""), parameters: ["token": (APP.i().user?.token ?? "")], encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)
             .debug()
             .map({ (response, object) -> CitiesResponse in
@@ -56,7 +55,7 @@ class NetworkClient: NSObject {
     }
     
     func getPlaces(cityId: String) -> Observable<NetworkResponse>{
-        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getPlacesURL() ?? ""), parameters: ["token": (APP.i().networkManager?.token ?? ""), "city_id": cityId], encoding: .URL, headers: nil)
+        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getPlacesURL() ?? ""), parameters: ["token": (APP.i().user?.token ?? ""), "city_id": cityId], encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)
             .debug()
             .map({ (response, object) -> PlacesResponse in
@@ -65,7 +64,7 @@ class NetworkClient: NSObject {
     }
     
     func getStatisticsPlaces(cityId: String, time: String, day: String) -> Observable<NetworkResponse>{
-        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getStat() ?? ""), parameters: ["token": (APP.i().networkManager?.token ?? ""), "city_id": cityId, "time": time, "day": day], encoding: .URL, headers: nil)
+        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getStat() ?? ""), parameters: ["token": (APP.i().user?.token ?? ""), "city_id": cityId, "time": time, "day": day], encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)
             .debug()
             .map({ (response, object) -> PlacesResponse in
@@ -74,7 +73,7 @@ class NetworkClient: NSObject {
     }
     
     func getForecastPlaces(cityId: String, time: String) -> Observable<NetworkResponse>{
-        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getForecastURL() ?? ""), parameters: ["token": (APP.i().networkManager?.token ?? ""), "city_id": cityId, "time": time], encoding: .URL, headers: nil)
+        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getForecastURL() ?? ""), parameters: ["token": (APP.i().user?.token ?? ""), "city_id": cityId, "time": time], encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)
             .debug()
             .map({ (response, object) -> PlacesResponse in
@@ -83,12 +82,36 @@ class NetworkClient: NSObject {
     }
     
     func defineCity() -> Observable<NetworkResponse>{
-        let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? "", "token": (APP.i().networkManager?.token ?? "")]
+        let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? "", "token": (APP.i().user?.token ?? "")]
+        print((APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getDefineCityURL() ?? ""))
         return requestData(.POST, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getDefineCityURL() ?? ""), parameters: parametersDict, encoding: .URL, headers: nil)
             .observeOn(MainScheduler.instance)
             .debug()
             .map({ (response, data) -> DefineCityResponse in
                 return DefineCityResponse(json: JSON(data: data))
             })
+    }
+    
+    func getVisitors(placeId: String) -> Observable<NetworkResponse>{
+        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getVisitors() ?? ""), parameters: ["token": (APP.i().user?.token ?? ""), "place_id": placeId], encoding: .URL, headers: nil)
+            .observeOn(MainScheduler.instance)
+            .debug()
+            .map({ (response, object) -> VisitorsResponse in
+                return VisitorsResponse(json: JSON(object))
+            })
+    }
+    
+    func authorize(sex: String, name: String) -> Observable<NetworkResponse>{
+        let parametersDict:[String: AnyObject] = ["type":APP.i().user?.authorizeType?.rawValue ?? "", "id": APP.i().user?.getSocialId() ?? "", "sex":  sex, "photo": APP.i().user?.photoURL ?? "", "name": name, "token": (APP.i().user?.token ?? "")]
+        
+        return requestData(.POST, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getAuthURL() ?? ""), parameters: parametersDict, encoding: .URL, headers: nil)
+            .observeOn(MainScheduler.instance)
+            .debug()
+            .map({ (response, data) -> AuthorizeResponse in
+                return AuthorizeResponse(json: JSON(data: data))
+            })
+        
+
+
     }
 }

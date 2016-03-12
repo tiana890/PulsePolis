@@ -56,6 +56,10 @@
 		886E68661C8AE3E00008AB22 /* PlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68651C8AE3E00008AB22 /* PlacesResponse.swift */; };
 		886E68681C8AE51C0008AB22 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68671C8AE51C0008AB22 /* NetworkManager.swift */; };
 		886E686A1C8AE6110008AB22 /* MethodsStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68691C8AE6110008AB22 /* MethodsStructure.swift */; };
+		886E686C1C91E9C30008AB22 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E686B1C91E9C30008AB22 /* DataManager.swift */; };
+		886E686E1C91F0490008AB22 /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E686D1C91F0490008AB22 /* Requester.swift */; };
+		886E68701C929A710008AB22 /* VisitorsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E686F1C929A710008AB22 /* VisitorsResponse.swift */; };
+		886E68721C940A720008AB22 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68711C940A720008AB22 /* InfoViewController.swift */; };
 		8873332B1C7D9074001A1771 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B21C7D9074001A1771 /* NSData+MD5.m */; };
 		8873332C1C7D9074001A1771 /* NSError+VKError.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B41C7D9074001A1771 /* NSError+VKError.m */; };
 		8873332D1C7D9074001A1771 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B61C7D9074001A1771 /* NSString+MD5.m */; };
@@ -167,7 +171,7 @@
 		3AE3D4CDD943E89C77E0BE42 /* Pods_PulsePolisTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PulsePolisTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		560F72417227445C3A6B95A9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		723A2429F98E540049EE0ECD /* Pods-PulsePolis.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PulsePolis.release.xcconfig"; path = "Pods/Target Support Files/Pods-PulsePolis/Pods-PulsePolis.release.xcconfig"; sourceTree = "<group>"; };
-		8808B9901BF1B504002D3457 /* PulsePolis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PulsePolis.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8808B9901BF1B504002D3457 /* HotFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8808B9931BF1B504002D3457 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8808B9951BF1B504002D3457 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8808B9981BF1B504002D3457 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -231,6 +235,10 @@
 		886E68651C8AE3E00008AB22 /* PlacesResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesResponse.swift; sourceTree = "<group>"; };
 		886E68671C8AE51C0008AB22 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		886E68691C8AE6110008AB22 /* MethodsStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodsStructure.swift; sourceTree = "<group>"; };
+		886E686B1C91E9C30008AB22 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		886E686D1C91F0490008AB22 /* Requester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requester.swift; sourceTree = "<group>"; };
+		886E686F1C929A710008AB22 /* VisitorsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorsResponse.swift; sourceTree = "<group>"; };
+		886E68711C940A720008AB22 /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		887332B11C7D9074001A1771 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5.h"; path = "library/Source/Utils/NSData+MD5.h"; sourceTree = "<group>"; };
 		887332B21C7D9074001A1771 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MD5.m"; path = "library/Source/Utils/NSData+MD5.m"; sourceTree = "<group>"; };
 		887332B31C7D9074001A1771 /* NSError+VKError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+VKError.h"; path = "library/Source/Core/NSError+VKError.h"; sourceTree = "<group>"; };
@@ -447,7 +455,7 @@
 		8808B9911BF1B504002D3457 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8808B9901BF1B504002D3457 /* PulsePolis.app */,
+				8808B9901BF1B504002D3457 /* HotFinder.app */,
 				8808B9A41BF1B504002D3457 /* PulsePolisTests.xctest */,
 				8808B9AF1BF1B504002D3457 /* PulsePolisUITests.xctest */,
 			);
@@ -499,7 +507,7 @@
 				887333691C7D9AEC001A1771 /* AuthorizeType.swift */,
 				8839EB601C0595C2007186BA /* StartViewController.swift */,
 				88385BB41C145453008D8D23 /* FeedbackViewController.swift */,
-				886E685D1C8ADFCA0008AB22 /* NetworkClient.swift */,
+				886E68711C940A720008AB22 /* InfoViewController.swift */,
 			);
 			path = PulsePolis;
 			sourceTree = "<group>";
@@ -613,7 +621,10 @@
 				8808B9931BF1B504002D3457 /* AppDelegate.swift */,
 				8818FB551C0B73AC00CA51E0 /* APP.swift */,
 				886E68671C8AE51C0008AB22 /* NetworkManager.swift */,
+				886E685D1C8ADFCA0008AB22 /* NetworkClient.swift */,
 				886E68691C8AE6110008AB22 /* MethodsStructure.swift */,
+				886E686B1C91E9C30008AB22 /* DataManager.swift */,
+				886E686D1C91F0490008AB22 /* Requester.swift */,
 			);
 			name = "Support Classes";
 			sourceTree = "<group>";
@@ -791,6 +802,7 @@
 				886E685F1C8AE0420008AB22 /* NetworkResponse.swift */,
 				886E68631C8AE1820008AB22 /* Status.swift */,
 				886E68651C8AE3E00008AB22 /* PlacesResponse.swift */,
+				886E686F1C929A710008AB22 /* VisitorsResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -820,9 +832,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8808B98F1BF1B504002D3457 /* PulsePolis */ = {
+		8808B98F1BF1B504002D3457 /* HotFinder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolis" */;
+			buildConfigurationList = 8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "HotFinder" */;
 			buildPhases = (
 				6631E886E1B8FD1A11103497 /* Check Pods Manifest.lock */,
 				8808B98C1BF1B504002D3457 /* Sources */,
@@ -835,9 +847,9 @@
 			);
 			dependencies = (
 			);
-			name = PulsePolis;
+			name = HotFinder;
 			productName = PulsePolis;
-			productReference = 8808B9901BF1B504002D3457 /* PulsePolis.app */;
+			productReference = 8808B9901BF1B504002D3457 /* HotFinder.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8808B9A31BF1B504002D3457 /* PulsePolisTests */ = {
@@ -923,7 +935,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8808B98F1BF1B504002D3457 /* PulsePolis */,
+				8808B98F1BF1B504002D3457 /* HotFinder */,
 				8808B9A31BF1B504002D3457 /* PulsePolisTests */,
 				8808B9AE1BF1B504002D3457 /* PulsePolisUITests */,
 			);
@@ -1119,6 +1131,7 @@
 				8873339A1C7D9AEC001A1771 /* Visitor.swift in Sources */,
 				887333521C7D9074001A1771 /* VKRelative.m in Sources */,
 				887333561C7D9074001A1771 /* VKSchool.m in Sources */,
+				886E68721C940A720008AB22 /* InfoViewController.swift in Sources */,
 				886E68661C8AE3E00008AB22 /* PlacesResponse.swift in Sources */,
 				8839EB591C01AEF8007186BA /* MainViewController.swift in Sources */,
 				8873338E1C7D9AEC001A1771 /* Gender.swift in Sources */,
@@ -1138,6 +1151,7 @@
 				8873333D1C7D9074001A1771 /* VKAudio.m in Sources */,
 				88385BAF1C13683B008D8D23 /* SWTableViewCell-dummy.m in Sources */,
 				8818FB0C1C084A8200CA51E0 /* HitTestView.swift in Sources */,
+				886E68701C929A710008AB22 /* VisitorsResponse.swift in Sources */,
 				8873338C1C7D9AEC001A1771 /* DefineCityResponse.swift in Sources */,
 				887333931C7D9AEC001A1771 /* SettingsCell.swift in Sources */,
 				887333551C7D9074001A1771 /* VKResponse.m in Sources */,
@@ -1187,9 +1201,11 @@
 				887333821C7D9AEC001A1771 /* AuthorizeResponse.swift in Sources */,
 				887333421C7D9074001A1771 /* VKCaptchaView.m in Sources */,
 				8818FB511C0B46DB00CA51E0 /* TodayStatisticsCell.swift in Sources */,
+				886E686C1C91E9C30008AB22 /* DataManager.swift in Sources */,
 				8873333B1C7D9074001A1771 /* VKApiUsers.m in Sources */,
 				8839EB611C0595C2007186BA /* StartViewController.swift in Sources */,
 				8839EB5F1C058DD5007186BA /* MainNavigationController.swift in Sources */,
+				886E686E1C91F0490008AB22 /* Requester.swift in Sources */,
 				88385BB11C1435FC008D8D23 /* IndexSlider.swift in Sources */,
 				886E686A1C8AE6110008AB22 /* MethodsStructure.swift in Sources */,
 				8873335A1C7D9074001A1771 /* VKUniversity.m in Sources */,
@@ -1235,12 +1251,12 @@
 /* Begin PBXTargetDependency section */
 		8808B9A61BF1B504002D3457 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8808B98F1BF1B504002D3457 /* PulsePolis */;
+			target = 8808B98F1BF1B504002D3457 /* HotFinder */;
 			targetProxy = 8808B9A51BF1B504002D3457 /* PBXContainerItemProxy */;
 		};
 		8808B9B11BF1B504002D3457 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8808B98F1BF1B504002D3457 /* PulsePolis */;
+			target = 8808B98F1BF1B504002D3457 /* HotFinder */;
 			targetProxy = 8808B9B01BF1B504002D3457 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1286,6 +1302,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1331,6 +1348,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1445,7 +1463,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolis" */ = {
+		8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "HotFinder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8808B9B91BF1B504002D3457 /* Debug */,

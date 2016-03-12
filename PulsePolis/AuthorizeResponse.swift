@@ -19,10 +19,15 @@ class AuthorizeResponse: NetworkResponse {
     */
     var id: Int?
     var error: String?
+    var token: String?
     
     init(json: JSON){
         super.init(_status: json["status"].string, _errMsg: json["errormsg"].string)
         self.id = json["id"].int
         self.error = json["error"].string
+        print("TOKEN")
+        
+        self.token = json["token"].string
+        print(self.token)
     }
 }

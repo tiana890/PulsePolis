@@ -102,12 +102,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/places.php?city_id="
-    let visitorsSourceUrl = "http://hotfinder.ru/hotjson/v1.0/visitors.php?place_id="
-    let favoritesSourceUrl = "http://hotfinder.ru/hotjson/v1.0/favorites.php"
-    let todayStringUrl = "http://hotfinder.ru/hotjson/v1.0/forecast.php?city_id="
-    let statStringUrl = "http://hotfinder.ru/hotjson/v1.0/stat.php?city_id="
-    
     var ifLoading = false
     
     var locationManager: LocationManager?
@@ -311,7 +305,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
 
         //self.mapView.showAnnotations(self.annotations, animated: true)
-        self.mapView.showAnnotations(self.annotations, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: UIScreen.mainScreen().bounds.height - self.tableHeaderHeight + 30.0, right: 30.0), animated: true)
+        
+        self.mapView.showAnnotations(self.annotations, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: UIScreen.mainScreen().bounds.height - self.tableHeaderHeight + 30.0, right: 30.0), animated: false)
     }
     
     func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
@@ -625,11 +620,26 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCellWithReuseIdentifier(COLLECTION_CELL_IDENTIFIER, forIndexPath: indexPath) as? AvatarCollectionViewCell{
             let visitor = self.visitors[indexPath.row]
+            cell.prepareForReuse()
             cell.tag = indexPath.row
             cell.avatarImage.image = UIImage(named:"ava_small")!
+            cell.indicator.hidden = false
+            cell.indicator.startAnimating()
+            let filter = AspectScaledToFillSizeFilter(size: CGSizeMake(cell.avatarImage.frame.width, cell.avatarImage.frame.height))
             if let avatarUrl = visitor.avatarUrl{
-                self.createMaskForImage(cell.avatarImage)
-                cell.avatarImage.af_setImageWithURL(NSURL(string: avatarUrl)!)
+                if let url = NSURL(string: avatarUrl){
+                    self.createMaskForImage(cell.avatarImage)
+                    cell.avatarImage.af_setImageWithURL(
+                        url,
+                        placeholderImage: nil,
+                        filter: filter,
+                        imageTransition: .CrossDissolve(0.5),
+                        completion: { response in
+                           cell.indicator.hidden = true
+                           cell.indicator.stopAnimating()
+                        }
+                    )
+                }
             }
             cell.name.text = visitor.name
             return cell
@@ -672,152 +682,111 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             return
         }
         let networkClient = NetworkClient()
-        networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext { (networkResponse) -> Void in
-            if(networkResponse.status == Status.Success){
-                
-                //
-                let observePlaces:Observable<NetworkResponse>!
-                if(self.statisticsMode){
-                    if(self.todayStatisticsManager.segmentIndex == 0){
-                        observePlaces = networkClient.getForecastPlaces(cityId ?? "", time: self.todayStatisticsManager.todayValue ?? "")
-                    } else {
-                        observePlaces = networkClient.getStatisticsPlaces(cityId ?? "", time: self.todayStatisticsManager.statisticsTimeString ?? "", day: "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)")
-                    }
-                } else {
-                    observePlaces = networkClient.getPlaces(cityId ?? "")
-                }
-                
-                observePlaces.observeOn(MainScheduler.instance).subscribeNext({ (response) -> Void in
-                    if let placesResponse = response as? PlacesResponse{
-                        if(placesResponse.status == Status.Success){
-                            if let _places = placesResponse.places{
-                                self.places = _places
-                                self.setMap()
-                                if(self.favoritesMode && self.favorites.count > 0){
-                                    self.loadVisitors(self.favorites[0].id!)
-                                } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
-                                    self.loadVisitors(self.filteredPlaces[0].id!)
-                                } else {
-                                    self.visitors = []
-                                }
-                                APP.i().places = self.places
-                                
-                                self.table.reloadData()
-                            }
-                        } else {
-                            //ALERT!!!
-
-                        }
+        
+        let observePlaces = self.createObservableForPlaces()
+        observePlaces.observeOn(MainScheduler.instance).subscribe(onNext: { (placesResponse) -> Void in
+            self.loadPlacesHandler(placesResponse)
+            }, onError: { (errorType) -> Void in
+                networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (networkResponse) -> Void in
+                    if(networkResponse.status == Status.Success){
+                        let newObserverForPlaces = self.createObservableForPlaces()
+                        newObserverForPlaces.subscribeNext({ (networkResponse) -> Void in
+                            self.loadPlacesHandler(networkResponse)
+                        }).addDisposableTo(self.disposeBag)
+                    } else{
+                        //ALERT!!!!
                     }
                     self.ifLoading = false
                 }).addDisposableTo(self.disposeBag)
-            } else{
-                //ALERT!!!
+            }, onCompleted: { () -> Void in
                 self.ifLoading = false
-            }
-            }.addDisposableTo(self.disposeBag)
-        
-        
-        
-//        var url = ""
-//        var params = [String: String]()
-//        if(self.statisticsMode){
-//            if(self.todayStatisticsManager.segmentIndex == 0){
-//                url = self.todayStringUrl
-//                params["time"] = self.todayStatisticsManager.todayValue ?? ""
-//            } else {
-//                url = self.statStringUrl
-//                params["day"] = "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)"
-//                params["time"] = self.todayStatisticsManager.statisticsTimeString ?? ""
-//            }
-//        } else {
-//            url = self.sourceStringURL
-//        }
-//        print(params)
-//        
-//        guard let cityId = APP.i().city?.id else { APP.i().defineCity({ () -> Void in
-//            self.cityLabel.text = APP.i().city?.city ?? ""
-//            self.loadPlaces()
-//        })
-//            return
-//        }
-//        url += cityId
-//        
-//        print(url)
-//        
-//
-//        
-//
-//        subscription = requestJSON(.GET, url, parameters: params, encoding: .URL, headers: nil)
-//            .observeOn(MainScheduler.instance)
-//            .debug()
-//            .subscribe(onNext: { (r, json) -> Void in
-//                let js = JSON(json)
-//                let status = js["status"]
-//                self.places.removeAll()
-//                if (status == "OK"){
-//                    self.refreshDate = NSDate()
-//                    if let arrayOfPlaces = js["places"].array{
-//                        for (j) in arrayOfPlaces{
-//                            let place = Place(json: j)
-//                            self.places.append(place)
-//                        }
-//                    }
-//                    self.setMap()
-//                    
-//                    if(self.favoritesMode && self.favorites.count > 0){
-//                        self.loadVisitors(self.favorites[0].id!)
-//                    } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
-//                        self.loadVisitors(self.filteredPlaces[0].id!)
-//                    } else {
-//                        self.visitors = []
-//                    }
-//                    APP.i().places = self.places
-//                    
-//                    self.table.reloadData()
-//                    self.ifLoading = false
-//                } else {
-//                    //ERROR MSG
-//                    self.ifLoading = false
-//                }
-//                
-//                }, onError: { (e) -> Void in
-//                    
-//                    
-//            })
-        
-    }
-    
-    
-
-    func loadVisitors(placeId: String){
-        visitorsSubscription = requestJSON(.GET, visitorsSourceUrl+placeId)
-            .observeOn(MainScheduler.instance)
-            .debug()
-            .subscribe(onNext: { (r, json) -> Void in
-                let js = JSON(json)
-                let status = js["status"]
-                if (status == "OK"){
-                    self.visitors.removeAll()
-                    if let arrayOfVisitors = js["visitors"].array{
-                        for (j) in arrayOfVisitors{
-                            let visitor = Visitor(json: j)
-                            self.visitors.append(visitor)
-                        }
-                    }
-                    self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
-                    
-                } else {
-                    //ERROR MSG
-                }
+            }) { () -> Void in
                 
-                }, onError: { (e) -> Void in
-                    
-                    
-            })
-        addSubscription(visitorsSubscription!)
+        }.addDisposableTo(self.disposeBag)
+        
+        
     }
     
+    func loadPlacesHandler(placesResponse: NetworkResponse){
+        if let response = placesResponse as? PlacesResponse{
+            if(placesResponse.status == Status.Success){
+                if let _places = response.places{
+                    self.places = _places
+                    self.setMap()
+                    if(self.favoritesMode && self.favorites.count > 0){
+                        self.loadVisitors(self.favorites[0].id!)
+                    } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
+                        self.loadVisitors(self.filteredPlaces[0].id!)
+                    } else {
+                        self.visitors = []
+                    }
+                    APP.i().places = self.places
+
+                    self.table.reloadData()
+                }
+            } else {
+                //ALERT!!!
+
+            }
+            self.ifLoading = false
+        }
+    }
+    
+    
+    func createObservableForPlaces() -> Observable<NetworkResponse>{
+        let networkClient = NetworkClient()
+        let observePlaces:Observable<NetworkResponse>!
+        if(self.statisticsMode){
+            if(self.todayStatisticsManager.segmentIndex == 0){
+                observePlaces = networkClient.getForecastPlaces(cityId ?? "", time: self.todayStatisticsManager.todayValue ?? "")
+            } else {
+                observePlaces = networkClient.getStatisticsPlaces(cityId ?? "", time: self.todayStatisticsManager.statisticsTimeString ?? "", day: "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)")
+            }
+        } else {
+            observePlaces = networkClient.getPlaces(cityId ?? "")
+        }
+        return observePlaces
+    }
+    
+    func loadVisitors(placeId: String){
+        let networkClient = NetworkClient()
+    
+        networkClient.getVisitors(placeId).observeOn(MainScheduler.instance)
+        .subscribe(onNext: { (networkResponse) -> Void in
+            self.loadVisitorsHandler(networkResponse)
+            }, onError: { (errorType) -> Void in
+                networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (networkResponse) -> Void in
+                    if(networkResponse.status == Status.Success){
+                        networkClient.getVisitors(placeId).observeOn(MainScheduler.instance)
+                        .subscribeNext({ (networkResponse) -> Void in
+                            self.loadVisitorsHandler(networkResponse)
+                        }).addDisposableTo(self.disposeBag)
+                    } else{
+                        //ALERT!!!!
+                    }
+                    self.ifLoading = false
+                }).addDisposableTo(self.disposeBag)
+            }, onCompleted: { () -> Void in
+                
+            }, onDisposed: { () -> Void in
+                
+        }).addDisposableTo(self.disposeBag)
+    }
+    
+    func loadVisitorsHandler(visitorsResponse: NetworkResponse){
+        if let response = visitorsResponse as? VisitorsResponse{
+            if (response.status == Status.Success){
+                self.visitors.removeAll()
+                if let arrayOfVisitors = response.visitors{
+                    self.visitors = arrayOfVisitors
+                }
+                self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
+            } else {
+                //MARK ALERT!!!
+            }
+             //MARK ALERT!!!
+        }
+    }
     
     func addToFavorites(place: Place){
         let favManager = FavoritesManager()
@@ -859,21 +828,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
     }
     
-//    func setActualLabel(){
-//        let components = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: NSDate())
-//        let hour = components.hour
-//        let minute = components.minute
-//        self.actualLabel.hidden = false
-//        self.timeLabel.hidden = false
-//        
-//        self.timeLabel.text = (minute > 10) ? "на \(hour):\(minute)" : " на \(hour):0\(minute)"
-//    }
-//    
-//    func hideActualLabel(){
-//        self.actualLabel.hidden = true
-//        self.timeLabel.hidden = true
-//    }
-//    
+
     @IBAction func chooseTimePressed(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID")
@@ -925,18 +880,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-//        var place: Place?
-//        if(self.favoritesMode){
-//            place = favorites[indexPath.row-2]
-//        } else {
-//            place = filteredPlaces[indexPath.row-2]
-//        }
-//        
-//        var cell = self.table.cellForRowAtIndexPath(indexPath) as! PlaceCellTableViewCell
-//        cell.configureCell(place!)
-    }
-    
+
     //MARK: Scroll delegate
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -960,14 +904,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        if(fabs(scrollView.contentOffset.y - targetContentOffset.memory.y) < 100.0 && scrollView.contentOffset.y == 0.0){
-//            scrollView.setContentOffset(scrollView.contentOffset, animated: true)
-//        }
-        
-    }
-    
     //MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == AVATAR_SEGUE_IDENTIFIER){
@@ -986,6 +922,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     avatarCollectionVC.sourceController = self
                     
                 } else {
+                    print(sender?.tag)
                     avatarCollectionVC.place = self.selectedPlace
                     avatarCollectionVC.visitors = self.visitors
                     avatarCollectionVC.selectedIndex = sender!.tag
@@ -1002,4 +939,5 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
         return nil
     }
+    
 }

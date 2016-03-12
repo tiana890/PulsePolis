@@ -21,7 +21,7 @@
         <!--Authorization View Controller-->
         <scene sceneID="XLa-Lh-6sT">
             <objects>
-                <viewController storyboardIdentifier="authorizationVC" id="0eZ-eB-915" customClass="AuthorizationViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="authorizationVC" id="0eZ-eB-915" customClass="AuthorizationViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="C36-vX-aFF"/>
                         <viewControllerLayoutGuide type="bottom" id="lJY-wL-X3v"/>
@@ -134,15 +134,16 @@
                                 <color key="textColor" red="0.5568627451" green="0.56470588239999997" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oej-O3-nzr" userLabel="VKButton">
-                                <rect key="frame" x="334" y="401" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxt-lS-nkU">
+                                <rect key="frame" x="143" y="552" width="315" height="42"/>
+                                <connections>
+                                    <action selector="showPolitics:" destination="0eZ-eB-915" eventType="touchUpInside" id="7TC-dA-7WT"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lYQ-9k-v2Z" firstAttribute="width" secondItem="bJO-0M-Xhu" secondAttribute="width" id="1jB-Qg-abm"/>
-                            <constraint firstItem="oej-O3-nzr" firstAttribute="width" secondItem="wgC-RF-07Y" secondAttribute="width" id="6X8-et-dBj"/>
                             <constraint firstItem="iP0-pU-fdl" firstAttribute="leading" secondItem="5H2-6u-uPQ" secondAttribute="leadingMargin" constant="-20" id="77H-ZH-KUO"/>
                             <constraint firstItem="lYQ-9k-v2Z" firstAttribute="height" secondItem="bJO-0M-Xhu" secondAttribute="height" id="8eF-BT-jji"/>
                             <constraint firstItem="di0-3R-TUa" firstAttribute="leading" secondItem="39w-TX-ufx" secondAttribute="leading" id="9ty-ls-1HQ"/>
@@ -155,51 +156,45 @@
                             <constraint firstItem="GSa-7N-p5G" firstAttribute="centerY" secondItem="iP0-pU-fdl" secondAttribute="centerY" constant="-25" id="JYY-JZ-Wfl"/>
                             <constraint firstItem="GSa-7N-p5G" firstAttribute="top" secondItem="NLI-TB-6II" secondAttribute="bottom" constant="103" id="NZ8-aZ-ZY5"/>
                             <constraint firstItem="lYQ-9k-v2Z" firstAttribute="centerY" secondItem="bJO-0M-Xhu" secondAttribute="centerY" id="OKi-1c-gyK"/>
-                            <constraint firstItem="oej-O3-nzr" firstAttribute="height" secondItem="wgC-RF-07Y" secondAttribute="height" id="Oiv-Uv-P2j"/>
                             <constraint firstItem="bEe-8N-Rfx" firstAttribute="leading" secondItem="lYQ-9k-v2Z" secondAttribute="trailing" constant="4" id="Osr-M5-aRe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iP0-pU-fdl" secondAttribute="trailing" constant="-20" id="PRp-tP-Yz5"/>
                             <constraint firstItem="NLI-TB-6II" firstAttribute="centerX" secondItem="iP0-pU-fdl" secondAttribute="centerX" id="SPZ-Bm-ov2"/>
                             <constraint firstItem="bJO-0M-Xhu" firstAttribute="centerX" secondItem="iP0-pU-fdl" secondAttribute="centerX" constant="-56" id="Tmo-Ty-mLS"/>
                             <constraint firstItem="39w-TX-ufx" firstAttribute="top" secondItem="di0-3R-TUa" secondAttribute="bottom" id="WLh-p8-p8E"/>
                             <constraint firstItem="39w-TX-ufx" firstAttribute="bottom" secondItem="iP0-pU-fdl" secondAttribute="bottom" constant="-6" id="WZH-eA-2EN"/>
-                            <constraint firstItem="oej-O3-nzr" firstAttribute="centerX" secondItem="wgC-RF-07Y" secondAttribute="centerX" id="XN0-rB-rNy"/>
                             <constraint firstItem="7FO-Xj-o04" firstAttribute="top" secondItem="bJO-0M-Xhu" secondAttribute="bottom" constant="8" id="YOX-GT-6MI"/>
                             <constraint firstItem="j09-iI-GkX" firstAttribute="height" secondItem="ZpS-wq-TW5" secondAttribute="height" id="ZzO-Ir-tc8"/>
                             <constraint firstItem="wgC-RF-07Y" firstAttribute="centerX" secondItem="ZpS-wq-TW5" secondAttribute="centerX" id="Zzk-zi-GDM"/>
                             <constraint firstItem="di0-3R-TUa" firstAttribute="top" secondItem="OeP-lw-GjC" secondAttribute="bottom" constant="10" id="deF-dL-bvt"/>
                             <constraint firstItem="j09-iI-GkX" firstAttribute="centerX" secondItem="ZpS-wq-TW5" secondAttribute="centerX" id="dex-hL-MbX"/>
                             <constraint firstItem="iP0-pU-fdl" firstAttribute="top" secondItem="NLI-TB-6II" secondAttribute="bottom" constant="-159" id="diB-TP-HgF"/>
+                            <constraint firstItem="Uxt-lS-nkU" firstAttribute="leading" secondItem="di0-3R-TUa" secondAttribute="leading" id="e0s-oC-Ex6"/>
                             <constraint firstItem="ZpS-wq-TW5" firstAttribute="top" secondItem="9Zz-H4-xi3" secondAttribute="bottom" constant="29" id="gke-oL-9I8"/>
                             <constraint firstItem="j09-iI-GkX" firstAttribute="centerY" secondItem="ZpS-wq-TW5" secondAttribute="centerY" id="i0A-pd-jgj"/>
                             <constraint firstItem="lYQ-9k-v2Z" firstAttribute="centerX" secondItem="bJO-0M-Xhu" secondAttribute="centerX" id="io4-dz-2xe"/>
                             <constraint firstItem="ZpS-wq-TW5" firstAttribute="leading" secondItem="bJO-0M-Xhu" secondAttribute="trailing" constant="30" id="jOg-QJ-THK"/>
                             <constraint firstItem="GSa-7N-p5G" firstAttribute="centerX" secondItem="iP0-pU-fdl" secondAttribute="centerX" id="k0G-aA-6PP"/>
                             <constraint firstItem="j09-iI-GkX" firstAttribute="width" secondItem="ZpS-wq-TW5" secondAttribute="width" id="k8r-NP-8O7"/>
+                            <constraint firstItem="Uxt-lS-nkU" firstAttribute="top" secondItem="di0-3R-TUa" secondAttribute="top" id="lCW-4U-IkB"/>
                             <constraint firstItem="j09-iI-GkX" firstAttribute="width" secondItem="ZpS-wq-TW5" secondAttribute="width" id="olu-NF-Irw"/>
                             <constraint firstItem="j09-iI-GkX" firstAttribute="leading" secondItem="bEe-8N-Rfx" secondAttribute="trailing" constant="6" id="qqC-rv-xSh"/>
+                            <constraint firstItem="Uxt-lS-nkU" firstAttribute="trailing" secondItem="di0-3R-TUa" secondAttribute="trailing" id="r84-W3-4y2"/>
                             <constraint firstItem="j09-iI-GkX" firstAttribute="centerX" secondItem="wgC-RF-07Y" secondAttribute="centerX" id="rwa-eC-ZMi"/>
+                            <constraint firstItem="Uxt-lS-nkU" firstAttribute="bottom" secondItem="39w-TX-ufx" secondAttribute="bottom" id="ryn-Jf-VNY"/>
                             <constraint firstItem="wgC-RF-07Y" firstAttribute="top" secondItem="ZpS-wq-TW5" secondAttribute="bottom" constant="8" id="sKH-mU-WpJ"/>
                             <constraint firstItem="9Zz-H4-xi3" firstAttribute="centerX" secondItem="iP0-pU-fdl" secondAttribute="centerX" id="sbZ-9H-JKv"/>
                             <constraint firstItem="lJY-wL-X3v" firstAttribute="top" secondItem="iP0-pU-fdl" secondAttribute="bottom" id="tbr-vn-XGe"/>
-                            <constraint firstItem="oej-O3-nzr" firstAttribute="centerY" secondItem="wgC-RF-07Y" secondAttribute="centerY" id="tk6-Ze-E9Z"/>
                             <constraint firstItem="9Zz-H4-xi3" firstAttribute="top" secondItem="GSa-7N-p5G" secondAttribute="bottom" constant="25" id="xlF-ln-38t"/>
                             <constraint firstItem="bJO-0M-Xhu" firstAttribute="top" secondItem="9Zz-H4-xi3" secondAttribute="bottom" constant="29" id="yS3-OM-ezU"/>
                             <constraint firstItem="39w-TX-ufx" firstAttribute="centerX" secondItem="iP0-pU-fdl" secondAttribute="centerX" id="ys8-Cf-qwv"/>
                         </constraints>
                         <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="oej-O3-nzr"/>
-                            </mask>
                             <mask key="constraints">
                                 <exclude reference="diB-TP-HgF"/>
                                 <exclude reference="xlF-ln-38t"/>
                                 <exclude reference="F4t-Kh-z2s"/>
                                 <exclude reference="k8r-NP-8O7"/>
                                 <exclude reference="rwa-eC-ZMi"/>
-                                <exclude reference="6X8-et-dBj"/>
-                                <exclude reference="Oiv-Uv-P2j"/>
-                                <exclude reference="XN0-rB-rNy"/>
-                                <exclude reference="tk6-Ze-E9Z"/>
                             </mask>
                         </variation>
                     </view>
@@ -222,7 +217,7 @@
         <!--Main Navigation Controller-->
         <scene sceneID="uMm-4M-LaZ">
             <objects>
-                <navigationController navigationBarHidden="YES" id="3C2-0n-jZ6" customClass="MainNavigationController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="3C2-0n-jZ6" customClass="MainNavigationController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hcv-GN-RLR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -236,7 +231,7 @@
         <!--Start View Controller-->
         <scene sceneID="doO-IN-GVl">
             <objects>
-                <viewController storyboardIdentifier="startViewController" id="7Bx-DL-AHf" customClass="StartViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="startViewController" id="7Bx-DL-AHf" customClass="StartViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Ei-61-ZQX"/>
                         <viewControllerLayoutGuide type="bottom" id="elx-Bq-1Vv"/>
@@ -347,6 +342,20 @@
                                     <segue destination="gdY-QQ-LBF" kind="show" id="ZRL-QG-HJm"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9T7-Xt-Hol">
+                                <rect key="frame" x="211" y="474" width="179" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="E6W-dh-5Pm"/>
+                                    <constraint firstAttribute="width" constant="179" id="X1t-dS-ulm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                                <state key="normal" title="Сохранить" backgroundImage="start_frame">
+                                    <color key="titleColor" red="0.058823529409999999" green="0.82745098039999998" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="gdY-QQ-LBF" kind="show" id="Ed1-9I-BF4"/>
+                                </connections>
+                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Ct-bS-44H">
                                 <rect key="frame" x="245" y="96" width="110" height="110"/>
                                 <constraints>
@@ -393,6 +402,12 @@
                                     <action selector="selectCity:" destination="7Bx-DL-AHf" eventType="touchUpInside" id="iod-9o-Qoi"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3P4-3c-7GA">
+                                <rect key="frame" x="147" y="569" width="305" height="21"/>
+                                <connections>
+                                    <action selector="showPolitics:" destination="7Bx-DL-AHf" eventType="touchUpInside" id="VKV-xV-3gz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -402,6 +417,7 @@
                             <constraint firstItem="lKW-9g-nQi" firstAttribute="centerX" secondItem="qnz-sL-Igv" secondAttribute="centerX" id="3mm-Iq-U87"/>
                             <constraint firstItem="p6o-s0-vh8" firstAttribute="top" secondItem="0Ei-61-ZQX" secondAttribute="bottom" constant="-20" id="4Ap-lW-2Xw"/>
                             <constraint firstItem="OtH-iz-7bI" firstAttribute="centerY" secondItem="VBd-UC-33Z" secondAttribute="centerY" constant="-12" id="4ry-U9-qSe"/>
+                            <constraint firstItem="9T7-Xt-Hol" firstAttribute="top" secondItem="lKW-9g-nQi" secondAttribute="bottom" constant="29" id="5TO-5R-IdO"/>
                             <constraint firstItem="VBd-UC-33Z" firstAttribute="leading" secondItem="qHZ-XN-3xL" secondAttribute="leading" id="5Z2-af-d1t"/>
                             <constraint firstItem="SOK-E7-gCl" firstAttribute="top" secondItem="b35-1w-QLq" secondAttribute="bottom" constant="17" id="6xQ-eA-sEH"/>
                             <constraint firstItem="elx-Bq-1Vv" firstAttribute="top" secondItem="VBd-UC-33Z" secondAttribute="bottom" id="7nQ-3C-EJU"/>
@@ -413,6 +429,7 @@
                             <constraint firstItem="vq9-cf-1V5" firstAttribute="centerX" secondItem="2Ct-bS-44H" secondAttribute="centerX" id="Da6-Sy-SRw"/>
                             <constraint firstItem="Cex-Wu-EzY" firstAttribute="trailing" secondItem="ABu-lD-qc4" secondAttribute="trailing" id="EWz-Iz-SJe"/>
                             <constraint firstItem="VBd-UC-33Z" firstAttribute="leading" secondItem="W5s-OG-rux" secondAttribute="leading" constant="-30" id="EaU-V8-66Z"/>
+                            <constraint firstItem="3P4-3c-7GA" firstAttribute="leading" secondItem="SF5-GH-sZi" secondAttribute="leading" id="HnN-PG-RdM"/>
                             <constraint firstItem="qnz-sL-Igv" firstAttribute="centerX" secondItem="VBd-UC-33Z" secondAttribute="centerX" constant="-57" id="Lml-GB-6QV"/>
                             <constraint firstItem="lDX-Ao-qan" firstAttribute="leading" secondItem="jkB-WW-nvF" secondAttribute="trailing" id="NQR-hS-QTj"/>
                             <constraint firstItem="lKW-9g-nQi" firstAttribute="top" secondItem="qnz-sL-Igv" secondAttribute="bottom" constant="17" id="NTZ-oC-To5"/>
@@ -426,12 +443,14 @@
                             <constraint firstItem="p6o-s0-vh8" firstAttribute="leading" secondItem="qHZ-XN-3xL" secondAttribute="leading" id="dFs-LN-Ih2"/>
                             <constraint firstAttribute="trailing" secondItem="VBd-UC-33Z" secondAttribute="trailing" id="dkQ-Vk-pIC"/>
                             <constraint firstItem="2Ct-bS-44H" firstAttribute="centerX" secondItem="VBd-UC-33Z" secondAttribute="centerX" id="fEf-HE-24f"/>
+                            <constraint firstItem="3P4-3c-7GA" firstAttribute="trailing" secondItem="SF5-GH-sZi" secondAttribute="trailing" id="fFG-1O-Mya"/>
                             <constraint firstItem="jkB-WW-nvF" firstAttribute="top" secondItem="0Ei-61-ZQX" secondAttribute="bottom" constant="9" id="fJ6-KO-mhK"/>
                             <constraint firstItem="vq9-cf-1V5" firstAttribute="top" secondItem="2Ct-bS-44H" secondAttribute="bottom" constant="26" id="fga-Vv-xlZ"/>
                             <constraint firstItem="VBd-UC-33Z" firstAttribute="top" secondItem="0Ei-61-ZQX" secondAttribute="bottom" constant="-64" id="ib5-3c-E1M"/>
                             <constraint firstItem="SF5-GH-sZi" firstAttribute="bottom" secondItem="VBd-UC-33Z" secondAttribute="bottom" constant="-10" id="jlp-zI-c6q"/>
                             <constraint firstItem="jkB-WW-nvF" firstAttribute="leading" secondItem="qHZ-XN-3xL" secondAttribute="leadingMargin" constant="10" id="kQm-Jr-0Hz"/>
                             <constraint firstItem="2Zo-8k-l9r" firstAttribute="centerY" secondItem="VBd-UC-33Z" secondAttribute="centerY" id="ku0-8M-Mzd"/>
+                            <constraint firstItem="3P4-3c-7GA" firstAttribute="bottom" secondItem="SF5-GH-sZi" secondAttribute="bottom" id="m6n-Xe-HEU"/>
                             <constraint firstItem="W5s-OG-rux" firstAttribute="top" secondItem="0Ei-61-ZQX" secondAttribute="bottom" constant="8" id="oGB-Ya-6U9"/>
                             <constraint firstItem="Cex-Wu-EzY" firstAttribute="leading" secondItem="W5s-OG-rux" secondAttribute="leading" id="pbY-mH-GjR"/>
                             <constraint firstAttribute="trailing" secondItem="p6o-s0-vh8" secondAttribute="trailing" id="ppa-hJ-T8B"/>
@@ -439,7 +458,9 @@
                             <constraint firstItem="SF5-GH-sZi" firstAttribute="centerX" secondItem="VBd-UC-33Z" secondAttribute="centerX" id="sUa-8K-5Wr"/>
                             <constraint firstItem="OtH-iz-7bI" firstAttribute="top" secondItem="vq9-cf-1V5" secondAttribute="bottom" constant="2" id="skO-Gd-DX9"/>
                             <constraint firstItem="SF5-GH-sZi" firstAttribute="top" secondItem="VBd-UC-33Z" secondAttribute="bottom" constant="-69" id="uBk-ny-83L"/>
+                            <constraint firstItem="9T7-Xt-Hol" firstAttribute="centerX" secondItem="qHZ-XN-3xL" secondAttribute="centerX" id="uXc-KR-pw5"/>
                             <constraint firstItem="OtH-iz-7bI" firstAttribute="centerX" secondItem="vq9-cf-1V5" secondAttribute="centerX" id="viu-2G-euj"/>
+                            <constraint firstItem="3P4-3c-7GA" firstAttribute="top" secondItem="SF5-GH-sZi" secondAttribute="top" id="wRl-nr-Dy0"/>
                             <constraint firstItem="qnz-sL-Igv" firstAttribute="top" secondItem="2Zo-8k-l9r" secondAttribute="bottom" constant="17" id="wUW-mK-wQz"/>
                             <constraint firstItem="2Ct-bS-44H" firstAttribute="bottom" secondItem="VBd-UC-33Z" secondAttribute="centerY" constant="-72" id="wjj-mL-4Na"/>
                             <constraint firstItem="b35-1w-QLq" firstAttribute="top" secondItem="2Zo-8k-l9r" secondAttribute="bottom" constant="17" id="zMW-tR-tWJ"/>
@@ -488,16 +509,18 @@
                         <outlet property="maleBtn" destination="b35-1w-QLq" id="E6L-gm-xLv"/>
                         <outlet property="maleText" destination="SOK-E7-gCl" id="RL8-xH-dHz"/>
                         <outlet property="nameLabel" destination="vq9-cf-1V5" id="IEA-c3-gEk"/>
+                        <outlet property="saveBtn" destination="9T7-Xt-Hol" id="Jwg-cP-Wgi"/>
+                        <outlet property="startBtn" destination="etK-JW-Zqz" id="IVP-aG-6Cm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rSN-oA-vrp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-216" y="105"/>
+            <point key="canvasLocation" x="-78" y="105"/>
         </scene>
         <!--Container View Controller-->
         <scene sceneID="6Kr-cV-fXc">
             <objects>
-                <viewController storyboardIdentifier="containerVC" id="gdY-QQ-LBF" customClass="ContainerViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="containerVC" id="gdY-QQ-LBF" customClass="ContainerViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vJR-18-1Br"/>
                         <viewControllerLayoutGuide type="bottom" id="oZE-du-mdV"/>
@@ -539,12 +562,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kEd-RO-icm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-216" y="1638"/>
+            <point key="canvasLocation" x="-78" y="1644"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -577,7 +600,7 @@
         <!--Profile View Controller-->
         <scene sceneID="UHY-xV-rJ5">
             <objects>
-                <viewController id="PIX-10-qpG" customClass="ProfileViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PIX-10-qpG" customClass="ProfileViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TES-Oe-H32"/>
                         <viewControllerLayoutGuide type="bottom" id="zyY-Ln-Xrf"/>
@@ -788,7 +811,7 @@
         <!--Feedback View Controller-->
         <scene sceneID="fT3-6l-kfb">
             <objects>
-                <viewController id="tUe-tE-uwG" customClass="FeedbackViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tUe-tE-uwG" customClass="FeedbackViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pxI-c5-h0U"/>
                         <viewControllerLayoutGuide type="bottom" id="aMx-vV-cDF"/>
@@ -914,12 +937,12 @@
         <!--All-->
         <scene sceneID="la5-wN-VN0">
             <objects>
-                <viewController id="lau-84-Syl" customClass="MainViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lau-84-Syl" customClass="MainViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uMV-nv-0U6"/>
                         <viewControllerLayoutGuide type="bottom" id="0qK-BT-SBv"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ON4-Jh-28C" customClass="HitTestView" customModule="PulsePolis" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="ON4-Jh-28C" customClass="HitTestView" customModule="HotFinder" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -969,7 +992,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" rowHeight="349" id="3b7-WH-qii" customClass="MapHeaderViewCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" rowHeight="349" id="3b7-WH-qii" customClass="MapHeaderViewCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="349"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3b7-WH-qii" id="281-2R-XQN">
@@ -1010,7 +1033,7 @@
                                             <outlet property="userLocationBtn" destination="3jg-rk-CTW" id="9Av-Qd-1P7"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="avatarCell" rowHeight="84" id="zxA-45-4iU" customClass="AvatarCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="avatarCell" rowHeight="84" id="zxA-45-4iU" customClass="AvatarCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="377" width="600" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zxA-45-4iU" id="lP0-Nv-fVg">
@@ -1027,7 +1050,7 @@
                                                         <inset key="sectionInset" minX="13" minY="0.0" maxX="13" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="avatarCollectionViewCell" id="uKS-yz-3To" customClass="AvatarCollectionViewCell" customModule="PulsePolis" customModuleProvider="target">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="avatarCollectionViewCell" id="uKS-yz-3To" customClass="AvatarCollectionViewCell" customModule="HotFinder" customModuleProvider="target">
                                                             <rect key="frame" x="13" y="0.0" width="41" height="84"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1050,6 +1073,9 @@
                                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
+                                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="csH-JD-3Ks">
+                                                                        <rect key="frame" x="10" y="32" width="20" height="20"/>
+                                                                    </activityIndicatorView>
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
@@ -1057,12 +1083,15 @@
                                                             <constraints>
                                                                 <constraint firstItem="xX3-vr-JRL" firstAttribute="centerY" secondItem="uKS-yz-3To" secondAttribute="centerY" id="0EZ-ec-bEP"/>
                                                                 <constraint firstItem="xX3-vr-JRL" firstAttribute="centerX" secondItem="uKS-yz-3To" secondAttribute="centerX" id="7E4-cb-QlG"/>
+                                                                <constraint firstItem="csH-JD-3Ks" firstAttribute="centerX" secondItem="uKS-yz-3To" secondAttribute="centerX" id="IPq-wm-3Tt"/>
+                                                                <constraint firstItem="csH-JD-3Ks" firstAttribute="centerY" secondItem="uKS-yz-3To" secondAttribute="centerY" id="K4F-2R-8Ei"/>
                                                                 <constraint firstItem="LtY-zQ-imu" firstAttribute="centerX" secondItem="xX3-vr-JRL" secondAttribute="centerX" id="VgI-a4-ctu"/>
                                                                 <constraint firstItem="LtY-zQ-imu" firstAttribute="width" secondItem="uKS-yz-3To" secondAttribute="width" id="ahO-L9-cCj"/>
                                                                 <constraint firstItem="LtY-zQ-imu" firstAttribute="top" secondItem="xX3-vr-JRL" secondAttribute="bottom" constant="2" id="byC-Bc-lZu"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="avatarImage" destination="xX3-vr-JRL" id="2bB-03-wKp"/>
+                                                                <outlet property="indicator" destination="csH-JD-3Ks" id="spv-H8-9zO"/>
                                                                 <outlet property="name" destination="LtY-zQ-imu" id="Oia-jt-YL1"/>
                                                                 <segue destination="EUb-oU-Hne" kind="show" identifier="avatarSegue" id="2aH-Qf-F10"/>
                                                             </connections>
@@ -1087,7 +1116,7 @@
                                             <outlet property="collectionView" destination="2n9-XB-1z5" id="1N7-0K-foA"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="96" id="V7w-HB-7It" customClass="PlaceCellTableViewCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="96" id="V7w-HB-7It" customClass="PlaceCellTableViewCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="461" width="600" height="96"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V7w-HB-7It" id="q4k-1q-jys">
@@ -1188,7 +1217,7 @@
                                                     <color key="textColor" red="0.68235294120000001" green="0.68627450980000004" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPn-aC-hvv" customClass="IndexView" customModule="PulsePolis" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPn-aC-hvv" customClass="IndexView" customModule="HotFinder" customModuleProvider="target">
                                                     <rect key="frame" x="532" y="23" width="50" height="50"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3t-r8-8Cb">
@@ -1281,7 +1310,7 @@
                                             <outlet property="visitIndex" destination="e3t-r8-8Cb" id="cbg-BK-9BE"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="statisticsCell" rowHeight="74" id="3e4-jp-KOD" customClass="TodayStatisticsCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="statisticsCell" rowHeight="74" id="3e4-jp-KOD" customClass="TodayStatisticsCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="557" width="600" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3e4-jp-KOD" id="nl0-hc-QBz">
@@ -1500,7 +1529,7 @@
         <!--Picker View Controller-->
         <scene sceneID="O4D-RR-VRP">
             <objects>
-                <viewController storyboardIdentifier="pickerControllerID" id="1hN-Ib-2HS" customClass="PickerViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="pickerControllerID" id="1hN-Ib-2HS" customClass="PickerViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="89s-Hd-g7Z"/>
                         <viewControllerLayoutGuide type="bottom" id="a6O-au-TWJ"/>
@@ -1613,7 +1642,7 @@
         <!--Settings Table View Controller-->
         <scene sceneID="hbn-7B-34J">
             <objects>
-                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="1XM-Vi-80Q" customClass="SettingsTableViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="1XM-Vi-80Q" customClass="SettingsTableViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="WAE-5b-xEw">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1640,7 +1669,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" rowHeight="52" id="3MA-Nc-VN9" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" rowHeight="52" id="3MA-Nc-VN9" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="66" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3MA-Nc-VN9" id="Be7-Jn-Y4k">
@@ -1691,7 +1720,7 @@
                                     <outlet property="cityLabel" destination="5Yp-On-6WR" id="iTZ-1U-ZPG"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="indexCell" rowHeight="97" id="N0a-KC-RWi" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="indexCell" rowHeight="97" id="N0a-KC-RWi" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="118" width="600" height="97"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N0a-KC-RWi" id="ImG-Vx-rsG">
@@ -1842,7 +1871,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="barCell" rowHeight="52" id="bQu-co-vjQ" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="barCell" rowHeight="52" id="bQu-co-vjQ" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="305" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bQu-co-vjQ" id="DOs-e0-hSc">
@@ -1897,7 +1926,7 @@
                                     <outlet property="img" destination="ZrK-ou-89h" id="DsZ-E4-xb8"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clubCell" rowHeight="52" id="j0F-zZ-Q4s" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clubCell" rowHeight="52" id="j0F-zZ-Q4s" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="357" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j0F-zZ-Q4s" id="OPz-DH-FyJ">
@@ -1952,7 +1981,7 @@
                                     <outlet property="img" destination="Ffm-VN-eiu" id="it0-FS-4Q6"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="restaurantCell" rowHeight="52" id="Qus-zg-m0e" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="restaurantCell" rowHeight="52" id="Qus-zg-m0e" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="409" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qus-zg-m0e" id="wC5-IP-f6M">
@@ -2007,7 +2036,7 @@
                                     <outlet property="img" destination="4ZI-An-wGG" id="bqB-TP-yyX"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchCell" rowHeight="44" id="4z9-MA-wMQ" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchCell" rowHeight="44" id="4z9-MA-wMQ" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="461" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4z9-MA-wMQ" id="2dT-Zu-Oyt">
@@ -2046,7 +2075,7 @@
                                     <outlet property="searchBar" destination="ZEt-IR-oGT" id="JSV-FB-FxT"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="45" id="LgE-io-QwT" customClass="SearchTableViewCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="45" id="LgE-io-QwT" customClass="SearchTableViewCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="505" width="600" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LgE-io-QwT" id="ic7-iT-rkf">
@@ -2155,7 +2184,7 @@
         <!--Avatar Collection View Controller-->
         <scene sceneID="nxJ-V8-EmF">
             <objects>
-                <viewController id="EUb-oU-Hne" customClass="AvatarCollectionViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="EUb-oU-Hne" customClass="AvatarCollectionViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Uch-5d-WHU"/>
                         <viewControllerLayoutGuide type="bottom" id="7iQ-1D-9mh"/>
@@ -2176,7 +2205,16 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33C-z5-VUL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Пр. Победы 147-25" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oV6-ir-eeX">
+                                <rect key="frame" x="20" y="168" width="560" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="3V9-S4-C9W"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                <color key="textColor" red="0.5568627451" green="0.56470588239999997" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33C-z5-VUL">
                                 <rect key="frame" x="260" y="183" width="32" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="32" id="4eK-0o-xRF"/>
@@ -2194,14 +2232,14 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="377" id="LUg-O4-wTI"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="35" minimumInteritemSpacing="35" id="LzU-F7-Geu" customClass="CenterCellCollectionViewFlowLayout" customModule="PulsePolis" customModuleProvider="target">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="35" minimumInteritemSpacing="35" id="LzU-F7-Geu" customClass="CenterCellCollectionViewFlowLayout" customModule="HotFinder" customModuleProvider="target">
                                     <size key="itemSize" width="180" height="240"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3MD-u2-qhb" customClass="AvatarCollectionViewCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3MD-u2-qhb" customClass="AvatarCollectionViewCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="69" width="180" height="240"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -2256,7 +2294,7 @@
                                     <outlet property="delegate" destination="EUb-oU-Hne" id="p41-cA-IQ7"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="243-DP-lkF">
+                            <button hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="243-DP-lkF">
                                 <rect key="frame" x="308" y="183" width="32" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="URi-cg-jOv"/>
@@ -2273,9 +2311,11 @@
                             <constraint firstItem="9Sf-e4-D3g" firstAttribute="top" secondItem="Iv0-ZW-SOe" secondAttribute="top" constant="223" id="5hv-RM-7V2"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Qpy-OV-8ph" secondAttribute="leading" id="IpS-gT-9Qb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Qpy-OV-8ph" secondAttribute="trailing" id="Oa6-93-7K4"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="oV6-ir-eeX" secondAttribute="leading" id="SMd-ha-OJg"/>
                             <constraint firstItem="iD7-s9-6JO" firstAttribute="leading" secondItem="Iv0-ZW-SOe" secondAttribute="leadingMargin" constant="-20" id="V0e-NX-WOO"/>
                             <constraint firstItem="Qpy-OV-8ph" firstAttribute="top" secondItem="Uch-5d-WHU" secondAttribute="bottom" constant="78" id="ZrT-UD-D2K"/>
                             <constraint firstItem="iD7-s9-6JO" firstAttribute="top" secondItem="Uch-5d-WHU" secondAttribute="bottom" constant="-64" id="at9-hS-7x2"/>
+                            <constraint firstItem="oV6-ir-eeX" firstAttribute="top" secondItem="Qpy-OV-8ph" secondAttribute="bottom" constant="5" id="cMr-4A-EG8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iD7-s9-6JO" secondAttribute="trailing" constant="-20" id="dt3-Gh-5nc"/>
                             <constraint firstItem="33C-z5-VUL" firstAttribute="centerX" secondItem="iD7-s9-6JO" secondAttribute="centerX" constant="-24" id="gOI-dE-vVt"/>
                             <constraint firstAttribute="trailing" secondItem="9Sf-e4-D3g" secondAttribute="trailing" id="i01-7l-0be"/>
@@ -2283,6 +2323,7 @@
                             <constraint firstItem="243-DP-lkF" firstAttribute="centerX" secondItem="iD7-s9-6JO" secondAttribute="centerX" constant="24" id="lOX-kq-1ka"/>
                             <constraint firstItem="243-DP-lkF" firstAttribute="top" secondItem="Qpy-OV-8ph" secondAttribute="bottom" constant="20" id="nuN-7A-ZwX"/>
                             <constraint firstItem="7iQ-1D-9mh" firstAttribute="top" secondItem="iD7-s9-6JO" secondAttribute="bottom" id="pEP-d0-JiO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="oV6-ir-eeX" secondAttribute="trailing" id="udA-Dw-v6j"/>
                             <constraint firstItem="33C-z5-VUL" firstAttribute="top" secondItem="Qpy-OV-8ph" secondAttribute="bottom" constant="20" id="vq7-vL-A3C"/>
                         </constraints>
                     </view>
@@ -2315,6 +2356,7 @@
                         </view>
                     </navigationItem>
                     <connections>
+                        <outlet property="addressLabel" destination="oV6-ir-eeX" id="LJ1-2v-tDX"/>
                         <outlet property="collection" destination="9Sf-e4-D3g" id="uHK-xM-WdW"/>
                         <outlet property="femaleBtn" destination="33C-z5-VUL" id="ac9-AB-rgX"/>
                         <outlet property="maleBtn" destination="243-DP-lkF" id="NQe-r6-fds"/>
@@ -2324,6 +2366,91 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ebo-6U-KVI" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3472" y="2514"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="TaZ-a1-fkD">
+            <objects>
+                <navigationController storyboardIdentifier="infoViewControllerID" id="tgr-mS-7Ea" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OvR-1n-veL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="4ii-xi-V35" kind="relationship" relationship="rootViewController" id="To8-2H-DmG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oV9-6J-y33" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4299" y="2514"/>
+        </scene>
+        <!--Info View Controller-->
+        <scene sceneID="yHN-Kr-EoX">
+            <objects>
+                <viewController id="4ii-xi-V35" customClass="InfoViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WaN-z7-0v8"/>
+                        <viewControllerLayoutGuide type="bottom" id="wdj-g8-Xbg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZPn-pu-SXf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_gradient" translatesAutoresizingMaskIntoConstraints="NO" id="4a4-G8-c1e">
+                                <rect key="frame" x="-3" y="0.0" width="606" height="600"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf7-WI-yNL">
+                                <rect key="frame" x="20" y="72" width="560" height="528"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="mf7-WI-yNL" secondAttribute="leading" id="FnD-wy-0f5"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mf7-WI-yNL" secondAttribute="trailing" id="N8O-eY-Sjn"/>
+                            <constraint firstItem="mf7-WI-yNL" firstAttribute="top" secondItem="WaN-z7-0v8" secondAttribute="bottom" constant="8" id="Nte-WI-uVa"/>
+                            <constraint firstItem="wdj-g8-Xbg" firstAttribute="top" secondItem="4a4-G8-c1e" secondAttribute="bottom" id="cNV-YB-kFH"/>
+                            <constraint firstItem="4a4-G8-c1e" firstAttribute="leading" secondItem="ZPn-pu-SXf" secondAttribute="leadingMargin" constant="-23" id="dRR-oM-P2v"/>
+                            <constraint firstItem="wdj-g8-Xbg" firstAttribute="top" secondItem="mf7-WI-yNL" secondAttribute="bottom" id="eb3-mr-pS1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4a4-G8-c1e" secondAttribute="trailing" constant="-23" id="y4x-ul-79r"/>
+                            <constraint firstItem="4a4-G8-c1e" firstAttribute="top" secondItem="WaN-z7-0v8" secondAttribute="bottom" constant="-64" id="yrF-VD-E0v"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="6sV-vW-8p3">
+                        <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" image="close_nav" id="F2K-sY-502">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="backBtnPressed:" destination="4ii-xi-V35" id="whJ-JS-9oh"/>
+                            </connections>
+                        </barButtonItem>
+                        <view key="titleView" contentMode="scaleToFill" id="BFc-eL-SNz">
+                            <rect key="frame" x="180" y="6" width="240" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="title_logo" translatesAutoresizingMaskIntoConstraints="NO" id="fA5-DR-SBs">
+                                    <rect key="frame" x="59" y="5" width="123" height="23"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="23" id="CBj-NH-nXF"/>
+                                        <constraint firstAttribute="width" constant="123" id="SJA-PJ-jDu"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="fA5-DR-SBs" firstAttribute="centerX" secondItem="BFc-eL-SNz" secondAttribute="centerX" id="8B9-jz-hYf"/>
+                                <constraint firstItem="fA5-DR-SBs" firstAttribute="centerY" secondItem="BFc-eL-SNz" secondAttribute="centerY" id="xC4-sh-9Uo"/>
+                            </constraints>
+                        </view>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uib-sv-mPp" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4978" y="2514"/>
         </scene>
     </scenes>
     <resources>
@@ -2374,4 +2501,7 @@
         <image name="vk" width="84" height="83"/>
         <image name="warning" width="249" height="16"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ZRL-QG-HJm"/>
+    </inferredMetricsTieBreakers>
 </document>

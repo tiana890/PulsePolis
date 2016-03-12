@@ -18,6 +18,8 @@ import SwiftyJSON
 
 class StartViewController: BaseViewController {
     
+    let INFO_CONTROLLER_STORYBOARD_ID = "infoViewControllerID"
+    
     @IBOutlet var maleText: UILabel!
     @IBOutlet var femaleText: UILabel!
     @IBOutlet var maleBtn: UIButton!
@@ -29,6 +31,7 @@ class StartViewController: BaseViewController {
     @IBOutlet var locationLabel: UILabel!
     
     @IBOutlet var startBtn: UIButton!
+    @IBOutlet var saveBtn: UIButton!
     
     @IBOutlet var indicator: UIActivityIndicatorView!
     @IBOutlet var defineCityLabel: UILabel!
@@ -38,9 +41,8 @@ class StartViewController: BaseViewController {
     let selectedColor = ColorHelper.defaultColor
     let color = UIColor(red: 150.0/255.0, green: 153.0/255.0, blue: 157.0/255.0, alpha: 1.0)
     
-    let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/cities.php"
-    let postLocationCoordinates = "http://hotfinder.ru/hotjson/v1.0/definecity.php"
     
+    var ifStart = true
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,9 +60,13 @@ class StartViewController: BaseViewController {
         self.hideIndicator()
 
         if (APP.i().city == nil){
-            defineCity()
+            APP.i().defineCity({ () -> Void in
+                self.hideIndicator()
+                self.cityLabel.text = APP.i().city?.city ?? "не определено"
+            })
             self.showIndicator()
         }
+        
         
     }
     
@@ -68,6 +74,14 @@ class StartViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         cityLabel.text = APP.i().city?.city ?? "не определено"
+        
+        if(ifStart){
+            self.startBtn.hidden = false
+            self.saveBtn.hidden = true
+        } else {
+            self.startBtn.hidden = true
+            self.saveBtn.hidden = false
+        }
     }
     
     @IBAction func selectCity(sender: AnyObject) {
@@ -92,40 +106,6 @@ class StartViewController: BaseViewController {
         defineCityLabel.hidden = true
     }
     
-    func defineCity(){
-        
-        let parametersDict:[String: AnyObject] = ["user_id": APP.i().user?.userId ?? "", "lat": APP.i().locationManager?.location?.lat ?? "", "lon": APP.i().locationManager?.location?.lon ?? ""]
-        
-        self.subscription = requestData(.POST, postLocationCoordinates, parameters: parametersDict, encoding: .URL, headers: nil)
-            .observeOn(MainScheduler.instance)
-            .debug()
-            .subscribe(onNext: { (response, data) -> Void in
-                
-                let defineCityResponse = DefineCityResponse(json: JSON(data: data))
-                print(JSON(data: data))
-                if(defineCityResponse.status == Status.Success){
-                    let city = City()
-                    city.id = defineCityResponse.id
-                    city.city = defineCityResponse.city
-                    APP.i().city = city
-                    self.hideIndicator()
-                } else {
-                    self.showAlert("Ошибка", msg: "Невозможно определить город")
-                    self.hideIndicator()
-                }
-                
-                }, onError: { (err) -> Void in
-                    self.showAlert("Ошибка", msg: "Произошла ошибка при определении города")
-                    self.hideIndicator()
-                    
-                }, onCompleted: { () -> Void in
-                    
-                }, onDisposed: { () -> Void in
-                    
-            })
-        
-        self.addSubscription(self.subscription!)
-    }
     
     func femaleSelected(){
         femaleBtn.selected = true
@@ -176,4 +156,9 @@ class StartViewController: BaseViewController {
         
     }
     
+    @IBAction func showPolitics(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let pickerViewController = storyboard.instantiateViewControllerWithIdentifier(INFO_CONTROLLER_STORYBOARD_ID)
+        self.presentViewController(pickerViewController, animated: true, completion: nil)
+    }
 }

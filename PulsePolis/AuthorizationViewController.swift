@@ -17,6 +17,8 @@ import Alamofire
 class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     let START_SEGUE_IDENTIFIER = "startSegue"
     
+    let INFO_CONTROLLER_STORYBOARD_ID = "infoViewControllerID"
+    
     //MARK: -IBOutlets
     @IBOutlet var vkBtn: UIButton!
     @IBOutlet var facebookBtn: UIButton!
@@ -30,10 +32,8 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     
     var url: String?
     
-    var subscription: Disposable?
-    
-    
-    let AUTH_URL = "http://hotfinder.ru/hotjson/v1.0/auth.php"
+    var disposeBag = DisposeBag()
+
     
     //MARK: UIViewController methods
     override func viewDidLoad() {
@@ -131,8 +131,10 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     func vkSdkAccessAuthorizationFinishedWithResult(result: VKAuthorizationResult!) {
         print(result)
         VKSdk.wakeUpSession([VK_PER_PHOTOS]) { (state, error) -> Void in
-            if(state == VKAuthorizationState.Authorized){
-                
+            if(error != nil) {
+                self.showAlert("Ошибка", msg: "Ошибка входа")
+                self.hideActivityIndicator()
+            } else if(state == VKAuthorizationState.Authorized){
                 let user = User()
                 user.vkID = VKSdk.accessToken().userId
                 let request = VKApi.users().get([VK_API_FIELDS:"id, first_name, bdate, sex, photo_200, age"])
@@ -143,16 +145,14 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
                     self.authRequest(APP.i().user!)
                     
                     }, errorBlock: { (error) -> Void in
+                        print(error)
                         self.showAlert("Ошибка", msg: "Ошибка входа")
                         self.hideActivityIndicator()
                 })
-                
-            } else if(error != nil) {
-                self.showAlert("Ошибка", msg: "Ошибка входа")
-                self.hideActivityIndicator()
             }
+            self.hideActivityIndicator()
         }
-        self.hideActivityIndicator()
+        
     }
     
     
@@ -172,40 +172,61 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
             break
         }
         
-        let parametersDict:[String: AnyObject] = ["type":user.authorizeType?.rawValue ?? "", "id": user.getSocialId() ?? "", "sex":  sex, "photo": user.photoURL ?? "", "name": user.firstName ?? ""]
+//        let parametersDict:[String: AnyObject] = ["type":user.authorizeType?.rawValue ?? "", "id": user.getSocialId() ?? "", "sex":  sex, "photo": user.photoURL ?? "", "name": user.firstName ?? ""]
         
-        self.subscription = requestData(.POST, self.AUTH_URL, parameters: parametersDict, encoding: .URL, headers: nil)
-            .observeOn(MainScheduler.instance)
-            .debug()
-            .subscribe(onNext: { (response, data) -> Void in
-                let authResponse = AuthorizeResponse(json: JSON(data: data))
-                print(JSON(data: data))
-                if (authResponse.status == Status.Success){
-                    if let userId = authResponse.id{
-                        APP.i().user?.userId = userId
-                        self.hideActivityIndicator()
-                        self.performSegueWithIdentifier(self.START_SEGUE_IDENTIFIER, sender: self)
+        var nameForAuth = APP.i().user?.firstName ?? ""
+        if(nameForAuth.characters.count > 0){
+            nameForAuth += " "
+        }
+        nameForAuth += APP.i().user?.lastName ?? ""
+        
+        let networkClient = NetworkClient()
+        networkClient.authorize(sex, name: nameForAuth).observeOn(MainScheduler.instance)
+        .debug()
+        .subscribe(onNext: { (networkResponse) -> Void in
+            self.authRequestHandler(networkResponse)
+            }, onError: { (errorType) -> Void in
+                networkClient.updateSettings().observeOn(MainScheduler.instance)
+                .debug()
+                .subscribeNext({ (networkResponse) -> Void in
+                    if(networkResponse.status == Status.Success){
+                        networkClient.authorize(sex, name: nameForAuth).observeOn(MainScheduler.instance)
+                        .debug()
+                        .subscribeNext({ (networkResponse) -> Void in
+                            self.authRequestHandler(networkResponse)
+                        }).addDisposableTo(self.disposeBag)
                     } else {
                         self.showAlert("Ошибка", msg: "Произошла ошибка во время авторизации")
                         self.hideActivityIndicator()
                     }
+                }).addDisposableTo(self.disposeBag)
+            }, onCompleted: { () -> Void in
+                
+            }) { () -> Void in
+                
+            }.addDisposableTo(self.disposeBag)
+    }
+        
+    
+    func authRequestHandler(authResponse: NetworkResponse){
+        if let response = authResponse as? AuthorizeResponse{
+            if (response.status == Status.Success){
+                APP.i().getCities()
+                if let token = response.token{
+                    APP.i().user?.token = token
+                    APP.i().user?.saveUser()
+                    self.hideActivityIndicator()
+                    self.performSegueWithIdentifier(self.START_SEGUE_IDENTIFIER, sender: self)
                 } else {
                     self.showAlert("Ошибка", msg: "Произошла ошибка во время авторизации")
                     self.hideActivityIndicator()
                 }
-                
-                }, onError: { (err) -> Void in
-                    
-                    self.showAlert("Ошибка", msg: "Произошла ошибка во время авторизации")
-                    self.hideActivityIndicator()
-                    
-                }, onCompleted: { () -> Void in
-                    
-                }, onDisposed: { () -> Void in
-                    
-            })
-        
-        self.addSubscription(self.subscription!)
+            } else {
+                self.showAlert("Ошибка", msg: "Произошла ошибка во время авторизации")
+                self.hideActivityIndicator()
+            }
+
+        }
     }
     
     func vkSdkUserAuthorizationFailed() {
@@ -242,5 +263,9 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
         UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
         
     }
-    
+    @IBAction func showPolitics(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let pickerViewController = storyboard.instantiateViewControllerWithIdentifier(INFO_CONTROLLER_STORYBOARD_ID)
+        self.presentViewController(pickerViewController, animated: true, completion: nil)
+    }
 }

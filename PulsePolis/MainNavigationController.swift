@@ -26,13 +26,18 @@ class MainNavigationController: UINavigationController {
     func updateNavigationStack(){
         //Авторизован ли пользователь в системе
         if let u = User.getUserFromDefaults(){
-            APP.i().user = u
-            let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(CONTAINER_CONTROLLER_STORYBOARD_ID)
-            let svc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(START_CONTROLLER_IDENTIFIER)
-            self.setViewControllers([svc, cvc], animated: true)
+            if let _ = u.token{
+                APP.i().user = u
+                let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(CONTAINER_CONTROLLER_STORYBOARD_ID)
+                let svc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(START_CONTROLLER_IDENTIFIER)
+                self.setViewControllers([svc, cvc], animated: true)
+            } else {
+                let avc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(AUTHORIZATION_CONTROLLER_STORYBOARD_ID)
+                
+                self.setViewControllers([avc], animated: true)
+            }
         } else {
             let avc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(AUTHORIZATION_CONTROLLER_STORYBOARD_ID)
-            
             self.setViewControllers([avc], animated: true)
         }
     }

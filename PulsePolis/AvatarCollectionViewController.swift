@@ -19,8 +19,11 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
     
     @IBOutlet var femaleBtn: UIButton!
     @IBOutlet var maleBtn: UIButton!
+    @IBOutlet var addressLabel: UILabel!
     
     var visitorsSubscription: Disposable?
+    
+    var disposeBag = DisposeBag()
     
     let defaultColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.7)
     let selectedColor = UIColor(red: 31.0/255.0, green: 108.0/255.0, blue: 118.0/255.0, alpha: 0.7)
@@ -39,8 +42,6 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
     var _viewDidLayoutSubviewsForTheFirstTime = true
     
     var ifLoadVisitors = false
-    
-    let visitorsSourceUrl = "http://hotfinder.ru/hotjson/v1.0/visitors.php?place_id="
     
     var maleVisitors:[Visitor]?{
         get{
@@ -68,7 +69,9 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
         super.viewDidLoad()
         self.tabBarController?.tabBar.hidden = true
         
-        self.name.text = place?.name
+        self.name.text = place?.name ?? ""
+        self.addressLabel.text = place?.address ?? ""
+        
         
         if(ifLoadVisitors){
             if let placeId = self.place?.id{
@@ -76,6 +79,8 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
                self.loadVisitors(placeId)
             }
         }
+        
+        
         
 //        self.femaleLabel.text = ""
 //        if let w = self.place?.woman{
@@ -100,7 +105,8 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage(named:"shadow_nav")
         self.navigationController?.navigationBar.translucent = true
-        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 52.0/255.0, green: 52.0/255.0, blue: 52.0/255.0, alpha: 0.15)    }
+        self.navigationController?.navigationBar.backgroundColor = UIColor(red: 52.0/255.0, green: 52.0/255.0, blue: 52.0/255.0, alpha: 0.15)
+    }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -146,33 +152,46 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
     }
     
     func loadVisitors(placeId: String){
-        visitorsSubscription = requestJSON(.GET, visitorsSourceUrl+placeId)
-            .observeOn(MainScheduler.instance)
-            .debug()
-            .subscribe(onNext: { (r, json) -> Void in
-                let js = JSON(json)
-                let status = js["status"]
-                if (status == "OK"){
-                    self.visitors?.removeAll()
-                    if let arrayOfVisitors = js["visitors"].array{
-                        for (j) in arrayOfVisitors{
-                            let visitor = Visitor(json: j)
-                            self.visitors?.append(visitor)
+   
+        let networkClient = NetworkClient()
+        
+        networkClient.getVisitors(placeId).observeOn(MainScheduler.instance)
+                .subscribe(onNext: { (networkResponse) -> Void in
+                self.loadVisitorsHandler(networkResponse)
+                }, onError: { (errorType) -> Void in
+                    networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (networkResponse) -> Void in
+                        if(networkResponse.status == Status.Success){
+                            networkClient.getVisitors(placeId).observeOn(MainScheduler.instance)
+                                .subscribeNext({ (networkResponse) -> Void in
+                                    self.loadVisitorsHandler(networkResponse)
+                                }).addDisposableTo(self.disposeBag)
+                        } else{
+                            //ALERT!!!!
                         }
-                    }
-                    self.collection.reloadData()
+                    }).addDisposableTo(self.disposeBag)
+                }, onCompleted: { () -> Void in
                     
-                } else {
-                    //ERROR MSG
-                }
-                
-                }, onError: { (e) -> Void in
+                }, onDisposed: { () -> Void in
                     
-                    
-            })
-        addSubscription(visitorsSubscription!)
+            }).addDisposableTo(self.disposeBag)
+        
+
     }
 
+    func loadVisitorsHandler(visitorsResponse: NetworkResponse){
+        if let response = visitorsResponse as? VisitorsResponse{
+            if (response.status == Status.Success){
+                self.visitors?.removeAll()
+                if let arrayOfVisitors = response.visitors{
+                    self.visitors = arrayOfVisitors
+                }
+               self.collection.reloadData()
+            } else {
+                //MARK ALERT!!!
+            }
+            //MARK ALERT!!!
+        }
+    }
     
     //MARK: Collection view
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

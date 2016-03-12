@@ -61,6 +61,14 @@ class ProfileViewController: UIViewController {
             APP.i().showCenterPanel()
             break
         case ButtonType.Profile.rawValue:
+            if let childControllers = self.navigationController?.childViewControllers{
+                for(chVC) in childControllers{
+                    if(chVC.classForCoder == StartViewController.classForCoder()){
+                        (chVC as! StartViewController).ifStart = false
+                    }
+                    
+                }
+            }
             self.navigationController?.popViewControllerAnimated(true)
             break
         case ButtonType.Feedback.rawValue:
