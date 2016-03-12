@@ -196,6 +196,7 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
     //MARK: Collection view
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as? AvatarCollectionViewCell{
+            cell.prepareForReuse()
             var visitorsArray: [Visitor]?
             
             if(self.femaleBtn.selected && !self.maleBtn.selected){
@@ -208,12 +209,24 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
             
             let visitor = visitorsArray?[indexPath.row]
             cell.avatarImage.image = UIImage(named: "ava_big_big")
+            
+            cell.indicator.hidden = false
+            cell.indicator.startAnimating()
+
             if let avatarUrl = visitor?.avatarUrl{
                 let filter = AspectScaledToFillSizeFilter(size: CGSizeMake(cell.avatarImage.frame.width, cell.avatarImage.frame.height))
-                cell.avatarImage.af_setImageWithURL(NSURL(string: avatarUrl)!, filter: filter)
+                if let url = NSURL(string: avatarUrl){
+                    cell.avatarImage.af_setImageWithURL(
+                        url,
+                        placeholderImage: nil,
+                        filter: filter,
+                        imageTransition: .CrossDissolve(0.5),
+                        completion: { response in
+                            cell.indicator.hidden = true
+                            cell.indicator.stopAnimating()
+                    })
+                }
                 createMaskForImage(cell.avatarImage)
-//                cell.avatarImage.af_setImageWithURL(NSURL(string: avatarUrl)!)
-//                createMaskForImage(cell.avatarImage)
             }
             if let checkin = visitor?.checkin{
                 if (checkin.characters.count > 18){

@@ -17,8 +17,6 @@ class PlaceCellTableViewCell: SWTableViewCell{
     @IBOutlet var female: UIImageView!
     @IBOutlet var male: UIImageView!
     
-    @IBOutlet var visitIndex: UILabel!
-    
     @IBOutlet var placeType: UILabel!
     
     @IBOutlet var placeTypeImg: UIImageView!
@@ -31,15 +29,15 @@ class PlaceCellTableViewCell: SWTableViewCell{
     @IBOutlet var ruble2: UIImageView!
     @IBOutlet var ruble3: UIImageView!
     
+    var ifAnimate = false
+    
     
     let selectedColor = UIColor(red: 42.0/255.0, green: 50.0/255.0, blue: 57.0/255.0, alpha: 1.0)
     let deselectedColor = UIColor(red: 34.0/255.0, green: 40.0/255.0, blue: 47.0/255.0, alpha: 0.8)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
-    
-    
     
     func configureCell(place: Place){
         
@@ -51,13 +49,7 @@ class PlaceCellTableViewCell: SWTableViewCell{
             self.address.text = addr
         }
         
-        if let index = place.visitIndex{
-            self.visitIndex.text = index
-            
-        }
-        
-        
-        configureIndexView(place)
+        self.configureIndexView(place)
         
         if let type = place.placeType{
             if(type == "bar"){
@@ -95,24 +87,21 @@ class PlaceCellTableViewCell: SWTableViewCell{
     func configureIndexView(place: Place){
         
         var col: UIColor?
+        
         if(self.selected){
             col = ColorHelper.defaultColor
         } else {
             if let index = place.visitIndex{
-                col = ColorHelper.getColorByIndex(index)
+                col = ColorHelper.getColorByIndex(index as NSString)
             }
         }
-       
+        indexView.ifAnimate = self.ifAnimate
+        indexView.visitIndex = place.visitIndex
         indexView.color = col
         indexView.femaleIndex = place.woman
         indexView.setNeedsDisplay()
         female.image = self.filledImageFrom(UIImage(named: "woman")!, color: col!)
         male.image = self.filledImageFrom(UIImage(named: "man")!, color: col!)
-        
-    }
-    
-    func reconfigerIndexView(){
-        indexView.color = UIColor.blackColor()
         
     }
     
@@ -161,15 +150,12 @@ class PlaceCellTableViewCell: SWTableViewCell{
         } else {
             self.contentView.backgroundColor = self.deselectedColor
             updateIndexView()
-//            reconfigerIndexView()
-//            self.setNeedsDisplay()
         }
        
-        // Configure the view for the selected state
     }
     
     func updateIndexView(){
-        var col = ColorHelper.getColorByIndex(self.visitIndex.text!)
+        let col = ColorHelper.getColorByIndex("\(indexView.visitIndex ?? "")")
         indexView.color = col
         indexView.setNeedsDisplay()
         female.image = self.filledImageFrom(UIImage(named: "woman")!, color: col)

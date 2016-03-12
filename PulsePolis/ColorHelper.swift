@@ -11,7 +11,9 @@ import UIKit
 class ColorHelper: NSObject {
     static let defaultColor = UIColor(red: 15.0/255.0, green: 211.0/255.0, blue: 219.0/255.0, alpha: 1.0)
     static func getColorByIndex(index: NSString) -> UIColor{
+        print(index)
         switch(index){
+        
         case "0":
             return UIColor(red: 0.0/255.0, green: 168.0/255.0, blue: 65.0/255.0, alpha: 1.0)
             

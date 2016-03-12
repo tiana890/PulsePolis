@@ -42,6 +42,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     var fromAvatar = false
     
+    var ifAnimateCells = false
+    
     @IBOutlet var cityLabel: UILabel!
     @IBOutlet var userLocationButton: UIButton!
     @IBOutlet var statisticsButton: UIButton!
@@ -55,6 +57,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet var actualLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
+    
+    
+    @IBOutlet var preloaderMapView: UIView!
+    @IBOutlet var indicatorView: UIActivityIndicatorView!
     
     var places = [Place]()
     var selectedPlace: Place?
@@ -129,6 +135,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         let styleURL = NSURL(string: "mapbox://styles/marinazayceva/cik6w72v300g1btj77hydn79p")
         mapView.styleURL = styleURL
         mapView.userInteractionEnabled = true
+        APP.i().mapView = self.mapView
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .None
         
@@ -142,9 +149,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         customizeTabBar()
         
         self.setTableBackground()
-        
-        self.loadPlaces()
-       
+        self.showMapPreloader()
     }
     
     func setTableBackground(){
@@ -180,8 +185,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         if(self.fromAvatar){
             self.fromAvatar = false
         } else {
-            //self.table.reloadData()
-            self.loadPlaces()
+            self.loadPlaces(true)
         }
     }
     
@@ -235,8 +239,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 if(i == 0){
                     self.favoritesMode = false
                     self.setMap()
-                    self.table.reloadData()
-                    //loadPlaces()
+                    self.reloadTableAndResetAnimations()
                     if(self.filteredPlaces.count > 0){
                         if let placeId = self.filteredPlaces[0].id{
                             self.loadVisitors(placeId)
@@ -253,7 +256,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     func setFavorites(){
         self.setMap()
-        self.table.reloadData()
+        self.reloadTableAndResetAnimations()
         if(self.favorites.count > 0){
             if let placeId = self.favorites[0].id{
                 self.loadVisitors(placeId)
@@ -265,9 +268,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         let bounceAnimation = RAMBounceAnimation()
         bounceAnimation.playAnimation(button.imageView!, textLabel: UILabel())
         self.favoritesMode = false
+        self.ifAnimateCells = true
         if(!ifLoading){
             self.customTabBar.selectedItem = self.customTabBar.items![0]
-            loadPlaces()
+            loadPlaces(false)
         }
     }
     
@@ -284,6 +288,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         if(favoritesMode){
             array = self.favorites
         }
+        
         
         for(place) in array{
             
@@ -303,10 +308,18 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }
         }
         
-
-        //self.mapView.showAnnotations(self.annotations, animated: true)
-        
         self.mapView.showAnnotations(self.annotations, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: UIScreen.mainScreen().bounds.height - self.tableHeaderHeight + 30.0, right: 30.0), animated: false)
+        
+    }
+    
+    func showMapPreloader(){
+        self.preloaderMapView.hidden = false
+        self.indicatorView.startAnimating()
+    }
+    
+    func hideMapPreloader(){
+        self.preloaderMapView.hidden = true
+        self.indicatorView.stopAnimating()
     }
     
     func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
@@ -321,31 +334,18 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 place = self.places[placeIndex]
             }
         }
-        
-            let color: UIColor!
             if((annotation as! MGLPointAnnotation) == selectedAnnotation){
-                color = ColorHelper.defaultColor
-                //let filledImage = self.filledImageFrom(UIImage(named: "pin")!, color: color)
-                //let filledImage = UIImage(named:"annotation_select")!
                 if let visIndex = place!.visitIndex{
-                    //let image = filledImage.textToImage(visIndex, selected: true)
                     let image = UIImage(named: "\(visIndex)_ann_select")!
                     let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "\(visIndex)")
                     return annotationImage
                 } else {
                     let image = UIImage()
                     let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "selected")
-                    //annotationImage
                     return annotationImage
                 }
                 
             } else {
-                var color = UIColor.yellowColor()
-                if let visIndex = place!.visitIndex{
-                    color = ColorHelper.getColorByIndex(visIndex)
-                }
-                //let filledImage = self.filledImageFrom(UIImage(named: "pin")!, color: color)
-                //let filledImage = UIImage(named:self.imageNameByVisitIndex(place!.visitIndex))!
                 if let visIndex = place!.visitIndex{
                     let image = UIImage(named: "\(visIndex)_ann")!
                     let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "selected\(visIndex)")
@@ -356,9 +356,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     return annotationImage
                 }
             }
-    //}
-        
-        return MGLAnnotationImage()
     }
     
     func imageNameByVisitIndex(visitIndex: String?) -> String{
@@ -421,9 +418,12 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 self.loadVisitors(placeId)
             }
         }
-        self.table.reloadData()
+        self.reloadTableAndResetAnimations()
         
     }
+    
+    //MARK: MapViewDelegate methods
+
     
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
@@ -501,6 +501,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 }
                 
                 cell.indexView.tag = 1234
+                cell.ifAnimate = self.ifAnimateCells
                 cell.configureCell(place!)
                 
                 cell.tag = indexPath.row
@@ -596,23 +597,20 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func todaySegmentedControlValueChanged(sender: UISegmentedControl){
-        //loadToday(["time":(sender.titleForSegmentAtIndex(sender.selectedSegmentIndex))])
-        //        loadPlacesWithUrl(todayStringUrl + self.cityId, params: ["time":(sender.titleForSegmentAtIndex(sender.selectedSegmentIndex))!])
-        //        print(["time":(sender.titleForSegmentAtIndex(sender.selectedSegmentIndex))!])
         self.todayStatisticsManager.todaySelectedSegmentIndex = sender.selectedSegmentIndex
         self.todayStatisticsManager.todayValue = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)
-        loadPlaces()
+        loadPlaces(false)
     }
     
     func statisticsSegmentedControlValueChanged(sender: UISegmentedControl){
         self.todayStatisticsManager.statisticsSelectedSegmentIndex = sender.selectedSegmentIndex
-        loadPlaces()
+        loadPlaces(false)
     }
     
     func statisticsModeChanged(sender: UISegmentedControl){
         print("modeChanged")
         self.todayStatisticsManager.segmentIndex = sender.selectedSegmentIndex
-        loadPlaces()
+        loadPlaces(false)
     }
     
     
@@ -668,19 +666,25 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.statisticsMode = !sender.selected
         sender.selected = !sender.selected
         
-        loadPlaces()
+        loadPlaces(false)
     }
     
     
     //NETWORK FUNCTIONS
-    func loadPlaces(){
+    func loadPlaces(mapPreloader: Bool){
         ifLoading =  true
+        
         guard let cityId = APP.i().city?.id else { APP.i().defineCity({ () -> Void in
             self.cityLabel.text = APP.i().city?.city ?? ""
-            self.loadPlaces()
+            self.loadPlaces(mapPreloader)
         })
             return
         }
+        if(mapPreloader){
+            self.showMapPreloader()
+            self.table.hidden = true
+        }
+        
         let networkClient = NetworkClient()
         
         let observePlaces = self.createObservableForPlaces()
@@ -700,6 +704,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 }).addDisposableTo(self.disposeBag)
             }, onCompleted: { () -> Void in
                 self.ifLoading = false
+                
             }) { () -> Void in
                 
         }.addDisposableTo(self.disposeBag)
@@ -721,17 +726,28 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                         self.visitors = []
                     }
                     APP.i().places = self.places
-
-                    self.table.reloadData()
+                    
+                    if(self.table.hidden){
+                        self.table.reloadData()
+                        self.table.hidden = false
+                    }
+                    self.reloadTableAndResetAnimations()
                 }
             } else {
                 //ALERT!!!
-
+                
             }
             self.ifLoading = false
+            self.hideMapPreloader()
+            
         }
     }
     
+    func reloadTableAndResetAnimations(){
+        self.table.reloadData { () -> () in
+            self.ifAnimateCells = false
+        }
+    }
     
     func createObservableForPlaces() -> Observable<NetworkResponse>{
         let networkClient = NetworkClient()
@@ -815,7 +831,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         if let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID") as? PickerViewController{
             pickerViewController.ifDate = true
             pickerViewController.sourceController = self
-            //self.navigationController?.pushViewController(pickerViewController, animated: true)
             self.presentViewController(pickerViewController, animated: true, completion: nil)
         }
     }
@@ -893,7 +908,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
         
         partialBackgroundView.frame = CGRect(x: 0.0, y: self.tableHeaderHeight - scrollView.contentOffset.y, width: UIScreen.mainScreen().bounds.width, height: height)
-        
        
     }
     

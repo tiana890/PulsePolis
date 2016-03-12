@@ -18,6 +18,7 @@ import UIKit
 import RxSwift
 import RxAlamofire
 import SwiftyJSON
+import Mapbox
 
 class APP{
     var user: User?{
@@ -47,6 +48,8 @@ class APP{
     var settingsManager: SettingsManager?
     
     var networkManager: NetworkManager?
+    
+    var mapView: MGLMapView?
     
     static func i() -> APP{
         struct Static {
