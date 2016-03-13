@@ -620,9 +620,15 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             let visitor = self.visitors[indexPath.row]
             cell.prepareForReuse()
             cell.tag = indexPath.row
+            cell.viewWithTag(12345)?.removeFromSuperview()
             cell.avatarImage.image = UIImage(named:"ava_small")!
-            cell.indicator.hidden = false
-            cell.indicator.startAnimating()
+            
+            let indicatorView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+            indicatorView.center = cell.avatarImage.center
+            indicatorView.tag = 12345
+            cell.contentView.addSubview(indicatorView)
+            indicatorView.startAnimating()
+            
             let filter = AspectScaledToFillSizeFilter(size: CGSizeMake(cell.avatarImage.frame.width, cell.avatarImage.frame.height))
             if let avatarUrl = visitor.avatarUrl{
                 if let url = NSURL(string: avatarUrl){
@@ -633,8 +639,9 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                         filter: filter,
                         imageTransition: .CrossDissolve(0.5),
                         completion: { response in
-                           cell.indicator.hidden = true
-                           cell.indicator.stopAnimating()
+                            indicatorView.hidden = true
+                            indicatorView.stopAnimating()
+                            
                         }
                     )
                 }

@@ -19,6 +19,7 @@ target 'PulsePolis' do
     pod 'RxAlamofire', '~> 1.0'
     pod 'AlamofireImage', '~> 2.2.0'
     pod 'RAMAnimatedTabBarController', '~> 1.1.1'
+    pod 'UICountingLabel'
 end
 
 target 'PulsePolisTests' do

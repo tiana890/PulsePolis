@@ -10,6 +10,7 @@ import UIKit
 import CoreGraphics
 import QuartzCore
 
+
 class IndexView: UIView {
     
     var ifAnimate = false
@@ -19,23 +20,26 @@ class IndexView: UIView {
     var shapeView1:CAShapeLayer?
     var shapeView:CAShapeLayer?
     
-    var visitIndexLabel: UILabel!
+    var visitIndexLabel: UICountingLabel!
     var visitIndex: String?
     
     override func drawRect(rect: CGRect) {
         redrawLayers()
         
         if(self.visitIndexLabel == nil){
-            self.visitIndexLabel = UILabel(frame: CGRect(x: 5.0, y: 15.0, width: 40.0, height: 21.0))
+            self.visitIndexLabel = UICountingLabel(frame: CGRect(x: 5.0, y: 15.0, width: 40.0, height: 21.0))
+            self.visitIndexLabel.format = "%d"
+            self.visitIndexLabel.method = UILabelCountingMethod.Linear
+            self.addSubview(self.visitIndexLabel)
         }
         self.visitIndexLabel.textColor = UIColor.whiteColor()
         self.visitIndexLabel.backgroundColor = UIColor.clearColor()
         let font = UIFont(name: "HelveticaNeue-Thin", size: 24.0)!
         self.visitIndexLabel.textAlignment = .Center
         self.visitIndexLabel.font = font
-        self.visitIndexLabel.text = self.visitIndex ?? ""
+        //self.visitIndexLabel.text = self.visitIndex ?? ""
         self.visitIndexLabel.tag = 1234
-        self.addSubview(self.visitIndexLabel)
+        
         
         var mainColor = UIColor(red: 255/255, green: 47/255, blue: 91/255, alpha: 1.0)
         if let col = color{
@@ -79,14 +83,19 @@ class IndexView: UIView {
         
         if(self.ifAnimate){
             animateCircle(CGFloat(femaleIndex!)*10.0/100.0)
+            print(self.visitIndexLabel)
+            if let index = Int(self.visitIndex ?? "0"){
+                self.visitIndexLabel.countFrom(0.0, to: CGFloat(index), withDuration: Double(index) * Double(0.05))
+            }
         } else {
             if let womanIndex = femaleIndex{
                 shapeView!.strokeEnd = CGFloat(womanIndex)*10.0/100.0
             }
+            if let index = self.visitIndex{
+                self.visitIndexLabel.text = index
+            }
         }
     }
-    
-    
     
     func animateCircle(strokeEnd: CGFloat) {
         // We want to animate the strokeEnd property of the circleLayer
@@ -99,6 +108,7 @@ class IndexView: UIView {
         animation.fromValue = 0
         animation.toValue = strokeEnd
         
+        animation.delegate = self
         // Do a linear animation (i.e. the speed of the animation stays the same)
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
         
@@ -119,12 +129,11 @@ class IndexView: UIView {
 //            }, completion: nil)
     }
 
-   
     
     func redrawLayers(){
         shapeView?.removeFromSuperlayer()
         shapeView1?.removeFromSuperlayer()
-        //self.viewWithTag(1234)?.removeFromSuperview()
+        
     }
     
 }

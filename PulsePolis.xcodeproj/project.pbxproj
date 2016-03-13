@@ -61,6 +61,7 @@
 		886E68701C929A710008AB22 /* VisitorsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E686F1C929A710008AB22 /* VisitorsResponse.swift */; };
 		886E68721C940A720008AB22 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68711C940A720008AB22 /* InfoViewController.swift */; };
 		886E68741C943BBD0008AB22 /* UITableView+ReloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886E68731C943BBD0008AB22 /* UITableView+ReloadData.swift */; };
+		886E68771C948F690008AB22 /* UICountingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 886E68761C948F690008AB22 /* UICountingLabel.m */; };
 		8873332B1C7D9074001A1771 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B21C7D9074001A1771 /* NSData+MD5.m */; };
 		8873332C1C7D9074001A1771 /* NSError+VKError.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B41C7D9074001A1771 /* NSError+VKError.m */; };
 		8873332D1C7D9074001A1771 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 887332B61C7D9074001A1771 /* NSString+MD5.m */; };
@@ -172,7 +173,7 @@
 		3AE3D4CDD943E89C77E0BE42 /* Pods_PulsePolisTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PulsePolisTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		560F72417227445C3A6B95A9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		723A2429F98E540049EE0ECD /* Pods-PulsePolis.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PulsePolis.release.xcconfig"; path = "Pods/Target Support Files/Pods-PulsePolis/Pods-PulsePolis.release.xcconfig"; sourceTree = "<group>"; };
-		8808B9901BF1B504002D3457 /* HotFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8808B9901BF1B504002D3457 /* PulsePolis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PulsePolis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8808B9931BF1B504002D3457 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8808B9951BF1B504002D3457 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8808B9981BF1B504002D3457 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -241,6 +242,8 @@
 		886E686F1C929A710008AB22 /* VisitorsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorsResponse.swift; sourceTree = "<group>"; };
 		886E68711C940A720008AB22 /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		886E68731C943BBD0008AB22 /* UITableView+ReloadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+ReloadData.swift"; sourceTree = "<group>"; };
+		886E68751C948F690008AB22 /* UICountingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICountingLabel.h; path = ../../Pods/UICountingLabel/UICountingLabel.h; sourceTree = "<group>"; };
+		886E68761C948F690008AB22 /* UICountingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UICountingLabel.m; path = ../../Pods/UICountingLabel/UICountingLabel.m; sourceTree = "<group>"; };
 		887332B11C7D9074001A1771 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5.h"; path = "library/Source/Utils/NSData+MD5.h"; sourceTree = "<group>"; };
 		887332B21C7D9074001A1771 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MD5.m"; path = "library/Source/Utils/NSData+MD5.m"; sourceTree = "<group>"; };
 		887332B31C7D9074001A1771 /* NSError+VKError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+VKError.h"; path = "library/Source/Core/NSError+VKError.h"; sourceTree = "<group>"; };
@@ -457,7 +460,7 @@
 		8808B9911BF1B504002D3457 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8808B9901BF1B504002D3457 /* HotFinder.app */,
+				8808B9901BF1B504002D3457 /* PulsePolis.app */,
 				8808B9A41BF1B504002D3457 /* PulsePolisTests.xctest */,
 				8808B9AF1BF1B504002D3457 /* PulsePolisUITests.xctest */,
 			);
@@ -815,6 +818,8 @@
 			children = (
 				8873339D1C7ECF18001A1771 /* NMRangeSlider.h */,
 				8873339E1C7ECF18001A1771 /* NMRangeSlider.m */,
+				886E68751C948F690008AB22 /* UICountingLabel.h */,
+				886E68761C948F690008AB22 /* UICountingLabel.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -835,9 +840,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8808B98F1BF1B504002D3457 /* HotFinder */ = {
+		8808B98F1BF1B504002D3457 /* PulsePolis */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "HotFinder" */;
+			buildConfigurationList = 8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolis" */;
 			buildPhases = (
 				6631E886E1B8FD1A11103497 /* Check Pods Manifest.lock */,
 				8808B98C1BF1B504002D3457 /* Sources */,
@@ -850,9 +855,9 @@
 			);
 			dependencies = (
 			);
-			name = HotFinder;
+			name = PulsePolis;
 			productName = PulsePolis;
-			productReference = 8808B9901BF1B504002D3457 /* HotFinder.app */;
+			productReference = 8808B9901BF1B504002D3457 /* PulsePolis.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8808B9A31BF1B504002D3457 /* PulsePolisTests */ = {
@@ -938,7 +943,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8808B98F1BF1B504002D3457 /* HotFinder */,
+				8808B98F1BF1B504002D3457 /* PulsePolis */,
 				8808B9A31BF1B504002D3457 /* PulsePolisTests */,
 				8808B9AE1BF1B504002D3457 /* PulsePolisUITests */,
 			);
@@ -1185,6 +1190,7 @@
 				887333511C7D9074001A1771 /* VKPhotoSize.m in Sources */,
 				8853CF0C1C17FA3200D6C535 /* CenterCellCollectionViewFlowLayout.swift in Sources */,
 				8873332B1C7D9074001A1771 /* NSData+MD5.m in Sources */,
+				886E68771C948F690008AB22 /* UICountingLabel.m in Sources */,
 				887333571C7D9074001A1771 /* VKSdk.m in Sources */,
 				887333981C7D9AEC001A1771 /* TabBarController.swift in Sources */,
 				8873335B1C7D9074001A1771 /* VKUploadImage.m in Sources */,
@@ -1255,12 +1261,12 @@
 /* Begin PBXTargetDependency section */
 		8808B9A61BF1B504002D3457 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8808B98F1BF1B504002D3457 /* HotFinder */;
+			target = 8808B98F1BF1B504002D3457 /* PulsePolis */;
 			targetProxy = 8808B9A51BF1B504002D3457 /* PBXContainerItemProxy */;
 		};
 		8808B9B11BF1B504002D3457 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8808B98F1BF1B504002D3457 /* HotFinder */;
+			target = 8808B98F1BF1B504002D3457 /* PulsePolis */;
 			targetProxy = 8808B9B01BF1B504002D3457 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1467,7 +1473,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "HotFinder" */ = {
+		8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolis" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8808B9B91BF1B504002D3457 /* Debug */,
