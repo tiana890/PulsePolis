@@ -687,30 +687,33 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         })
             return
         }
+        
         if(mapPreloader){
             self.showMapPreloader()
             self.table.hidden = true
         }
         
+        let queue = dispatch_queue_create("placesQueue",nil)
+        
         let networkClient = NetworkClient()
         
         let observePlaces = self.createObservableForPlaces()
-        observePlaces.observeOn(MainScheduler.instance).subscribe(onNext: { (placesResponse) -> Void in
+        observePlaces.observeOn(ConcurrentDispatchQueueScheduler(queue: queue)).subscribe(onNext: { (placesResponse) -> Void in
             self.loadPlacesHandler(placesResponse)
             }, onError: { (errorType) -> Void in
-                networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (networkResponse) -> Void in
+                networkClient.updateSettings().observeOn(ConcurrentDispatchQueueScheduler(queue: queue)).subscribeNext({ (networkResponse) -> Void in
                     if(networkResponse.status == Status.Success){
                         let newObserverForPlaces = self.createObservableForPlaces()
-                        newObserverForPlaces.subscribeNext({ (networkResponse) -> Void in
+                        newObserverForPlaces.observeOn(ConcurrentDispatchQueueScheduler(queue: queue)).subscribeNext({ (networkResponse) -> Void in
                             self.loadPlacesHandler(networkResponse)
                         }).addDisposableTo(self.disposeBag)
                     } else{
                         //ALERT!!!!
                     }
-                    self.ifLoading = false
+                    
                 }).addDisposableTo(self.disposeBag)
             }, onCompleted: { () -> Void in
-                self.ifLoading = false
+                
                 
             }) { () -> Void in
                 
@@ -720,39 +723,42 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func loadPlacesHandler(placesResponse: NetworkResponse){
-        if let response = placesResponse as? PlacesResponse{
-            if(placesResponse.status == Status.Success){
-                if let _places = response.places{
-                    self.places = _places
-                    self.setMap()
-                    if(self.favoritesMode && self.favorites.count > 0){
-                        self.loadVisitors(self.favorites[0].id!)
-                    } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
-                        self.loadVisitors(self.filteredPlaces[0].id!)
-                    } else {
-                        self.visitors = []
+        
+            if let response = placesResponse as? PlacesResponse{
+                if(placesResponse.status == Status.Success){
+                    if let _places = response.places{
+                        self.places = _places
+                        
+                        if(self.favoritesMode && self.favorites.count > 0){
+                            self.loadVisitors(self.favorites[0].id!)
+                        } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
+                            self.loadVisitors(self.filteredPlaces[0].id!)
+                        } else {
+                            self.visitors = []
+                        }
+                        APP.i().places = self.places
+                        
+                        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                            self.setMap()
+                            self.reloadTableAndResetAnimations()
+                        }
                     }
-                    APP.i().places = self.places
+                } else {
+                    //ALERT!!!
                     
-                    if(self.table.hidden){
-                        self.table.reloadData()
-                        self.table.hidden = false
-                    }
-                    self.reloadTableAndResetAnimations()
                 }
-            } else {
-                //ALERT!!!
+                
                 
             }
-            self.ifLoading = false
-            self.hideMapPreloader()
-            
-        }
+        
     }
     
     func reloadTableAndResetAnimations(){
         self.table.reloadData { () -> () in
             self.ifAnimateCells = false
+            self.ifLoading = false
+            
+            self.hideMapPreloader()
         }
     }
     
@@ -772,43 +778,73 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func loadVisitors(placeId: String){
-        let networkClient = NetworkClient()
-    
-        networkClient.getVisitors(placeId).observeOn(MainScheduler.instance)
-        .subscribe(onNext: { (networkResponse) -> Void in
-            self.loadVisitorsHandler(networkResponse)
-            }, onError: { (errorType) -> Void in
-                networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (networkResponse) -> Void in
-                    if(networkResponse.status == Status.Success){
-                        networkClient.getVisitors(placeId).observeOn(MainScheduler.instance)
-                        .subscribeNext({ (networkResponse) -> Void in
-                            self.loadVisitorsHandler(networkResponse)
+        
+        dispatch_async(dispatch_queue_create("qqq", nil)) { () -> Void in
+            let queue = dispatch_queue_create("queue",nil)
+            
+            if(self.visitors.count > 0){
+                self.visitors.removeAll()
+                //self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
+            }
+            
+            let networkClient = NetworkClient()
+            
+            networkClient.getVisitors(placeId).observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+                .subscribe(onNext: { (networkResponse) -> Void in
+                    self.loadVisitorsHandler(networkResponse)
+                    }, onError: { (errorType) -> Void in
+                        networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (networkResponse) -> Void in
+                            if(networkResponse.status == Status.Success){
+                                networkClient.getVisitors(placeId).observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+                                    .subscribeNext({ (networkResponse) -> Void in
+                                        self.loadVisitorsHandler(networkResponse)
+                                    }).addDisposableTo(self.disposeBag)
+                            } else{
+                                //ALERT!!!!
+                            }
+                            
                         }).addDisposableTo(self.disposeBag)
-                    } else{
-                        //ALERT!!!!
-                    }
-                    self.ifLoading = false
+                    }, onCompleted: { () -> Void in
+                        
+                    }, onDisposed: { () -> Void in
+                        
                 }).addDisposableTo(self.disposeBag)
-            }, onCompleted: { () -> Void in
-                
-            }, onDisposed: { () -> Void in
-                
-        }).addDisposableTo(self.disposeBag)
+        }
+       
     }
     
     func loadVisitorsHandler(visitorsResponse: NetworkResponse){
-        if let response = visitorsResponse as? VisitorsResponse{
-            if (response.status == Status.Success){
-                self.visitors.removeAll()
-                if let arrayOfVisitors = response.visitors{
-                    self.visitors = arrayOfVisitors
+            print(NSThread.isMainThread())
+            if let response = visitorsResponse as? VisitorsResponse{
+                if (response.status == Status.Success){
+                    self.visitors.removeAll()
+                    if let arrayOfVisitors = response.visitors{
+                        self.visitors = arrayOfVisitors
+                    }
+                    var popTime = dispatch_time(DISPATCH_TIME_NOW, (Int64)(1 * NSEC_PER_SEC))
+                    
+                    dispatch_after(popTime, dispatch_get_main_queue()){ () -> Void in
+                        if(self.table.hidden){
+                            self.table.reloadData()
+                            self.table.hidden = false
+                        }
+                        self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
+                    }
+
+//                    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+//                        if(self.table.hidden){
+//                            self.table.reloadData()
+//                            self.table.hidden = false
+//                        }
+//                        self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
+//                    }
+//                
+                } else {
+                    //MARK ALERT!!!
                 }
-                self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
-            } else {
                 //MARK ALERT!!!
             }
-             //MARK ALERT!!!
-        }
+        
     }
     
     func addToFavorites(place: Place){

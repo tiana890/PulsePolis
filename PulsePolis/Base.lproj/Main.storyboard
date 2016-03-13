@@ -992,13 +992,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="g9Y-lT-RLk">
-                                        <rect key="frame" x="282" y="199" width="37" height="37"/>
+                                        <rect key="frame" x="282" y="282" width="37" height="37"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.1333333333" green="0.16078431369999999" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="g9Y-lT-RLk" firstAttribute="centerX" secondItem="4si-l0-zrK" secondAttribute="centerX" id="4iR-uB-CZM"/>
-                                    <constraint firstItem="g9Y-lT-RLk" firstAttribute="centerY" secondItem="4si-l0-zrK" secondAttribute="centerY" constant="-83" id="fkY-Kh-nei"/>
+                                    <constraint firstItem="g9Y-lT-RLk" firstAttribute="centerY" secondItem="4si-l0-zrK" secondAttribute="centerY" id="fkY-Kh-nei"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="55" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MA7-Aj-ftT">

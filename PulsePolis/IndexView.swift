@@ -9,6 +9,8 @@
 import UIKit
 import CoreGraphics
 import QuartzCore
+import RxCocoa
+import RxSwift
 
 
 class IndexView: UIView {
@@ -23,15 +25,22 @@ class IndexView: UIView {
     var visitIndexLabel: UICountingLabel!
     var visitIndex: String?
     
+    var timer: NSTimer?
+    
     override func drawRect(rect: CGRect) {
         redrawLayers()
         
+        
+        
         if(self.visitIndexLabel == nil){
             self.visitIndexLabel = UICountingLabel(frame: CGRect(x: 5.0, y: 15.0, width: 40.0, height: 21.0))
-            self.visitIndexLabel.format = "%d"
-            self.visitIndexLabel.method = UILabelCountingMethod.Linear
+
+//            self.visitIndexLabel.format = "%d"
+//            self.visitIndexLabel.method = UILabelCountingMethod.Linear
+            
             self.addSubview(self.visitIndexLabel)
         }
+        
         self.visitIndexLabel.textColor = UIColor.whiteColor()
         self.visitIndexLabel.backgroundColor = UIColor.clearColor()
         let font = UIFont(name: "HelveticaNeue-Thin", size: 24.0)!
@@ -83,26 +92,43 @@ class IndexView: UIView {
         
         if(self.ifAnimate){
             animateCircle(CGFloat(femaleIndex!)*10.0/100.0)
-            print(self.visitIndexLabel)
-            if let index = Int(self.visitIndex ?? "0"){
-                self.visitIndexLabel.countFrom(0.0, to: CGFloat(index), withDuration: Double(index) * Double(0.05))
-            }
-        } else {
-            if let womanIndex = femaleIndex{
-                shapeView!.strokeEnd = CGFloat(womanIndex)*10.0/100.0
-            }
-            if let index = self.visitIndex{
-                self.visitIndexLabel.text = index
-            }
-        }
-    }
+            self.visitIndexLabel.text = "0"
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(0.006, target: self, selector: "changeText", userInfo: nil, repeats: true)
+            
+            } else {
+                if let womanIndex = femaleIndex{
+                    shapeView!.strokeEnd = CGFloat(womanIndex)*10.0/100.0
+                }
+                if let index = self.visitIndex{
+                    self.visitIndexLabel.text = index
+                }
+         }
     
+    }
+
+    
+    
+    func changeText(){
+        //dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            if let text = self.visitIndexLabel.text{
+                if let intValue = Int(text){
+                    if(intValue < Int(self.visitIndex!)!){
+                        self.visitIndexLabel.text = "\(intValue + 1)"
+                    } else {
+                        self.timer?.invalidate()
+                    }
+                }
+            }
+        //}
+        
+    }
+
     func animateCircle(strokeEnd: CGFloat) {
         // We want to animate the strokeEnd property of the circleLayer
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         
         // Set the animation duration appropriately
-        animation.duration = 5
+        animation.duration = 3
         
         // Animate from 0 (no circle) to 1 (full circle)
         animation.fromValue = 0
@@ -127,7 +153,8 @@ class IndexView: UIView {
 //            animations: { () -> Void in
 //                self.visitIndexLabel.text = "10"
 //            }, completion: nil)
-    }
+}
+
 
     
     func redrawLayers(){
