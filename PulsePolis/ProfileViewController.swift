@@ -18,6 +18,8 @@ class ProfileViewController: UIViewController {
         case Exit
     }
     
+    let FEEDBACK_SEGUE = "feedbackSegue"
+    
     @IBOutlet var ageLabel: UILabel!
     @IBOutlet var avatarXConstraint: NSLayoutConstraint!
     @IBOutlet var avatar: UIImageView!
@@ -96,14 +98,14 @@ class ProfileViewController: UIViewController {
     image.layer.masksToBounds = YES;
     }
     */
-    /*
+    
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+        if(segue.identifier == FEEDBACK_SEGUE){
+            APP.i().mainViewController?.fromAvatar = true
+        }
     }
-    */
+    
     
 }

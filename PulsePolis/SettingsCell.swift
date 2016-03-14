@@ -61,7 +61,6 @@ class SettingsCell: UITableViewCell {
         }
         
         self.upperLabel.text = "\(Int(self.rangeSlider.upperValue))"
-        print("upperConstraintConstant = \(self.upperLabelHorizontalConstraint.constant)")
     }
     
     func configureSearchCell(){

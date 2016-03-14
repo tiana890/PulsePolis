@@ -51,6 +51,8 @@ class APP{
     
     var mapView: MGLMapView?
     
+    var mainViewController: MainViewController?
+    
     static func i() -> APP{
         struct Static {
             static var onceToken : dispatch_once_t = 0

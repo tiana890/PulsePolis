@@ -40,7 +40,7 @@ class CitiesResponse: NetworkResponse {
     //    ],
     //    "status" : "OK"
     
-    init(json: JSON){
+    override init(json: JSON){
         super.init(_status: json["status"].string, _errMsg: json["errormsg"].string)
         self.cities = [City]()
         for(var i = 0; i < json["cities"].array?.count; i++){

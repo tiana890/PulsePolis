@@ -11,7 +11,7 @@ import SwiftyJSON
 class VisitorsResponse: NetworkResponse {
     var visitors: [Visitor]?
     
-    init(json: JSON){
+    override init(json: JSON){
         super.init(_status: json["status"].string, _errMsg: json["errormsg"].string)
         self.visitors = [Visitor]()
         for(var i = 0; i < json["visitors"].array?.count; i++){

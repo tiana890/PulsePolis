@@ -23,4 +23,10 @@ class NetworkResponse: NSObject {
         self.errMsg = _errMsg
     
     }
+    
+    init(json: JSON){
+        super.init()
+        self.status = Status(rawValue: json["status"].string ?? "") ?? Status.Error
+        self.errMsg = json["errormsg"].string
+    }
 }

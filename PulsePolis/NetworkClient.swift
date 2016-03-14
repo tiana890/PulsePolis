@@ -110,8 +110,16 @@ class NetworkClient: NSObject {
             .map({ (response, data) -> AuthorizeResponse in
                 return AuthorizeResponse(json: JSON(data: data))
             })
+    }
+    
+    func feedback(text: String) -> Observable<NetworkResponse>{
+        let parametersDict:[String: AnyObject] = ["text": text, "token": (APP.i().user?.token ?? "")]
         
-
-
+        return requestData(.POST, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getFeedbackURL() ?? ""), parameters: parametersDict, encoding: .URL, headers: nil)
+            .observeOn(MainScheduler.instance)
+            .debug()
+            .map({ (response, data) -> NetworkResponse in
+                return NetworkResponse(json: JSON(data: data))
+            })
     }
 }

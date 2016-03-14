@@ -109,7 +109,21 @@ class IndexView: UIView {
     
     
     func changeText(){
-        //dispatch_async(dispatch_get_main_queue()) { () -> Void in
+//        let queue = dispatch_queue_create("qqq", nil)
+//        dispatch_async(queue) { () -> Void in
+//            if let text = self.visitIndexLabel.text{
+//                if let intValue = Int(text){
+//                    if(intValue < Int(self.visitIndex!)!){
+//                        self.visitIndexLabel.text = "\(intValue + 1)"
+//                    } else {
+//                        self.timer?.invalidate()
+//                    }
+//                }
+//            }
+//
+//        }
+
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
             if let text = self.visitIndexLabel.text{
                 if let intValue = Int(text){
                     if(intValue < Int(self.visitIndex!)!){
@@ -119,7 +133,7 @@ class IndexView: UIView {
                     }
                 }
             }
-        //}
+        }
         
     }
 

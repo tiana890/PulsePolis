@@ -19,6 +19,7 @@ import SwiftyJSON
 class StartViewController: BaseViewController {
     
     let INFO_CONTROLLER_STORYBOARD_ID = "infoViewControllerID"
+    let SAVE_SEGUE = "saveSegue"
     
     @IBOutlet var maleText: UILabel!
     @IBOutlet var femaleText: UILabel!
@@ -126,11 +127,13 @@ class StartViewController: BaseViewController {
     @IBAction func femaleBtnPressed(sender: AnyObject) {
         femaleSelected()
         APP.i().user?.gender = Gender.Female
+        
     }
     
     @IBAction func maleBtnPressed(sender: AnyObject) {
         maleSelected()
         APP.i().user?.gender = Gender.Male
+        
     }
     
     func createMaskForImage(image: UIImageView){
@@ -160,5 +163,11 @@ class StartViewController: BaseViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier(INFO_CONTROLLER_STORYBOARD_ID)
         self.presentViewController(pickerViewController, animated: true, completion: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == SAVE_SEGUE){
+            APP.i().user?.saveUser()
+        }
     }
 }

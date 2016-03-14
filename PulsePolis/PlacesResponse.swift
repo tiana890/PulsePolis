@@ -11,7 +11,7 @@ import SwiftyJSON
 class PlacesResponse: NetworkResponse {
     var places: [Place]?
     
-    init(json: JSON){
+    override init(json: JSON){
         super.init(_status: json["status"].string, _errMsg: json["errormsg"].string)
         self.places = [Place]()
         for(var i = 0; i < json["places"].array?.count; i++){

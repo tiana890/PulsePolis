@@ -339,7 +339,7 @@
                                     <color key="titleColor" red="0.058823529409999999" green="0.82745098039999998" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="gdY-QQ-LBF" kind="show" id="ZRL-QG-HJm"/>
+                                    <segue destination="gdY-QQ-LBF" kind="show" identifier="saveSegue" id="ZRL-QG-HJm"/>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9T7-Xt-Hol">
@@ -353,7 +353,7 @@
                                     <color key="titleColor" red="0.058823529409999999" green="0.82745098039999998" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="gdY-QQ-LBF" kind="show" id="Ed1-9I-BF4"/>
+                                    <segue destination="gdY-QQ-LBF" kind="show" identifier="saveSegue" id="Ed1-9I-BF4"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Ct-bS-44H">
@@ -724,7 +724,7 @@
                                     <constraint firstAttribute="height" constant="30" id="p3H-zK-b5L"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="CQh-el-q5A" kind="show" id="TI1-bP-juO"/>
+                                    <segue destination="CQh-el-q5A" kind="show" identifier="feedbackSegue" id="TI1-bP-juO"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57X-uB-TXl" userLabel="ExitButton">
@@ -820,12 +820,15 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Текст отзыва" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hju-Ym-CQy">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Текст отзыва   " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hju-Ym-CQy">
                                 <rect key="frame" x="20" y="64" width="560" height="506"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" red="0.10588235294117647" green="0.13725490196078433" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="tUe-tE-uwG" id="mQj-We-8ZV"/>
+                                </connections>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -867,9 +870,15 @@
                         </view>
                         <barButtonItem key="rightBarButtonItem" image="send" id="iEf-GT-Zqv">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="feedback:" destination="tUe-tE-uwG" id="NNq-Oj-OoD"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="txtView" destination="hju-Ym-CQy" id="Pf1-wo-U0b"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l3z-Nc-X8k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -970,7 +979,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wY2-a5-jKR">
-                                        <rect key="frame" x="20" y="69" width="284" height="21"/>
+                                        <rect key="frame" x="20" y="69" width="284" height="25"/>
                                         <connections>
                                             <action selector="selectCity:" destination="lau-84-Syl" eventType="touchUpInside" id="pec-qG-EOL"/>
                                         </connections>
@@ -982,7 +991,7 @@
                                     <constraint firstItem="jd1-hh-rDp" firstAttribute="top" secondItem="TCr-D4-Btg" secondAttribute="top" constant="69" id="6Ju-i4-PVF"/>
                                     <constraint firstItem="GKz-fF-ow8" firstAttribute="top" secondItem="TCr-D4-Btg" secondAttribute="top" constant="69" id="BBh-DO-ybR"/>
                                     <constraint firstItem="jd1-hh-rDp" firstAttribute="leading" secondItem="GKz-fF-ow8" secondAttribute="trailing" constant="-4" id="L93-iP-FgY"/>
-                                    <constraint firstItem="wY2-a5-jKR" firstAttribute="bottom" secondItem="GKz-fF-ow8" secondAttribute="bottom" id="iZR-pp-nCH"/>
+                                    <constraint firstItem="wY2-a5-jKR" firstAttribute="bottom" secondItem="GKz-fF-ow8" secondAttribute="bottom" constant="4" id="iZR-pp-nCH"/>
                                     <constraint firstItem="wY2-a5-jKR" firstAttribute="top" secondItem="GKz-fF-ow8" secondAttribute="top" id="j3I-6v-kB2"/>
                                     <constraint firstItem="GKz-fF-ow8" firstAttribute="leading" secondItem="TCr-D4-Btg" secondAttribute="leading" constant="20" id="s4n-Wh-CX8"/>
                                     <constraint firstItem="wY2-a5-jKR" firstAttribute="leading" secondItem="GKz-fF-ow8" secondAttribute="leading" id="tuq-FP-51C"/>
@@ -2512,6 +2521,6 @@
         <image name="warning" width="249" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZRL-QG-HJm"/>
+        <segue reference="Ed1-9I-BF4"/>
     </inferredMetricsTieBreakers>
 </document>

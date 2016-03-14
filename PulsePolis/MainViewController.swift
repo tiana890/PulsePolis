@@ -150,6 +150,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         self.setTableBackground()
         self.showMapPreloader()
+        
+        APP.i().mainViewController = self
     }
     
     func setTableBackground(){
@@ -226,6 +228,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.customTabBar.tintColor = ColorHelper.defaultColor
         self.customTabBar.barTintColor = UIColor.whiteColor()
         
+        self.customTabBar.items![0].selectedImage = UIImage(named: "tabbar_all_selected")
         self.customTabBar.items![2].selectedImage = UIImage(named: "tabbar_fav_selected")
         
         print("BUTTON FRAME")
@@ -239,28 +242,36 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 if(i == 0){
                     self.favoritesMode = false
                     self.setMap()
+                    self.table.hidden = false
                     self.reloadTableAndResetAnimations()
                     if(self.filteredPlaces.count > 0){
                         if let placeId = self.filteredPlaces[0].id{
                             self.loadVisitors(placeId)
                         }
+                    } else {
+                        self.table.hidden = true
                     }
+                    
+                    
                 } else if(i == 2){
                     self.favoritesMode = true
                     setFavorites()
+                    
                 }
             }
         }
     }
     
-    
     func setFavorites(){
         self.setMap()
         self.reloadTableAndResetAnimations()
+        
         if(self.favorites.count > 0){
             if let placeId = self.favorites[0].id{
                 self.loadVisitors(placeId)
             }
+        } else {
+            self.table.hidden = true
         }
     }
     
@@ -302,13 +313,12 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                         self.selectedAnnotation = point
                         self.selectedPlace = place
                     }
-                    
                     self.mapView.addAnnotation(point)
                 }
             }
         }
         
-        self.mapView.showAnnotations(self.annotations, edgePadding: UIEdgeInsets(top: 30.0, left: 30.0, bottom: UIScreen.mainScreen().bounds.height - self.tableHeaderHeight + 30.0, right: 30.0), animated: false)
+        self.mapView.showAnnotations(self.annotations, edgePadding: UIEdgeInsets(top: 40.0, left: 30.0, bottom: UIScreen.mainScreen().bounds.height - self.tableHeaderHeight + 30.0, right: 30.0), animated: false)
         
     }
     
@@ -599,18 +609,24 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func todaySegmentedControlValueChanged(sender: UISegmentedControl){
         self.todayStatisticsManager.todaySelectedSegmentIndex = sender.selectedSegmentIndex
         self.todayStatisticsManager.todayValue = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)
-        loadPlaces(false)
+        if(!ifLoading){
+            loadPlaces(false)
+        }
     }
     
     func statisticsSegmentedControlValueChanged(sender: UISegmentedControl){
         self.todayStatisticsManager.statisticsSelectedSegmentIndex = sender.selectedSegmentIndex
-        loadPlaces(false)
+        if(!ifLoading){
+            loadPlaces(false)
+        }
     }
     
     func statisticsModeChanged(sender: UISegmentedControl){
         print("modeChanged")
         self.todayStatisticsManager.segmentIndex = sender.selectedSegmentIndex
-        loadPlaces(false)
+        if(!ifLoading){
+            loadPlaces(false)
+        }
     }
     
     
@@ -672,8 +688,9 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     @IBAction func statisticsPressed(sender: UIButton) {
         self.statisticsMode = !sender.selected
         sender.selected = !sender.selected
-        
-        loadPlaces(false)
+        if(!ifLoading){
+            loadPlaces(false)
+        }
     }
     
     
@@ -718,39 +735,34 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }) { () -> Void in
                 
         }.addDisposableTo(self.disposeBag)
-        
-        
     }
     
     func loadPlacesHandler(placesResponse: NetworkResponse){
-        
-            if let response = placesResponse as? PlacesResponse{
-                if(placesResponse.status == Status.Success){
-                    if let _places = response.places{
-                        self.places = _places
-                        
-                        if(self.favoritesMode && self.favorites.count > 0){
-                            self.loadVisitors(self.favorites[0].id!)
-                        } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
-                            self.loadVisitors(self.filteredPlaces[0].id!)
-                        } else {
-                            self.visitors = []
-                        }
-                        APP.i().places = self.places
-                        
-                        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                            self.setMap()
-                            self.reloadTableAndResetAnimations()
-                        }
-                    }
-                } else {
-                    //ALERT!!!
+        if let response = placesResponse as? PlacesResponse{
+            if(placesResponse.status == Status.Success){
+                if let _places = response.places{
+                    self.places = _places
                     
+                    if(self.favoritesMode && self.favorites.count > 0){
+                        self.loadVisitors(self.favorites[0].id!)
+                    } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
+                        self.loadVisitors(self.filteredPlaces[0].id!)
+                    } else {
+                        self.table.hidden = true
+                        self.visitors = []
+                    }
+                    APP.i().places = self.places
+                    
+                    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                        self.setMap()
+                       
+                        self.reloadTableAndResetAnimations()
+                    }
                 }
-                
-                
+            } else {
+                //ALERT!!!
             }
-        
+        }
     }
     
     func reloadTableAndResetAnimations(){
@@ -784,6 +796,20 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             
             if(self.visitors.count > 0){
                 self.visitors.removeAll()
+                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    if let cell = self.table.cellForRowAtIndexPath(NSIndexPath(forItem: 1, inSection: 0)) as? AvatarCell{
+                        print(cell)
+                        let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+                        indicator.center = cell.contentView.center ?? CGPoint(x: 0,y: 0)
+                        indicator.tag = 5555
+                        
+                        cell.contentView.addSubview(indicator)
+                        indicator.startAnimating()
+                        cell.collectionView.hidden = true
+                    }
+                    
+                }
+                
                 //self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
             }
             
@@ -814,31 +840,27 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func loadVisitorsHandler(visitorsResponse: NetworkResponse){
-            print(NSThread.isMainThread())
+        
             if let response = visitorsResponse as? VisitorsResponse{
                 if (response.status == Status.Success){
                     self.visitors.removeAll()
                     if let arrayOfVisitors = response.visitors{
                         self.visitors = arrayOfVisitors
                     }
-                    var popTime = dispatch_time(DISPATCH_TIME_NOW, (Int64)(1 * NSEC_PER_SEC))
-                    
-                    dispatch_after(popTime, dispatch_get_main_queue()){ () -> Void in
+
+                    dispatch_async(dispatch_get_main_queue()) { () -> Void in
                         if(self.table.hidden){
                             self.table.reloadData()
                             self.table.hidden = false
                         }
+                        if let cell = self.table.cellForRowAtIndexPath(NSIndexPath(forItem: 1, inSection: 0)) as? AvatarCell{
+                            cell.contentView.viewWithTag(5555)?.removeFromSuperview()
+                            cell.collectionView.hidden = false
+                        }
+
                         self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
                     }
-
-//                    dispatch_async(dispatch_get_main_queue()) { () -> Void in
-//                        if(self.table.hidden){
-//                            self.table.reloadData()
-//                            self.table.hidden = false
-//                        }
-//                        self.table.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
-//                    }
-//                
+                
                 } else {
                     //MARK ALERT!!!
                 }

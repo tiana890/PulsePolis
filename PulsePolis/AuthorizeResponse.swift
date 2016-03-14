@@ -21,7 +21,7 @@ class AuthorizeResponse: NetworkResponse {
     var error: String?
     var token: String?
     
-    init(json: JSON){
+    override init(json: JSON){
         super.init(_status: json["status"].string, _errMsg: json["errormsg"].string)
         self.id = json["id"].int
         self.error = json["error"].string

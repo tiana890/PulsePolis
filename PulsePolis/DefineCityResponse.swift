@@ -21,7 +21,7 @@ class DefineCityResponse: NetworkResponse{
     var city: String?
     var ifDefined: Bool?
     
-    init(json: JSON){
+    override init(json: JSON){
         super.init(_status: json["status"].string, _errMsg: json["errormsg"].string)
         self.id = json["id"].string
         self.ifDefined = json["ifDefined"].bool
