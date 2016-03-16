@@ -57,6 +57,7 @@ class NetworkClient: NSObject {
     
     func getPlaces(cityId: String) -> Observable<NetworkResponse>{
         let queue = dispatch_queue_create("queue",nil)
+        print(APP.i().user?.token)
         return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getPlacesURL() ?? ""), parameters: ["token": (APP.i().user?.token ?? ""), "city_id": cityId], encoding: .URL, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .debug()

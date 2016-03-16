@@ -98,7 +98,7 @@ class APP{
                                 self.getCitiesHandler(citiesResponse)
                             }).addDisposableTo(self.disposeBag)
                         } else {
-                            //ALERT!!!!
+                            self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
                         }
                     }).addDisposableTo(self.disposeBag)
                 }, onCompleted: { () -> Void in
@@ -116,7 +116,7 @@ class APP{
             if(response.status == Status.Success){
                 APP.i().cities = response.cities
             } else {
-                 //ALERT!!!
+                 self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
             }
         }
 
@@ -135,7 +135,7 @@ class APP{
                             self.defineCityHandler(defineCityResponse)
                         }).addDisposableTo(self.disposeBag)
                     } else {
-                        //ALERT!!!!
+                        self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
                     }
                     handler()
                 }).addDisposableTo(self.disposeBag)
@@ -154,7 +154,7 @@ class APP{
                 city.id = response.id
                 APP.i().city = city
             } else {
-                //ALERT!!!
+                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
             }
         }
 
@@ -173,7 +173,7 @@ class APP{
                                 self.loadPlacesHandler(placesResponse)
                             }).addDisposableTo(self.disposeBag)
                         } else {
-                            //ALERT!!!!
+                            self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
                             
                         }
 
@@ -193,13 +193,25 @@ class APP{
                     APP.i().places = _places
                 }
             } else {
-                //ALERT!!!
+                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
 
             }
         }
         self.ifLoading = false
     }
     
-    
+    //MARK: Alerts
+    func showAlert(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+            message: msg,
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+            style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        
+    }
 }
 

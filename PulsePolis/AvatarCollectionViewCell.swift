@@ -12,7 +12,6 @@ class AvatarCollectionViewCell: UICollectionViewCell {
     @IBOutlet var avatarImage: UIImageView!
     @IBOutlet var name: UILabel!
     
-    @IBOutlet var indicator: UIActivityIndicatorView!
     @IBOutlet var checkin: UILabel!
     
 }

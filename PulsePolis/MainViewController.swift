@@ -70,7 +70,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             
             let favManager = FavoritesManager()
             
-            return self.places.filter({ (place) -> Bool in
+            return self.filteredPlaces.filter({ (place) -> Bool in
                 if let placeIdString = place.id{
                     if let placeId = Int(placeIdString){
                         if(favManager.favContainsPlace(placeId)){
@@ -211,11 +211,13 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         btnView.center.x = UIScreen.mainScreen().bounds.width/2
         btnView.center.y = UIScreen.mainScreen().bounds.height - 63/2
+       
         
         btn.setImage(UIImage(named:"tabbar_btn"), forState: .Normal)
         btn.setImage(UIImage(named:"tabbar_btn"), forState: .Highlighted)
         
         self.view.addSubview(btnView)
+        NSLayoutConstraint(item: btnView, attribute: .Bottom, relatedBy: .Equal, toItem: self.customTabBar, attribute: .Bottom, multiplier: 1.0, constant: 0.0).active = true
         
         self.customTabBar.selectedItem = self.customTabBar.items![0]
         
@@ -711,10 +713,12 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func loadPlaces(mapPreloader: Bool){
         ifLoading =  true
         
-        guard let cityId = APP.i().city?.id else { APP.i().defineCity({ () -> Void in
-            self.cityLabel.text = APP.i().city?.city ?? ""
-            self.loadPlaces(mapPreloader)
-        })
+        guard let cityId = APP.i().city?.id else {
+            self.ifLoading = false
+            APP.i().defineCity({ () -> Void in
+                self.cityLabel.text = APP.i().city?.city ?? ""
+                self.loadPlaces(mapPreloader)
+            })
             return
         }
         
@@ -742,6 +746,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                         self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
                         self.reloadTableAndResetAnimations()
                     }
+                    
                     
                 }).addDisposableTo(self.disposeBag)
             }, onCompleted: { () -> Void in

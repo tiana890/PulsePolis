@@ -91,13 +91,13 @@ class IndexView: UIView {
         self.layer.addSublayer(shapeView!)
         
         if(self.ifAnimate){
-            animateCircle(CGFloat(femaleIndex!)*10.0/100.0)
+            animateCircle(CGFloat(femaleIndex!)/100.0)
             self.visitIndexLabel.text = "0"
             self.timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "changeText", userInfo: nil, repeats: true)
             
             } else {
                 if let womanIndex = femaleIndex{
-                    shapeView!.strokeEnd = CGFloat(womanIndex)*10.0/100.0
+                    shapeView!.strokeEnd = CGFloat(womanIndex)/100.0
                 }
                 if let index = self.visitIndex{
                     self.visitIndexLabel.text = index
@@ -138,11 +138,12 @@ class IndexView: UIView {
     }
 
     func animateCircle(strokeEnd: CGFloat) {
+        print(strokeEnd)
         // We want to animate the strokeEnd property of the circleLayer
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         
         // Set the animation duration appropriately
-        animation.duration = 3
+        animation.duration = 1
         
         // Animate from 0 (no circle) to 1 (full circle)
         animation.fromValue = 0

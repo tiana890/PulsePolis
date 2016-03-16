@@ -210,8 +210,11 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
             let visitor = visitorsArray?[indexPath.row]
             cell.avatarImage.image = UIImage(named: "ava_big_big")
             
-            cell.indicator.hidden = false
-            cell.indicator.startAnimating()
+            let indicatorView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+            indicatorView.center = cell.contentView.center
+            indicatorView.tag = 44444
+            cell.contentView.addSubview(indicatorView)
+            indicatorView.startAnimating()
 
             if let avatarUrl = visitor?.avatarUrl{
                 let filter = AspectScaledToFillSizeFilter(size: CGSizeMake(cell.avatarImage.frame.width, cell.avatarImage.frame.height))
@@ -222,8 +225,7 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
                         filter: filter,
                         imageTransition: .CrossDissolve(0.5),
                         completion: { response in
-                            cell.indicator.hidden = true
-                            cell.indicator.stopAnimating()
+                            cell.contentView.viewWithTag(44444)?.removeFromSuperview()
                     })
                 }
                 createMaskForImage(cell.avatarImage)

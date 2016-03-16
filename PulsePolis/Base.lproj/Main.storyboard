@@ -1022,12 +1022,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRB-5Z-iO1">
-                                                    <rect key="frame" x="9" y="309" width="31" height="31"/>
+                                                    <rect key="frame" x="5" y="307" width="97" height="33"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="31" id="7a2-Cc-drY"/>
-                                                        <constraint firstAttribute="height" constant="31" id="7go-h0-Rzo"/>
+                                                        <constraint firstAttribute="width" constant="97" id="7a2-Cc-drY"/>
+                                                        <constraint firstAttribute="height" constant="33" id="7go-h0-Rzo"/>
                                                     </constraints>
-                                                    <state key="normal" image="statistics"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                                    <state key="selected" backgroundImage="forecast_btn_background"/>
                                                     <state key="highlighted" image="statistics_selected"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3jg-rk-CTW">
@@ -1039,16 +1040,37 @@
                                                     <state key="normal" image="user_location"/>
                                                     <state key="highlighted" image="user_location"/>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="statistics" translatesAutoresizingMaskIntoConstraints="NO" id="Be1-lO-cFl">
+                                                    <rect key="frame" x="11" y="314" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="aYK-Ze-lSt"/>
+                                                        <constraint firstAttribute="width" constant="20" id="eWd-1d-Crl"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Прогноз" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RgB-S7-J2d">
+                                                    <rect key="frame" x="41" y="313" width="55" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="THX-qn-aPA"/>
+                                                        <constraint firstAttribute="width" constant="55" id="sb5-ta-O47"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="RgB-S7-J2d" firstAttribute="leading" secondItem="Be1-lO-cFl" secondAttribute="trailing" constant="10" id="0Ex-Rv-GTL"/>
+                                                <constraint firstItem="RgB-S7-J2d" firstAttribute="centerY" secondItem="IRB-5Z-iO1" secondAttribute="centerY" id="3zA-gp-8DD"/>
                                                 <constraint firstAttribute="trailing" secondItem="3jg-rk-CTW" secondAttribute="trailing" constant="9" id="4Y6-IL-s8u"/>
+                                                <constraint firstItem="Be1-lO-cFl" firstAttribute="centerY" secondItem="IRB-5Z-iO1" secondAttribute="centerY" id="Lav-wk-koz"/>
+                                                <constraint firstItem="Be1-lO-cFl" firstAttribute="leading" secondItem="IRB-5Z-iO1" secondAttribute="leading" constant="6" id="eqd-eB-XTb"/>
                                                 <constraint firstAttribute="bottom" secondItem="3jg-rk-CTW" secondAttribute="bottom" constant="9" id="v3l-VF-tMC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="IRB-5Z-iO1" secondAttribute="bottom" constant="9" id="H43-UU-TVc"/>
-                                            <constraint firstItem="IRB-5Z-iO1" firstAttribute="leading" secondItem="3b7-WH-qii" secondAttribute="leading" constant="9" id="tGG-J3-Dze"/>
+                                            <constraint firstItem="IRB-5Z-iO1" firstAttribute="leading" secondItem="3b7-WH-qii" secondAttribute="leading" constant="5" id="tGG-J3-Dze"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="statisticsBtn" destination="IRB-5Z-iO1" id="4Rb-Vp-Tye"/>
@@ -2275,21 +2297,16 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="0.70038167938931295" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="s05-ST-0rR">
-                                                    <rect key="frame" x="80" y="80" width="20" height="20"/>
-                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="TAe-v3-w0P" firstAttribute="centerX" secondItem="NU2-fX-LvL" secondAttribute="centerX" id="2ZM-Sr-4E3"/>
                                             <constraint firstAttribute="leadingMargin" secondItem="NU2-fX-LvL" secondAttribute="leading" id="Ch8-Ve-NG7"/>
-                                            <constraint firstItem="s05-ST-0rR" firstAttribute="centerX" secondItem="DeL-SU-mag" secondAttribute="centerX" id="F8z-52-rEl"/>
                                             <constraint firstItem="DeL-SU-mag" firstAttribute="leading" secondItem="3MD-u2-qhb" secondAttribute="leadingMargin" constant="-8" id="Y00-AO-38t"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="DeL-SU-mag" secondAttribute="trailing" constant="-8" id="Zt2-lT-5uc"/>
                                             <constraint firstItem="TAe-v3-w0P" firstAttribute="top" secondItem="NU2-fX-LvL" secondAttribute="bottom" constant="4" id="dsp-hC-Gqb"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="NU2-fX-LvL" secondAttribute="trailing" id="enh-bR-62k"/>
-                                            <constraint firstItem="s05-ST-0rR" firstAttribute="centerY" secondItem="DeL-SU-mag" secondAttribute="centerY" id="exO-6s-9nS"/>
                                             <constraint firstItem="NU2-fX-LvL" firstAttribute="top" secondItem="DeL-SU-mag" secondAttribute="bottom" constant="25" id="fAc-M0-0c4"/>
                                             <constraint firstItem="DeL-SU-mag" firstAttribute="top" secondItem="3MD-u2-qhb" secondAttribute="topMargin" constant="-8" id="nY7-6M-Eiu"/>
                                         </constraints>
@@ -2297,7 +2314,6 @@
                                         <connections>
                                             <outlet property="avatarImage" destination="DeL-SU-mag" id="SJf-D1-Gtf"/>
                                             <outlet property="checkin" destination="TAe-v3-w0P" id="gD3-RW-6gb"/>
-                                            <outlet property="indicator" destination="s05-ST-0rR" id="jXs-or-Nhq"/>
                                             <outlet property="name" destination="NU2-fX-LvL" id="A1h-jc-bvW"/>
                                         </connections>
                                     </collectionViewCell>
@@ -2490,6 +2506,7 @@
         <image name="feedback_icon" width="20" height="20"/>
         <image name="female" width="84" height="84"/>
         <image name="female_selected" width="84" height="84"/>
+        <image name="forecast_btn_background" width="98" height="32"/>
         <image name="logo" width="144" height="27"/>
         <image name="male" width="84" height="84"/>
         <image name="male_selected" width="84" height="84"/>
@@ -2508,7 +2525,7 @@
         <image name="shadow_nav" width="320" height="3"/>
         <image name="slider_track" width="289" height="2"/>
         <image name="start_frame" width="179" height="39"/>
-        <image name="statistics" width="31" height="31"/>
+        <image name="statistics" width="20" height="20"/>
         <image name="statistics_selected" width="31" height="31"/>
         <image name="tabbar_all" width="16" height="23"/>
         <image name="tabbar_all_selected" width="15" height="22"/>
