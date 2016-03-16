@@ -93,7 +93,7 @@ class IndexView: UIView {
         if(self.ifAnimate){
             animateCircle(CGFloat(femaleIndex!)*10.0/100.0)
             self.visitIndexLabel.text = "0"
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(0.006, target: self, selector: "changeText", userInfo: nil, repeats: true)
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "changeText", userInfo: nil, repeats: true)
             
             } else {
                 if let womanIndex = femaleIndex{

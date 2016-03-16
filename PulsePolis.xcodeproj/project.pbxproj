@@ -173,7 +173,7 @@
 		3AE3D4CDD943E89C77E0BE42 /* Pods_PulsePolisTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PulsePolisTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		560F72417227445C3A6B95A9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		723A2429F98E540049EE0ECD /* Pods-PulsePolis.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PulsePolis.release.xcconfig"; path = "Pods/Target Support Files/Pods-PulsePolis/Pods-PulsePolis.release.xcconfig"; sourceTree = "<group>"; };
-		8808B9901BF1B504002D3457 /* PulsePolis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PulsePolis.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8808B9901BF1B504002D3457 /* HotFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8808B9931BF1B504002D3457 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8808B9951BF1B504002D3457 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8808B9981BF1B504002D3457 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -460,7 +460,7 @@
 		8808B9911BF1B504002D3457 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8808B9901BF1B504002D3457 /* PulsePolis.app */,
+				8808B9901BF1B504002D3457 /* HotFinder.app */,
 				8808B9A41BF1B504002D3457 /* PulsePolisTests.xctest */,
 				8808B9AF1BF1B504002D3457 /* PulsePolisUITests.xctest */,
 			);
@@ -840,9 +840,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8808B98F1BF1B504002D3457 /* PulsePolis */ = {
+		8808B98F1BF1B504002D3457 /* HotFinder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolis" */;
+			buildConfigurationList = 8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "HotFinder" */;
 			buildPhases = (
 				6631E886E1B8FD1A11103497 /* Check Pods Manifest.lock */,
 				8808B98C1BF1B504002D3457 /* Sources */,
@@ -855,9 +855,9 @@
 			);
 			dependencies = (
 			);
-			name = PulsePolis;
+			name = HotFinder;
 			productName = PulsePolis;
-			productReference = 8808B9901BF1B504002D3457 /* PulsePolis.app */;
+			productReference = 8808B9901BF1B504002D3457 /* HotFinder.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8808B9A31BF1B504002D3457 /* PulsePolisTests */ = {
@@ -943,7 +943,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8808B98F1BF1B504002D3457 /* PulsePolis */,
+				8808B98F1BF1B504002D3457 /* HotFinder */,
 				8808B9A31BF1B504002D3457 /* PulsePolisTests */,
 				8808B9AE1BF1B504002D3457 /* PulsePolisUITests */,
 			);
@@ -1261,12 +1261,12 @@
 /* Begin PBXTargetDependency section */
 		8808B9A61BF1B504002D3457 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8808B98F1BF1B504002D3457 /* PulsePolis */;
+			target = 8808B98F1BF1B504002D3457 /* HotFinder */;
 			targetProxy = 8808B9A51BF1B504002D3457 /* PBXContainerItemProxy */;
 		};
 		8808B9B11BF1B504002D3457 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8808B98F1BF1B504002D3457 /* PulsePolis */;
+			target = 8808B98F1BF1B504002D3457 /* HotFinder */;
 			targetProxy = 8808B9B01BF1B504002D3457 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1473,7 +1473,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "PulsePolis" */ = {
+		8808B9B81BF1B504002D3457 /* Build configuration list for PBXNativeTarget "HotFinder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8808B9B91BF1B504002D3457 /* Debug */,

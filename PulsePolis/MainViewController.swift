@@ -152,6 +152,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.showMapPreloader()
         
         APP.i().mainViewController = self
+        
     }
     
     func setTableBackground(){
@@ -240,23 +241,25 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         for(var i = 0; i < tabBar.items?.count; i++){
             if(item == tabBar.items![i]){
                 if(i == 0){
+                    if(self.favoritesMode == false) { return }
                     self.favoritesMode = false
                     self.setMap()
                     self.table.hidden = false
+                    self.ifAnimateCells = true
                     self.reloadTableAndResetAnimations()
                     if(self.filteredPlaces.count > 0){
                         if let placeId = self.filteredPlaces[0].id{
                             self.loadVisitors(placeId)
                         }
-                    } else {
-                        self.table.hidden = true
                     }
                     
                     
                 } else if(i == 2){
+                    if(self.favoritesMode == true) { return }
                     self.favoritesMode = true
+                    self.ifAnimateCells = true
+                    self.showMapPreloader()
                     setFavorites()
-                    
                 }
             }
         }
@@ -278,10 +281,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func mainButtonPressed(button: UIButton){
         let bounceAnimation = RAMBounceAnimation()
         bounceAnimation.playAnimation(button.imageView!, textLabel: UILabel())
-        self.favoritesMode = false
+        //self.favoritesMode = false
         self.ifAnimateCells = true
         if(!ifLoading){
-            self.customTabBar.selectedItem = self.customTabBar.items![0]
+            //self.customTabBar.selectedItem = self.customTabBar.items![0]
             loadPlaces(false)
         }
     }
@@ -346,7 +349,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
             if((annotation as! MGLPointAnnotation) == selectedAnnotation){
                 if let visIndex = place!.visitIndex{
-                    let image = UIImage(named: "\(visIndex)_ann_select")!
+                    var image = UIImage(named: "\(visIndex)_ann_select")!
+                    image = image.imageWithAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: 0.0, bottom: image.size.height/2, right: 0.0))
                     let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "\(visIndex)")
                     return annotationImage
                 } else {
@@ -357,8 +361,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 
             } else {
                 if let visIndex = place!.visitIndex{
-                    let image = UIImage(named: "\(visIndex)_ann")!
+                    var image = UIImage(named: "\(visIndex)_ann")!
+                    image = image.imageWithAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: 0.0, bottom: image.size.height/2, right: 0.0))
                     let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "selected\(visIndex)")
+                    
                     return annotationImage
                 } else {
                     let image = UIImage()
@@ -610,14 +616,19 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.todayStatisticsManager.todaySelectedSegmentIndex = sender.selectedSegmentIndex
         self.todayStatisticsManager.todayValue = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)
         if(!ifLoading){
+            
+           
             loadPlaces(false)
+            
         }
     }
     
     func statisticsSegmentedControlValueChanged(sender: UISegmentedControl){
         self.todayStatisticsManager.statisticsSelectedSegmentIndex = sender.selectedSegmentIndex
         if(!ifLoading){
+            
             loadPlaces(false)
+            
         }
     }
     
@@ -625,7 +636,9 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         print("modeChanged")
         self.todayStatisticsManager.segmentIndex = sender.selectedSegmentIndex
         if(!ifLoading){
+           
             loadPlaces(false)
+            
         }
     }
     
@@ -689,7 +702,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.statisticsMode = !sender.selected
         sender.selected = !sender.selected
         if(!ifLoading){
-            loadPlaces(false)
+            loadPlaces(true)
         }
     }
     
@@ -704,6 +717,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         })
             return
         }
+        
         
         if(mapPreloader){
             self.showMapPreloader()
@@ -725,7 +739,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                             self.loadPlacesHandler(networkResponse)
                         }).addDisposableTo(self.disposeBag)
                     } else{
-                        //ALERT!!!!
+                        self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                        self.reloadTableAndResetAnimations()
                     }
                     
                 }).addDisposableTo(self.disposeBag)
@@ -747,8 +762,11 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                         self.loadVisitors(self.favorites[0].id!)
                     } else if(self.filteredPlaces.count > 0 && !self.statisticsMode && !self.favoritesMode){
                         self.loadVisitors(self.filteredPlaces[0].id!)
-                    } else {
+                    } else if(!self.statisticsMode){
                         self.table.hidden = true
+                        self.visitors = []
+                    } else if(statisticsMode){
+                        self.table.hidden = false
                         self.visitors = []
                     }
                     APP.i().places = self.places
@@ -826,7 +844,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                                         self.loadVisitorsHandler(networkResponse)
                                     }).addDisposableTo(self.disposeBag)
                             } else{
-                                //ALERT!!!!
+                                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                                self.reloadTableAndResetAnimations()
                             }
                             
                         }).addDisposableTo(self.disposeBag)
@@ -862,9 +881,9 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     }
                 
                 } else {
-                    //MARK ALERT!!!
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                    self.reloadTableAndResetAnimations()
                 }
-                //MARK ALERT!!!
             }
         
     }
@@ -904,8 +923,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID")
         self.presentViewController(pickerViewController, animated: true, completion: nil)
-        //self.navigationController?.pushViewController(pickerViewController, animated: true)
-        
     }
     
 
@@ -953,9 +970,11 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if(indexPath != 0 && indexPath != 1){
-            let cell = self.table.cellForRowAtIndexPath(indexPath)
-            self.performSegueWithIdentifier(AVATAR_SEGUE_IDENTIFIER, sender: cell)
+        if(indexPath.row > 1){
+                if(!self.ifLoading){
+                    let cell = self.table.cellForRowAtIndexPath(indexPath)
+                    self.performSegueWithIdentifier(AVATAR_SEGUE_IDENTIFIER, sender: cell)
+            }
             
         }
     }
@@ -991,9 +1010,18 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 if let _ = sender as? UITableViewCell{
                     var place: Place?
                     if(self.favoritesMode){
-                        place = favorites[sender!.tag - 2]
+                        if let index = sender?.tag{
+                            if(favorites.count > index-2){
+                                place = favorites[index-2]
+                            }
+                        }
                     } else {
-                        place = filteredPlaces[sender!.tag - 2]
+                        if let index = sender?.tag{
+                            if(filteredPlaces.count > index-2){
+                                place = filteredPlaces[index-2]
+                            }
+                        }
+
                     }
                     
                     avatarCollectionVC.place = place
@@ -1011,6 +1039,15 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         } 
     }
     
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if(identifier == AVATAR_SEGUE_IDENTIFIER){
+            if(self.ifLoading){
+                return false
+            }
+        }
+        return true
+    }
+    
     func findPlaceWithPlaceId(placeId: String) -> Place?{
         if let index = self.places.indexOf({ $0.id == placeId }){
             
@@ -1019,4 +1056,19 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         return nil
     }
     
+
+    
+    //MARK: Alerts
+    func showAlert(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+            message: msg,
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+            style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        
+    }
 }

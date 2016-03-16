@@ -77,9 +77,24 @@ class ProfileViewController: UIViewController {
             self.navigationController?.popViewControllerAnimated(true)
             break
         case ButtonType.Exit.rawValue:
-            if let mainNavigationController = self.navigationController as? MainNavigationController{
-                mainNavigationController.exit()
-            }
+            let alert = UIAlertController(title: title,
+                message: "Вы действительно хотите выйти?",
+                preferredStyle: UIAlertControllerStyle.Alert)
+            
+            
+            let action = UIAlertAction(title: "OK",
+                style: .Default, handler: { (action) -> Void in
+                if let mainNavigationController = self.navigationController as? MainNavigationController{
+                    mainNavigationController.exit()
+                }
+            })
+            let cancelAction = UIAlertAction(title: "Oтмена",
+                style: .Default, handler: nil)
+
+            alert.addAction(action)
+            alert.addAction(cancelAction)
+            self.presentViewController(alert, animated: true, completion: nil)
+            
             break
         default:
             break
@@ -99,7 +114,7 @@ class ProfileViewController: UIViewController {
     }
     */
     
-    // MARK: - Navigation
+        // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == FEEDBACK_SEGUE){

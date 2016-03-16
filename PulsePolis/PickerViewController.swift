@@ -44,7 +44,6 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
                 self.datePicker.setDate(time ?? NSDate(), animated: false)
                 self.titleLabel.text = "Выбор времени"
                 self.datePicker.setValue(ColorHelper.defaultColor, forKey: "textColor")
-                
                 self.datePicker.datePickerMode = UIDatePickerMode.Time
             }
         }

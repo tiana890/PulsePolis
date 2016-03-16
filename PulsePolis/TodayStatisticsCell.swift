@@ -85,7 +85,11 @@ class TodayStatisticsCell: UITableViewCell {
         self.segmentedControl.selectedSegmentIndex = manager.segmentIndex
         self.todaySegmentedControl.selectedSegmentIndex = manager.todaySelectedSegmentIndex
         self.statisticsSegmentedControl.selectedSegmentIndex = manager.statisticsSelectedSegmentIndex
-        print(manager.statisticsTime)
+        if(segmentedControl.selectedSegmentIndex == SegmentedType.Today.rawValue){
+            showToday()
+        } else {
+            showStatistics()
+        }
         self.statisticsTimeLabel.text = manager.statisticsTimeString ?? getTimeString()
     }
     

@@ -21,7 +21,7 @@
         <!--Authorization View Controller-->
         <scene sceneID="XLa-Lh-6sT">
             <objects>
-                <viewController storyboardIdentifier="authorizationVC" id="0eZ-eB-915" customClass="AuthorizationViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="authorizationVC" id="0eZ-eB-915" customClass="AuthorizationViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="C36-vX-aFF"/>
                         <viewControllerLayoutGuide type="bottom" id="lJY-wL-X3v"/>
@@ -217,7 +217,7 @@
         <!--Main Navigation Controller-->
         <scene sceneID="uMm-4M-LaZ">
             <objects>
-                <navigationController navigationBarHidden="YES" id="3C2-0n-jZ6" customClass="MainNavigationController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="3C2-0n-jZ6" customClass="MainNavigationController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hcv-GN-RLR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -231,7 +231,7 @@
         <!--Start View Controller-->
         <scene sceneID="doO-IN-GVl">
             <objects>
-                <viewController storyboardIdentifier="startViewController" id="7Bx-DL-AHf" customClass="StartViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="startViewController" id="7Bx-DL-AHf" customClass="StartViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Ei-61-ZQX"/>
                         <viewControllerLayoutGuide type="bottom" id="elx-Bq-1Vv"/>
@@ -520,7 +520,7 @@
         <!--Container View Controller-->
         <scene sceneID="6Kr-cV-fXc">
             <objects>
-                <viewController storyboardIdentifier="containerVC" id="gdY-QQ-LBF" customClass="ContainerViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="containerVC" id="gdY-QQ-LBF" customClass="ContainerViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vJR-18-1Br"/>
                         <viewControllerLayoutGuide type="bottom" id="oZE-du-mdV"/>
@@ -567,7 +567,7 @@
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -600,7 +600,7 @@
         <!--Profile View Controller-->
         <scene sceneID="UHY-xV-rJ5">
             <objects>
-                <viewController id="PIX-10-qpG" customClass="ProfileViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PIX-10-qpG" customClass="ProfileViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TES-Oe-H32"/>
                         <viewControllerLayoutGuide type="bottom" id="zyY-Ln-Xrf"/>
@@ -811,7 +811,7 @@
         <!--Feedback View Controller-->
         <scene sceneID="fT3-6l-kfb">
             <objects>
-                <viewController id="tUe-tE-uwG" customClass="FeedbackViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tUe-tE-uwG" customClass="FeedbackViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pxI-c5-h0U"/>
                         <viewControllerLayoutGuide type="bottom" id="aMx-vV-cDF"/>
@@ -946,12 +946,12 @@
         <!--All-->
         <scene sceneID="la5-wN-VN0">
             <objects>
-                <viewController id="lau-84-Syl" customClass="MainViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lau-84-Syl" customClass="MainViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uMV-nv-0U6"/>
                         <viewControllerLayoutGuide type="bottom" id="0qK-BT-SBv"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ON4-Jh-28C" customClass="HitTestView" customModule="PulsePolis" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="ON4-Jh-28C" customClass="HitTestView" customModule="HotFinder" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -1014,7 +1014,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" rowHeight="349" id="3b7-WH-qii" customClass="MapHeaderViewCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" rowHeight="349" id="3b7-WH-qii" customClass="MapHeaderViewCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="349"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3b7-WH-qii" id="281-2R-XQN">
@@ -1055,7 +1055,7 @@
                                             <outlet property="userLocationBtn" destination="3jg-rk-CTW" id="9Av-Qd-1P7"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="avatarCell" rowHeight="84" id="zxA-45-4iU" customClass="AvatarCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="avatarCell" rowHeight="84" id="zxA-45-4iU" customClass="AvatarCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="377" width="600" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zxA-45-4iU" id="lP0-Nv-fVg">
@@ -1072,7 +1072,7 @@
                                                         <inset key="sectionInset" minX="13" minY="0.0" maxX="13" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="avatarCollectionViewCell" id="uKS-yz-3To" customClass="AvatarCollectionViewCell" customModule="PulsePolis" customModuleProvider="target">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="avatarCollectionViewCell" id="uKS-yz-3To" customClass="AvatarCollectionViewCell" customModule="HotFinder" customModuleProvider="target">
                                                             <rect key="frame" x="13" y="0.0" width="41" height="84"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1132,7 +1132,7 @@
                                             <outlet property="collectionView" destination="2n9-XB-1z5" id="1N7-0K-foA"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="96" id="V7w-HB-7It" customClass="PlaceCellTableViewCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="96" id="V7w-HB-7It" customClass="PlaceCellTableViewCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="461" width="600" height="96"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V7w-HB-7It" id="q4k-1q-jys">
@@ -1233,7 +1233,7 @@
                                                     <color key="textColor" red="0.68235294120000001" green="0.68627450980000004" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPn-aC-hvv" customClass="IndexView" customModule="PulsePolis" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPn-aC-hvv" customClass="IndexView" customModule="HotFinder" customModuleProvider="target">
                                                     <rect key="frame" x="532" y="23" width="50" height="50"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1242,14 +1242,14 @@
                                                     </constraints>
                                                 </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="atl-nL-TBN" userLabel="Female">
-                                                    <rect key="frame" x="526" y="70" width="8" height="9"/>
+                                                    <rect key="frame" x="526" y="68" width="8" height="9"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="9" id="D0v-eB-XgC"/>
                                                         <constraint firstAttribute="width" constant="8" id="DMW-Ej-ZgR"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cd4-Xs-a2a" userLabel="Male">
-                                                    <rect key="frame" x="580" y="70" width="8" height="9"/>
+                                                    <rect key="frame" x="580" y="68" width="8" height="9"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="8" id="4Xf-kj-xFi"/>
                                                         <constraint firstAttribute="height" constant="9" id="vnE-aM-QS3"/>
@@ -1284,7 +1284,7 @@
                                                 <constraint firstItem="trs-Nq-oTe" firstAttribute="centerY" secondItem="zaR-8r-UIN" secondAttribute="centerY" id="lk7-2t-sPg"/>
                                                 <constraint firstItem="UvW-kd-ABG" firstAttribute="top" secondItem="SnC-z6-HHE" secondAttribute="bottom" constant="11" id="m7h-gB-J24"/>
                                                 <constraint firstItem="iBw-KS-urP" firstAttribute="leading" secondItem="zMv-rQ-k6h" secondAttribute="trailing" constant="8" id="oJ5-UD-nYu"/>
-                                                <constraint firstItem="lPn-aC-hvv" firstAttribute="bottom" secondItem="atl-nL-TBN" secondAttribute="top" constant="3" id="rZi-f9-T4Y"/>
+                                                <constraint firstItem="lPn-aC-hvv" firstAttribute="bottom" secondItem="atl-nL-TBN" secondAttribute="top" constant="5" id="rZi-f9-T4Y"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="SnC-z6-HHE" secondAttribute="trailing" constant="80" id="sO7-Fg-8wB"/>
                                                 <constraint firstItem="eMd-ft-5DC" firstAttribute="leading" secondItem="trs-Nq-oTe" secondAttribute="trailing" constant="16" id="upt-G6-JLo"/>
                                                 <constraint firstItem="Cd4-Xs-a2a" firstAttribute="centerY" secondItem="atl-nL-TBN" secondAttribute="centerY" id="w4C-pB-nep"/>
@@ -1311,7 +1311,7 @@
                                             <outlet property="ruble3" destination="trs-Nq-oTe" id="XHV-Fb-nrd"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="statisticsCell" rowHeight="74" id="3e4-jp-KOD" customClass="TodayStatisticsCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="statisticsCell" rowHeight="74" id="3e4-jp-KOD" customClass="TodayStatisticsCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="557" width="600" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3e4-jp-KOD" id="nl0-hc-QBz">
@@ -1536,7 +1536,7 @@
         <!--Picker View Controller-->
         <scene sceneID="O4D-RR-VRP">
             <objects>
-                <viewController storyboardIdentifier="pickerControllerID" id="1hN-Ib-2HS" customClass="PickerViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="pickerControllerID" id="1hN-Ib-2HS" customClass="PickerViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="89s-Hd-g7Z"/>
                         <viewControllerLayoutGuide type="bottom" id="a6O-au-TWJ"/>
@@ -1649,7 +1649,7 @@
         <!--Settings Table View Controller-->
         <scene sceneID="hbn-7B-34J">
             <objects>
-                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="1XM-Vi-80Q" customClass="SettingsTableViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="1XM-Vi-80Q" customClass="SettingsTableViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="WAE-5b-xEw">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1676,7 +1676,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" rowHeight="52" id="3MA-Nc-VN9" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" rowHeight="52" id="3MA-Nc-VN9" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="66" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3MA-Nc-VN9" id="Be7-Jn-Y4k">
@@ -1727,7 +1727,7 @@
                                     <outlet property="cityLabel" destination="5Yp-On-6WR" id="iTZ-1U-ZPG"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="indexCell" rowHeight="97" id="N0a-KC-RWi" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="indexCell" rowHeight="97" id="N0a-KC-RWi" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="118" width="600" height="97"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N0a-KC-RWi" id="ImG-Vx-rsG">
@@ -1755,7 +1755,7 @@
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2WF-yg-UuZ" customClass="NMRangeSlider">
-                                            <rect key="frame" x="159" y="33" width="282" height="30"/>
+                                            <rect key="frame" x="157" y="33" width="286" height="30"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="udT-o3-BGA"/>
@@ -1765,7 +1765,7 @@
                                             </connections>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TlZ-Tb-kAW">
-                                            <rect key="frame" x="421" y="59" width="23" height="21"/>
+                                            <rect key="frame" x="419" y="59" width="23" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="6V0-MX-yiD"/>
                                                 <constraint firstAttribute="width" constant="23" id="kG9-hI-p1a"/>
@@ -1775,7 +1775,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ys0-AP-3DS">
-                                            <rect key="frame" x="159" y="59" width="17" height="21"/>
+                                            <rect key="frame" x="157" y="59" width="17" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="17" id="8lr-AJ-C8Q"/>
                                                 <constraint firstAttribute="height" constant="21" id="GdT-OY-mDF"/>
@@ -1788,7 +1788,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="Pw7-dN-0DK" firstAttribute="leading" secondItem="ImG-Vx-rsG" secondAttribute="leading" constant="15" id="0QT-Yt-gMk"/>
-                                        <constraint firstItem="2WF-yg-UuZ" firstAttribute="trailing" secondItem="MWu-76-pkM" secondAttribute="trailing" constant="-3" id="3bt-hS-LQd"/>
+                                        <constraint firstItem="2WF-yg-UuZ" firstAttribute="trailing" secondItem="MWu-76-pkM" secondAttribute="trailing" constant="-1" id="3bt-hS-LQd"/>
                                         <constraint firstItem="ys0-AP-3DS" firstAttribute="top" secondItem="2WF-yg-UuZ" secondAttribute="bottom" constant="-4" id="Ku8-b0-lCr"/>
                                         <constraint firstItem="2WF-yg-UuZ" firstAttribute="centerX" secondItem="MWu-76-pkM" secondAttribute="centerX" id="Kw2-cf-ENQ"/>
                                         <constraint firstItem="TlZ-Tb-kAW" firstAttribute="top" secondItem="2WF-yg-UuZ" secondAttribute="bottom" constant="-4" id="PqB-Ll-KJy"/>
@@ -1799,7 +1799,7 @@
                                         <constraint firstItem="MWu-76-pkM" firstAttribute="centerX" secondItem="ImG-Vx-rsG" secondAttribute="centerX" id="Z43-CQ-kHR"/>
                                         <constraint firstItem="ixA-ry-n3Q" firstAttribute="leading" secondItem="ImG-Vx-rsG" secondAttribute="leadingMargin" constant="-8" id="b8n-Ti-xpM"/>
                                         <constraint firstItem="2WF-yg-UuZ" firstAttribute="centerY" secondItem="MWu-76-pkM" secondAttribute="centerY" id="gdX-Rb-3bO"/>
-                                        <constraint firstItem="2WF-yg-UuZ" firstAttribute="leading" secondItem="MWu-76-pkM" secondAttribute="leading" constant="3" id="gsP-VC-LxL"/>
+                                        <constraint firstItem="2WF-yg-UuZ" firstAttribute="leading" secondItem="MWu-76-pkM" secondAttribute="leading" constant="1" id="gsP-VC-LxL"/>
                                         <constraint firstItem="MWu-76-pkM" firstAttribute="centerY" secondItem="ImG-Vx-rsG" secondAttribute="centerY" id="hY1-MN-3Qx"/>
                                         <constraint firstItem="ys0-AP-3DS" firstAttribute="leading" secondItem="2WF-yg-UuZ" secondAttribute="leading" id="o7q-lj-2Id"/>
                                         <constraint firstItem="TlZ-Tb-kAW" firstAttribute="leading" secondItem="2WF-yg-UuZ" secondAttribute="leading" constant="262" id="wAQ-IT-GZd"/>
@@ -1878,7 +1878,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="barCell" rowHeight="52" id="bQu-co-vjQ" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="barCell" rowHeight="52" id="bQu-co-vjQ" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="305" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bQu-co-vjQ" id="DOs-e0-hSc">
@@ -1933,7 +1933,7 @@
                                     <outlet property="img" destination="ZrK-ou-89h" id="DsZ-E4-xb8"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clubCell" rowHeight="52" id="j0F-zZ-Q4s" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clubCell" rowHeight="52" id="j0F-zZ-Q4s" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="357" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j0F-zZ-Q4s" id="OPz-DH-FyJ">
@@ -1988,7 +1988,7 @@
                                     <outlet property="img" destination="Ffm-VN-eiu" id="it0-FS-4Q6"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="restaurantCell" rowHeight="52" id="Qus-zg-m0e" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="restaurantCell" rowHeight="52" id="Qus-zg-m0e" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="409" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qus-zg-m0e" id="wC5-IP-f6M">
@@ -2043,7 +2043,7 @@
                                     <outlet property="img" destination="4ZI-An-wGG" id="bqB-TP-yyX"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchCell" rowHeight="44" id="4z9-MA-wMQ" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchCell" rowHeight="44" id="4z9-MA-wMQ" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="461" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4z9-MA-wMQ" id="2dT-Zu-Oyt">
@@ -2082,7 +2082,7 @@
                                     <outlet property="searchBar" destination="ZEt-IR-oGT" id="JSV-FB-FxT"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="45" id="LgE-io-QwT" customClass="SearchTableViewCell" customModule="PulsePolis" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="45" id="LgE-io-QwT" customClass="SearchTableViewCell" customModule="HotFinder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="505" width="600" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LgE-io-QwT" id="ic7-iT-rkf">
@@ -2191,7 +2191,7 @@
         <!--Avatar Collection View Controller-->
         <scene sceneID="nxJ-V8-EmF">
             <objects>
-                <viewController id="EUb-oU-Hne" customClass="AvatarCollectionViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="EUb-oU-Hne" customClass="AvatarCollectionViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Uch-5d-WHU"/>
                         <viewControllerLayoutGuide type="bottom" id="7iQ-1D-9mh"/>
@@ -2239,14 +2239,14 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="377" id="LUg-O4-wTI"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="35" minimumInteritemSpacing="35" id="LzU-F7-Geu" customClass="CenterCellCollectionViewFlowLayout" customModule="PulsePolis" customModuleProvider="target">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="35" minimumInteritemSpacing="35" id="LzU-F7-Geu" customClass="CenterCellCollectionViewFlowLayout" customModule="HotFinder" customModuleProvider="target">
                                     <size key="itemSize" width="180" height="240"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3MD-u2-qhb" customClass="AvatarCollectionViewCell" customModule="PulsePolis" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3MD-u2-qhb" customClass="AvatarCollectionViewCell" customModule="HotFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="69" width="180" height="240"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -2405,7 +2405,7 @@
         <!--Info View Controller-->
         <scene sceneID="yHN-Kr-EoX">
             <objects>
-                <viewController id="4ii-xi-V35" customClass="InfoViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4ii-xi-V35" customClass="InfoViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WaN-z7-0v8"/>
                         <viewControllerLayoutGuide type="bottom" id="wdj-g8-Xbg"/>
