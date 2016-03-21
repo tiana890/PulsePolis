@@ -211,7 +211,7 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
             cell.avatarImage.image = UIImage(named: "ava_big_big")
             
             let indicatorView = UIActivityIndicatorView(activityIndicatorStyle: .White)
-            indicatorView.center = cell.contentView.center
+            indicatorView.center = cell.avatarImage.center
             indicatorView.tag = 44444
             cell.contentView.addSubview(indicatorView)
             indicatorView.startAnimating()

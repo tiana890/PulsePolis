@@ -13,7 +13,7 @@ import RxCocoa
 import RxBlocking
 
 import RxAlamofire
-
+import AlamofireImage
 import SwiftyJSON
 
 class StartViewController: BaseViewController {
@@ -46,10 +46,10 @@ class StartViewController: BaseViewController {
     var ifStart = true
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var u = APP.i().user
-        avatar.image = UIImage(data: NSData(contentsOfURL: NSURL(string: APP.i().user!.photoURL!)!)!)
-        createMaskForImage(avatar)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         if(APP.i().user?.gender == .Female){
             femaleSelected()
@@ -57,24 +57,31 @@ class StartViewController: BaseViewController {
             maleSelected()
         }
         
-        self.nameLabel.text = (APP.i().user?.firstName ?? "") + " " + (APP.i().user?.lastName ?? "")
-        self.hideIndicator()
-
-        if (APP.i().city == nil){
-            APP.i().defineCity({ () -> Void in
-                self.hideIndicator()
-                self.cityLabel.text = APP.i().city?.city ?? "не определено"
-            })
-            self.showIndicator()
+        avatar.image = UIImage(named: "ava_big")
+        createMaskForImage(avatar)
+        if let photoUrl = APP.i().user?.photoURL{
+            if let url = NSURL(string: photoUrl){
+                if let data = NSData(contentsOfURL:url){
+                    avatar.image = UIImage(data: data)
+                    createMaskForImage(avatar)
+                }
+            }
         }
         
+        self.nameLabel.text = (APP.i().user?.firstName ?? "")
         
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        cityLabel.text = APP.i().city?.city ?? "не определено"
+        if (APP.i().city == nil){
+            self.showIndicator()
+            APP.i().defineCity({ () -> Void in
+                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    self.hideIndicator()
+                    self.cityLabel.text = APP.i().city?.city ?? "не определено"
+                }
+            })
+        } else {
+            self.hideIndicator()
+            self.cityLabel.text = APP.i().city?.city ?? "не определено"
+        }
         
         if(ifStart){
             self.startBtn.hidden = false

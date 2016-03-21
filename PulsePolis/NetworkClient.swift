@@ -16,8 +16,9 @@ class NetworkClient: NSObject {
     let BASE_SETTINGS_URL = "http://hotfinder.ru/hotjson/settings"
     
     func updateSettings() -> Observable<NetworkResponse>{
+        let queue = dispatch_queue_create("queue",nil)
        return requestJSON(.GET, BASE_SETTINGS_URL)
-            .observeOn(MainScheduler.instance)
+            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .debug()
             .map({ (response, object) -> NetworkResponse in
                 return self.mapResponseToNetworkResponse(object)

@@ -24,7 +24,14 @@ class DefineCityResponse: NetworkResponse{
     override init(json: JSON){
         super.init(_status: json["status"].string, _errMsg: json["errormsg"].string)
         self.id = json["id"].string
-        self.ifDefined = json["ifDefined"].bool
+        self.ifDefined = false
+        if let intIfDefinedValue = json["ifDefined"].int{
+            if(intIfDefinedValue == 0){
+                self.ifDefined = false
+            } else {
+                self.ifDefined = true
+            }
+        }
         self.city = json["city"].string
     }
 }

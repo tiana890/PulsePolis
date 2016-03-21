@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReachabilitySwift
 
 
 class ProfileViewController: UIViewController {
@@ -25,8 +26,21 @@ class ProfileViewController: UIViewController {
     @IBOutlet var avatar: UIImageView!
     var avatarURL: String?
     @IBOutlet var nameLabel: UILabel!
+    
+    var reachability: Reachability?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Do any additional setup after loading the view.
+        self.ageLabel.hidden = true
+        nameLabel.text = (APP.i().user?.firstName ?? "") + " " + (APP.i().user?.lastName ?? "")
+        ageLabel.text = "\(APP.i().user?.age)"
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         avatar.image = UIImage(named: "ava_big")
         if let photoUrl = APP.i().user?.photoURL{
             if let url = NSURL(string: photoUrl){
@@ -36,11 +50,41 @@ class ProfileViewController: UIViewController {
             }
         }
         createMaskForImage(avatar)
-        // Do any additional setup after loading the view.
-        self.ageLabel.hidden = true
-        nameLabel.text = (APP.i().user?.firstName ?? "") + " " + (APP.i().user?.lastName ?? "")
-        ageLabel.text = "\(APP.i().user?.age)"
+        
+        setReachability()
+        
     }
+    
+    func setReachability(){
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("ERROR: Unable to create Reachability")
+            return
+        }
+        
+        reachability!.whenReachable = { reachability in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.avatar.image = UIImage(named: "ava_big")
+                if let photoUrl = APP.i().user?.photoURL{
+                    if let url = NSURL(string: photoUrl){
+                        if let data = NSData(contentsOfURL: url){
+                            self.avatar.image = UIImage(data: data)
+                        }
+                    }
+                }
+                self.createMaskForImage(self.avatar)
+            }
+        }
+        
+        do {
+            try reachability!.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+        
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -56,6 +100,12 @@ class ProfileViewController: UIViewController {
         image.layer.masksToBounds = true
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        
+        self.reachability?.stopNotifier()
+    }
     
     @IBAction func btnPressed(sender: AnyObject) {
         switch(sender.tag){

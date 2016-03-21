@@ -64,7 +64,7 @@ class APP{
             Static.instance?.user = User.getUserFromDefaults()
             Static.instance?.settingsManager = SettingsManager()
             Static.instance?.networkManager = NetworkManager()
-            Static.instance?.getCities()
+            //Static.instance?.getCities()
         }
         return Static.instance!
     }
@@ -84,31 +84,55 @@ class APP{
     
     
     //MARK: methods
-    func getCities(){
+    func getCities(handler: () -> Void){
         let networkClient = NetworkClient()
         
-        networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext { (response) -> Void in
-            networkClient.getCities().observeOn(MainScheduler.instance).subscribe(onNext: { (networkResponse) -> Void in
-                self.getCitiesHandler(networkResponse)
-                }, onError: { (errorType) -> Void in
-                    networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (response) -> Void in
-                        if(response.status == Status.Success){
-                            networkClient.getCities().observeOn(MainScheduler.instance).subscribeNext({ (citiesResponse) -> Void in
-                                
-                                self.getCitiesHandler(citiesResponse)
-                            }).addDisposableTo(self.disposeBag)
-                        } else {
-                            self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
-                        }
-                    }).addDisposableTo(self.disposeBag)
-                }, onCompleted: { () -> Void in
-                    
-                }) { () -> Void in
-                    
-                }.addDisposableTo(self.disposeBag)
-        }.addDisposableTo(self.disposeBag)
-       
+        let queue = dispatch_queue_create("initialqueue", nil)
+        let concurrentScheduler = ConcurrentDispatchQueueScheduler(queue: queue)
         
+       
+        networkClient.getCities().observeOn(concurrentScheduler).subscribe(onNext: { (networkResponse) -> Void in
+            self.getCitiesHandler(networkResponse)
+            handler()
+            }, onError: { (errorType) -> Void in
+                self.updateSettings(networkClient, block: { () -> Void in
+                    handler()
+                })
+            }, onCompleted: { () -> Void in
+                
+            }) { () -> Void in
+                
+            }.addDisposableTo(self.disposeBag)
+        
+        
+        
+    }
+    
+    func updateSettings(client: NetworkClient,block: () -> Void){
+        let queue = dispatch_queue_create("updatequeue", nil)
+        let concurrentScheduler = ConcurrentDispatchQueueScheduler(queue: queue)
+        
+        client.updateSettings().observeOn(concurrentScheduler).subscribe(onNext: { (response) -> Void in
+            if(response.status == Status.Success){
+                client.getCities().observeOn(concurrentScheduler).subscribeNext({ (citiesResponse) -> Void in
+                    self.getCitiesHandler(citiesResponse)
+                    block()
+                }).addDisposableTo(self.disposeBag)
+            } else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                })
+            }
+            }, onError: { (err) -> Void in
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                })
+                block()
+            }, onCompleted: { () -> Void in
+                
+            }) { () -> Void in
+                
+        }.addDisposableTo(self.disposeBag)
     }
     
     func getCitiesHandler(citiesResponse:NetworkResponse){
@@ -116,28 +140,41 @@ class APP{
             if(response.status == Status.Success){
                 APP.i().cities = response.cities
             } else {
-                 self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                })
+
             }
         }
-
     }
     
     func defineCity(handler: () -> Void){
         let networkClient = NetworkClient()
+        let queue = dispatch_queue_create("initialqueue", nil)
+        let concurrentScheduler = ConcurrentDispatchQueueScheduler(queue: queue)
         
-        networkClient.defineCity().observeOn(MainScheduler.instance).subscribe(onNext: { (networkResponse) -> Void in
+        networkClient.defineCity().observeOn(concurrentScheduler).subscribe(onNext: { (networkResponse) -> Void in
             self.defineCityHandler(networkResponse)
             handler()
             }, onError: { (errorType) -> Void in
-                networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (response) -> Void in
-                    if(response.status == Status.Success){
-                        networkClient.defineCity().observeOn(MainScheduler.instance).subscribeNext({ (defineCityResponse) -> Void in
+                networkClient.updateSettings().observeOn(concurrentScheduler).subscribe(onNext: { (networkResponse) -> Void in
+                    if(networkResponse.status == Status.Success){
+                        networkClient.defineCity().debug().observeOn(concurrentScheduler).subscribeNext({ (defineCityResponse) -> Void in
                             self.defineCityHandler(defineCityResponse)
+                            handler()
                         }).addDisposableTo(self.disposeBag)
                     } else {
-                        self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                        })
+                        
                     }
+                }, onError: { (errType) -> Void in
                     handler()
+                }, onCompleted: { () -> Void in
+                    
+                }, onDisposed: { () -> Void in
+                    
                 }).addDisposableTo(self.disposeBag)
             }, onCompleted: { () -> Void in
                 
@@ -148,13 +185,21 @@ class APP{
 
     func defineCityHandler(defineCityResponse: NetworkResponse){
         if let response = defineCityResponse as? DefineCityResponse{
+            
             if(response.status == Status.Success){
-                let city = City()
-                city.city = response.city
-                city.id = response.id
-                APP.i().city = city
+                if let ifDefined = response.ifDefined{
+                    if(ifDefined){
+                        let city = City()
+                        city.city = response.city
+                        city.id = response.id
+                        APP.i().city = city
+                    }
+                }
             } else {
-                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                })
+
             }
         }
 
@@ -163,17 +208,23 @@ class APP{
     func loadPlaces(){
         if(!ifLoading){
             ifLoading = true
+            let queue = dispatch_queue_create("initialqueue", nil)
+            let concurrentScheduler = ConcurrentDispatchQueueScheduler(queue: queue)
+            
             let networkClient = NetworkClient()
-            networkClient.getPlaces(self.city?.id ?? "").observeOn(MainScheduler.instance).subscribe(onNext: { (networkResponse) -> Void in
+            networkClient.getPlaces(self.city?.id ?? "").observeOn(concurrentScheduler).subscribe(onNext: { (networkResponse) -> Void in
                 self.loadPlacesHandler(networkResponse)
                 }, onError: { (errorType) -> Void in
-                    networkClient.updateSettings().observeOn(MainScheduler.instance).subscribeNext({ (networkResponse) -> Void in
+    
+                    networkClient.updateSettings().observeOn(concurrentScheduler).subscribeNext({ (networkResponse) -> Void in
                         if(networkResponse.status == Status.Success){
-                            networkClient.getPlaces(self.city?.id ?? "").observeOn(MainScheduler.instance).subscribeNext({ (placesResponse) -> Void in
+                            networkClient.getPlaces(self.city?.id ?? "").observeOn(concurrentScheduler).subscribeNext({ (placesResponse) -> Void in
                                 self.loadPlacesHandler(placesResponse)
                             }).addDisposableTo(self.disposeBag)
                         } else {
-                            self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                            })
                             
                         }
 
@@ -193,7 +244,10 @@ class APP{
                     APP.i().places = _places
                 }
             } else {
-                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                })
+
 
             }
         }

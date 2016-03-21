@@ -21,7 +21,7 @@
         <!--Authorization View Controller-->
         <scene sceneID="XLa-Lh-6sT">
             <objects>
-                <viewController storyboardIdentifier="authorizationVC" id="0eZ-eB-915" customClass="AuthorizationViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="authorizationVC" id="0eZ-eB-915" customClass="AuthorizationViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="C36-vX-aFF"/>
                         <viewControllerLayoutGuide type="bottom" id="lJY-wL-X3v"/>
@@ -217,7 +217,7 @@
         <!--Main Navigation Controller-->
         <scene sceneID="uMm-4M-LaZ">
             <objects>
-                <navigationController navigationBarHidden="YES" id="3C2-0n-jZ6" customClass="MainNavigationController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="3C2-0n-jZ6" customClass="MainNavigationController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hcv-GN-RLR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -231,7 +231,7 @@
         <!--Start View Controller-->
         <scene sceneID="doO-IN-GVl">
             <objects>
-                <viewController storyboardIdentifier="startViewController" id="7Bx-DL-AHf" customClass="StartViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="startViewController" id="7Bx-DL-AHf" customClass="StartViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Ei-61-ZQX"/>
                         <viewControllerLayoutGuide type="bottom" id="elx-Bq-1Vv"/>
@@ -520,7 +520,7 @@
         <!--Container View Controller-->
         <scene sceneID="6Kr-cV-fXc">
             <objects>
-                <viewController storyboardIdentifier="containerVC" id="gdY-QQ-LBF" customClass="ContainerViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="containerVC" id="gdY-QQ-LBF" customClass="ContainerViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vJR-18-1Br"/>
                         <viewControllerLayoutGuide type="bottom" id="oZE-du-mdV"/>
@@ -567,7 +567,7 @@
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -600,7 +600,7 @@
         <!--Profile View Controller-->
         <scene sceneID="UHY-xV-rJ5">
             <objects>
-                <viewController id="PIX-10-qpG" customClass="ProfileViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PIX-10-qpG" customClass="ProfileViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TES-Oe-H32"/>
                         <viewControllerLayoutGuide type="bottom" id="zyY-Ln-Xrf"/>
@@ -811,7 +811,7 @@
         <!--Feedback View Controller-->
         <scene sceneID="fT3-6l-kfb">
             <objects>
-                <viewController id="tUe-tE-uwG" customClass="FeedbackViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tUe-tE-uwG" customClass="FeedbackViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pxI-c5-h0U"/>
                         <viewControllerLayoutGuide type="bottom" id="aMx-vV-cDF"/>
@@ -946,12 +946,12 @@
         <!--All-->
         <scene sceneID="la5-wN-VN0">
             <objects>
-                <viewController id="lau-84-Syl" customClass="MainViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lau-84-Syl" customClass="MainViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uMV-nv-0U6"/>
                         <viewControllerLayoutGuide type="bottom" id="0qK-BT-SBv"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ON4-Jh-28C" customClass="HitTestView" customModule="HotFinder" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="ON4-Jh-28C" customClass="HitTestView" customModule="PulsePolis" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -1014,7 +1014,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" rowHeight="349" id="3b7-WH-qii" customClass="MapHeaderViewCell" customModule="HotFinder" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" rowHeight="349" id="3b7-WH-qii" customClass="MapHeaderViewCell" customModule="PulsePolis" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="349"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3b7-WH-qii" id="281-2R-XQN">
@@ -1077,7 +1077,7 @@
                                             <outlet property="userLocationBtn" destination="3jg-rk-CTW" id="9Av-Qd-1P7"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="avatarCell" rowHeight="84" id="zxA-45-4iU" customClass="AvatarCell" customModule="HotFinder" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="avatarCell" rowHeight="84" id="zxA-45-4iU" customClass="AvatarCell" customModule="PulsePolis" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="377" width="600" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zxA-45-4iU" id="lP0-Nv-fVg">
@@ -1094,7 +1094,7 @@
                                                         <inset key="sectionInset" minX="13" minY="0.0" maxX="13" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="avatarCollectionViewCell" id="uKS-yz-3To" customClass="AvatarCollectionViewCell" customModule="HotFinder" customModuleProvider="target">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="avatarCollectionViewCell" id="uKS-yz-3To" customClass="AvatarCollectionViewCell" customModule="PulsePolis" customModuleProvider="target">
                                                             <rect key="frame" x="13" y="0.0" width="41" height="84"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1154,7 +1154,7 @@
                                             <outlet property="collectionView" destination="2n9-XB-1z5" id="1N7-0K-foA"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="96" id="V7w-HB-7It" customClass="PlaceCellTableViewCell" customModule="HotFinder" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="96" id="V7w-HB-7It" customClass="PlaceCellTableViewCell" customModule="PulsePolis" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="461" width="600" height="96"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V7w-HB-7It" id="q4k-1q-jys">
@@ -1255,7 +1255,7 @@
                                                     <color key="textColor" red="0.68235294120000001" green="0.68627450980000004" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPn-aC-hvv" customClass="IndexView" customModule="HotFinder" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPn-aC-hvv" customClass="IndexView" customModule="PulsePolis" customModuleProvider="target">
                                                     <rect key="frame" x="532" y="23" width="50" height="50"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1333,7 +1333,7 @@
                                             <outlet property="ruble3" destination="trs-Nq-oTe" id="XHV-Fb-nrd"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="statisticsCell" rowHeight="74" id="3e4-jp-KOD" customClass="TodayStatisticsCell" customModule="HotFinder" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="statisticsCell" rowHeight="74" id="3e4-jp-KOD" customClass="TodayStatisticsCell" customModule="PulsePolis" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="557" width="600" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3e4-jp-KOD" id="nl0-hc-QBz">
@@ -1558,7 +1558,7 @@
         <!--Picker View Controller-->
         <scene sceneID="O4D-RR-VRP">
             <objects>
-                <viewController storyboardIdentifier="pickerControllerID" id="1hN-Ib-2HS" customClass="PickerViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="pickerControllerID" id="1hN-Ib-2HS" customClass="PickerViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="89s-Hd-g7Z"/>
                         <viewControllerLayoutGuide type="bottom" id="a6O-au-TWJ"/>
@@ -1671,7 +1671,7 @@
         <!--Settings Table View Controller-->
         <scene sceneID="hbn-7B-34J">
             <objects>
-                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="1XM-Vi-80Q" customClass="SettingsTableViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="1XM-Vi-80Q" customClass="SettingsTableViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="WAE-5b-xEw">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1698,7 +1698,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" rowHeight="52" id="3MA-Nc-VN9" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cityCell" rowHeight="52" id="3MA-Nc-VN9" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="66" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3MA-Nc-VN9" id="Be7-Jn-Y4k">
@@ -1749,7 +1749,7 @@
                                     <outlet property="cityLabel" destination="5Yp-On-6WR" id="iTZ-1U-ZPG"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="indexCell" rowHeight="97" id="N0a-KC-RWi" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="indexCell" rowHeight="97" id="N0a-KC-RWi" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="118" width="600" height="97"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N0a-KC-RWi" id="ImG-Vx-rsG">
@@ -1900,7 +1900,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="barCell" rowHeight="52" id="bQu-co-vjQ" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="barCell" rowHeight="52" id="bQu-co-vjQ" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="305" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bQu-co-vjQ" id="DOs-e0-hSc">
@@ -1910,7 +1910,7 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="settings_cell_common_background" translatesAutoresizingMaskIntoConstraints="NO" id="G1k-m3-EDc">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Бар" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNH-yO-Vpd">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Бар" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNH-yO-Vpd">
                                             <rect key="frame" x="15" y="17" width="33" height="17"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeueCyr-Roman" family="HelveticaNeueCyr" pointSize="18"/>
                                             <color key="textColor" red="0.92156862745098034" green="0.92549019607843142" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
@@ -1955,7 +1955,7 @@
                                     <outlet property="img" destination="ZrK-ou-89h" id="DsZ-E4-xb8"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clubCell" rowHeight="52" id="j0F-zZ-Q4s" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clubCell" rowHeight="52" id="j0F-zZ-Q4s" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="357" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j0F-zZ-Q4s" id="OPz-DH-FyJ">
@@ -1965,7 +1965,7 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="settings_cell_common_background" translatesAutoresizingMaskIntoConstraints="NO" id="imw-dZ-xCU">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Клуб" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l4y-ub-Dte">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Клуб" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l4y-ub-Dte">
                                             <rect key="frame" x="15" y="17" width="42" height="17"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeueCyr-Roman" family="HelveticaNeueCyr" pointSize="18"/>
                                             <color key="textColor" red="0.92156862750000001" green="0.92549019610000005" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -2010,7 +2010,7 @@
                                     <outlet property="img" destination="Ffm-VN-eiu" id="it0-FS-4Q6"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="restaurantCell" rowHeight="52" id="Qus-zg-m0e" customClass="SettingsPlaceSelectedCell" customModule="HotFinder" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="restaurantCell" rowHeight="52" id="Qus-zg-m0e" customClass="SettingsPlaceSelectedCell" customModule="PulsePolis" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="409" width="600" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qus-zg-m0e" id="wC5-IP-f6M">
@@ -2020,7 +2020,7 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="settings_cell_common_background" translatesAutoresizingMaskIntoConstraints="NO" id="7lg-c1-f1O">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ресторан" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hu-Bv-Bep">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ресторан" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hu-Bv-Bep">
                                             <rect key="frame" x="15" y="17" width="80" height="17"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeueCyr-Roman" family="HelveticaNeueCyr" pointSize="18"/>
                                             <color key="textColor" red="0.92156862750000001" green="0.92549019610000005" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -2065,7 +2065,7 @@
                                     <outlet property="img" destination="4ZI-An-wGG" id="bqB-TP-yyX"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchCell" rowHeight="44" id="4z9-MA-wMQ" customClass="SettingsCell" customModule="HotFinder" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchCell" rowHeight="44" id="4z9-MA-wMQ" customClass="SettingsCell" customModule="PulsePolis" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="461" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4z9-MA-wMQ" id="2dT-Zu-Oyt">
@@ -2104,7 +2104,7 @@
                                     <outlet property="searchBar" destination="ZEt-IR-oGT" id="JSV-FB-FxT"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="45" id="LgE-io-QwT" customClass="SearchTableViewCell" customModule="HotFinder" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="45" id="LgE-io-QwT" customClass="SearchTableViewCell" customModule="PulsePolis" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="505" width="600" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LgE-io-QwT" id="ic7-iT-rkf">
@@ -2213,7 +2213,7 @@
         <!--Avatar Collection View Controller-->
         <scene sceneID="nxJ-V8-EmF">
             <objects>
-                <viewController id="EUb-oU-Hne" customClass="AvatarCollectionViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="EUb-oU-Hne" customClass="AvatarCollectionViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Uch-5d-WHU"/>
                         <viewControllerLayoutGuide type="bottom" id="7iQ-1D-9mh"/>
@@ -2261,14 +2261,14 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="377" id="LUg-O4-wTI"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="35" minimumInteritemSpacing="35" id="LzU-F7-Geu" customClass="CenterCellCollectionViewFlowLayout" customModule="HotFinder" customModuleProvider="target">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="35" minimumInteritemSpacing="35" id="LzU-F7-Geu" customClass="CenterCellCollectionViewFlowLayout" customModule="PulsePolis" customModuleProvider="target">
                                     <size key="itemSize" width="180" height="240"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3MD-u2-qhb" customClass="AvatarCollectionViewCell" customModule="HotFinder" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="3MD-u2-qhb" customClass="AvatarCollectionViewCell" customModule="PulsePolis" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="69" width="180" height="240"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -2421,7 +2421,7 @@
         <!--Info View Controller-->
         <scene sceneID="yHN-Kr-EoX">
             <objects>
-                <viewController id="4ii-xi-V35" customClass="InfoViewController" customModule="HotFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4ii-xi-V35" customClass="InfoViewController" customModule="PulsePolis" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WaN-z7-0v8"/>
                         <viewControllerLayoutGuide type="bottom" id="wdj-g8-Xbg"/>
@@ -2433,12 +2433,29 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_gradient" translatesAutoresizingMaskIntoConstraints="NO" id="4a4-G8-c1e">
                                 <rect key="frame" x="-3" y="0.0" width="606" height="600"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf7-WI-yNL">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf7-WI-yNL">
                                 <rect key="frame" x="20" y="72" width="560" height="528"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Политика конфиденциальности Hot Finder  Hot Finder серьезно относится к конфиденциальности личной информации. Мы сохраняем прозрачность в вопросах конфиденциальности и всегда стараемся предоставлять пользователям контроль над своей информацией, относящейся к использованию Сервиса Hot Finder (далее – Сервис).  
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="11" name="Helvetica-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" paragraphSpacingBefore="10" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+В данной Политике конфиденциальности изложен наш подход к использованию информации, идентифицирующей личность ("Личной информацией"), и другими данными, которые собираются Hot Finder в процессе использования вами Сервиса. Сервис недоступен лицам младше 18 лет.  Какую личную информацию мы собираем?  Личная информация, предоставляемая вами: мы получаем и храним информацию, вводимую вами на Сервисе или предоставляемую нам любым другим способом. Мы можем собирать такую Личную информацию, как ваш пол, дату рождения, имя пользователя на Twitter, и/или Facebook, и/или ВКонтакте, и/или Instagram, и/или Foursquare, вашу последнюю фото-публикацию в Instagram, ваше местоположение, информацию о вашем использовании Сервиса, а также данные браузера. При использовании вами Сервиса мы автоматически получаем ваше местоположение. Для определения вашего местоположения мы используем различные технологии, такие как службы геолокации соответствующей операционной системы или браузера, а также данные датчиков вашего устройства, которые могут, например, включать информацию о близлежащих точках доступа Wi-Fi и вышках мобильной связи. Предоставляемая вами Личная информация, в частности, помогает улучшить контент Сервиса, расширить базу заведений, отображаемых вам и вашим друзьям. Ваша учетная запись на Сервисе будет связана с вашим аккаунтом в социальных сетях Twitter, и/или Facebook, и/или ВКонтакте, и/или Instagram, и/или Foursquare. Мы также можем использовать вашу Личную информацию для приспособления Услуг Сервиса к вашим потребностям, оценки эффективности Сервиса, а также разработки новых инструментов Сервиса.  Информация, собираемая автоматически: в процессе использования вами Сервисов Hot Finder
+автоматически получает и фиксирует в наших базах данных информацию из вашего браузера или мобильной платформы, включая такие данные, как ваше местоположение и общедоступную информацию из социальных сетей (Twitter,  Facebook, ВКонтакте, Instagram, Foursquare). Локально на устройстве сервис сохраняет IP-адрес, тип браузера, тип операционной системы, оператор мобильной связи, идентификатор устройства и приложения, и сведения о запрошенных вами страницах. За исключением случаев, когда иное требуется согласно закону, подобные данные рассматриваются как Безличная информация. Если иное не указано в настоящей Политике конфиденциальности, Hot Finder использует подобную информацию исключительно в совокупной форме. С тем чтобы наши партнеры могли проанализировать, как часто люди пользуются нашим Сервисом, мы вправе предоставить им совокупную информацию относительно того, как наши пользователи в своей общей массе используют наш Сервис.  Информация, получаемая от третьих лиц: Мы получаем и храним информацию, поступающую от третьих лиц, тем или иным образом взаимодействующих с нашим Сервисом или предоставляющих связанные с ним услуги. Кроме того, некоторые используемые вами по своему усмотрению приложения также могут передавать Hot Finder вашу Личную информацию. Чтобы точно узнать, как именно Личная информация передается подобными приложениями, ознакомьтесь с их политикой конфиденциальности.  Определение и разглашение местоположения  Определение местоположения: Сервис тесно связан с геолокацией, поэтому для нормальной работы Сервису нужно знать, где вы находитесь. Когда вы запускаете или используете наше приложение на своем мобильном устройстве, полученные с вашего устройства или от вашего браузера геолокационные данные (к примеру, долгота и широта) позволяют нам предоставить на Сервис информацию, связанную с вашим местоположением, то есть показать вам список находящихся поблизости заведений. Эта информация НЕ поступает к другим лицам. Если у вас включена функция "background location" (фоновая передача местоположения), приложение Hot Finder время от времени будет оповещать нас о местоположении вашего устройства даже тогда, когда вы не взаимодействуете с приложением напрямую. Разглашение местоположения через приложение Hot Finder. По умолчанию передача данных о вашем местоположении (локальная передача) включена, и сведения о пребывании в заведении, 
+имеющемся в базе данных Hot Finder сообщаются пользователям и время от времени обновляются в фоновом режиме.  Будут ли вноситься изменения в Политику конфиденциальности?  Hot Finder может время от времени вносить изменения в данную Политику конфиденциальности. Использование собираемой нами информации регулируется Политикой конфиденциальности, действующей во время использования данной информации. При внесении существенных изменений в порядок использования Личной информации мы уведомим вас, опубликовав объявление на нашем Сервисе. При использовании Сервисов любые измененные положения Политики конфиденциальности становятся обязательными для пользователей после уведомления о соответствующих изменениях.  Если у меня возникнут вопросы или проблемы?  В случае возникновения вопросов или проблем, касающихся конфиденциальности в рамках использования Сервиса, просьба отправить нам информацию с помощью кнопки «Обратная связь» в Приложении. Мы приложим все усилия для разрешения ваших вопросов.</string>
+                                        <attributes>
+                                            <font key="NSFont" size="11" name="Helvetica-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
@@ -2482,6 +2499,9 @@
                         </view>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="txtView" destination="mf7-WI-yNL" id="Z9A-79-aCc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uib-sv-mPp" sceneMemberID="firstResponder"/>
             </objects>

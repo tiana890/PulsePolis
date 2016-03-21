@@ -174,14 +174,15 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
         
 //        let parametersDict:[String: AnyObject] = ["type":user.authorizeType?.rawValue ?? "", "id": user.getSocialId() ?? "", "sex":  sex, "photo": user.photoURL ?? "", "name": user.firstName ?? ""]
         
-        var nameForAuth = APP.i().user?.firstName ?? ""
-        if(nameForAuth.characters.count > 0){
-            nameForAuth += " "
-        }
-        nameForAuth += APP.i().user?.lastName ?? ""
+        var nameForAuth = APP.i().user?.firstName
+//        var nameForAuth = APP.i().user?.firstName ?? ""
+//        if(nameForAuth.characters.count > 0){
+//            nameForAuth += " "
+//        }
+//        nameForAuth += APP.i().user?.lastName ?? ""
         
         let networkClient = NetworkClient()
-        networkClient.authorize(sex, name: nameForAuth).observeOn(MainScheduler.instance)
+        networkClient.authorize(sex, name: nameForAuth ?? "").observeOn(MainScheduler.instance)
         .debug()
         .subscribe(onNext: { (networkResponse) -> Void in
             self.authRequestHandler(networkResponse)
@@ -190,7 +191,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
                 .debug()
                 .subscribeNext({ (networkResponse) -> Void in
                     if(networkResponse.status == Status.Success){
-                        networkClient.authorize(sex, name: nameForAuth).observeOn(MainScheduler.instance)
+                        networkClient.authorize(sex, name: nameForAuth ?? "").observeOn(MainScheduler.instance)
                         .debug()
                         .subscribeNext({ (networkResponse) -> Void in
                             self.authRequestHandler(networkResponse)
@@ -211,7 +212,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     func authRequestHandler(authResponse: NetworkResponse){
         if let response = authResponse as? AuthorizeResponse{
             if (response.status == Status.Success){
-                APP.i().getCities()
+                //APP.i().getCities()
                 if let token = response.token{
                     APP.i().user?.token = token
                     APP.i().user?.saveUser()
@@ -268,4 +269,5 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier(INFO_CONTROLLER_STORYBOARD_ID)
         self.presentViewController(pickerViewController, animated: true, completion: nil)
     }
+    
 }

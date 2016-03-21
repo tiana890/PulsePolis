@@ -15,6 +15,7 @@ import RxAlamofire
 import SwiftyJSON
 import AlamofireImage
 import RAMAnimatedTabBarController
+import ReachabilitySwift
 
 
 class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, MGLMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, SWTableViewCellDelegate, UITabBarDelegate {
@@ -43,6 +44,8 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     var fromAvatar = false
     
     var ifAnimateCells = false
+    
+    var reachability: Reachability?
     
     @IBOutlet var cityLabel: UILabel!
     @IBOutlet var userLocationButton: UIButton!
@@ -113,8 +116,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     var locationManager: LocationManager?
     
     @IBOutlet var customTabBar: UITabBar!
-    
-    var refreshDate: NSDate?
+
     
     var favoritesMode = false
     
@@ -143,13 +145,11 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         var insets = table.contentInset
         insets.bottom = 44
         table.contentInset = insets
-        
-        self.refreshDate = NSDate()
+
         
         customizeTabBar()
         
         self.setTableBackground()
-        self.showMapPreloader()
         
         APP.i().mainViewController = self
         
@@ -183,15 +183,55 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.view.backgroundColor = UIColor.clearColor()
         
-        self.cityLabel.text = APP.i().city?.city ?? ""
+        self.cityLabel.text = APP.i().city?.city ?? "не определено"
         
-        if(self.fromAvatar){
-            self.fromAvatar = false
-        } else {
-            self.loadPlaces(true)
+        if(!self.fromAvatar){
+            self.showMapPreloader()
         }
+        setReachability()
     }
     
+    
+    func setReachability(){
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("ERROR: Unable to create Reachability")
+            return
+        }
+        
+        reachability!.whenReachable = { reachability in
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                if(self.fromAvatar){
+                    self.fromAvatar = false
+                } else {
+                    self.showMapPreloader()
+                    self.loadPlaces(true)
+                }
+            }
+        }
+        
+        reachability!.whenUnreachable = { reachability in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                self.places = []
+                self.visitors = []
+                self.table.hidden = true
+                self.setMap()
+                self.hideMapPreloader()
+            }
+        }
+        
+        do {
+            try reachability!.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+
+    }
+    
+   
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -238,15 +278,15 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         print(btn.frame)
     }
     
-
+    
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         for(var i = 0; i < tabBar.items?.count; i++){
             if(item == tabBar.items![i]){
                 if(i == 0){
-                    if(self.favoritesMode == false) { return }
+                    if(self.favoritesMode == false){ return }
                     self.favoritesMode = false
+                    
                     self.setMap()
-                    self.table.hidden = false
                     self.ifAnimateCells = true
                     self.reloadTableAndResetAnimations()
                     if(self.filteredPlaces.count > 0){
@@ -255,10 +295,10 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                         }
                     }
                     
-                    
                 } else if(i == 2){
                     if(self.favoritesMode == true) { return }
                     self.favoritesMode = true
+                    
                     self.ifAnimateCells = true
                     self.showMapPreloader()
                     setFavorites()
@@ -293,6 +333,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        self.reachability?.stopNotifier()
     }
     
     func setMap(){
@@ -323,7 +364,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }
         }
         
-        self.mapView.showAnnotations(self.annotations, edgePadding: UIEdgeInsets(top: 40.0, left: 30.0, bottom: UIScreen.mainScreen().bounds.height - self.tableHeaderHeight + 30.0, right: 30.0), animated: false)
+        self.mapView.showAnnotations(self.annotations, edgePadding: UIEdgeInsets(top: 70.0, left: 30.0, bottom: UIScreen.mainScreen().bounds.height - self.tableHeaderHeight + 30.0, right: 30.0), animated: false)
         
     }
     
@@ -337,9 +378,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.indicatorView.stopAnimating()
     }
     
-    func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
-        
-    }
     
     func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
         
@@ -375,25 +413,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 }
             }
     }
-    
-    func imageNameByVisitIndex(visitIndex: String?) -> String{
-        guard let vIndex = visitIndex else { return "" }
-        switch(vIndex){
-        case "0", "1":
-            return "annotation0-1"
-        case "2", "3":
-            return "annotation2-3"
-        case "4", "5", "6":
-            return "annotation4-5-6"
-        case "7", "8":
-            return "annotation7-8"
-        case "9", "10":
-            return "annotation9-10"
-        default:
-            return ""
-        }
-    }
-    
+
     
     func mapView(mapView: MGLMapView, didSelectAnnotation annotation: MGLAnnotation) {
 
@@ -417,7 +437,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-    
     
     func selectedPlaceChanged(){
         
@@ -618,10 +637,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.todayStatisticsManager.todaySelectedSegmentIndex = sender.selectedSegmentIndex
         self.todayStatisticsManager.todayValue = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)
         if(!ifLoading){
-            
-           
             loadPlaces(false)
-            
         }
     }
     
@@ -716,12 +732,26 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         guard let cityId = APP.i().city?.id else {
             self.ifLoading = false
             APP.i().defineCity({ () -> Void in
-                self.cityLabel.text = APP.i().city?.city ?? ""
-                self.loadPlaces(mapPreloader)
+                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    self.cityLabel.text = APP.i().city?.city ?? "не определено"
+                    if(APP.i().city == nil){
+                        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                            self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                            self.places = []
+                            self.visitors = []
+                            self.table.reloadData()
+                            self.setMap()
+                            self.hideMapPreloader()
+                        }
+                    }
+                }
+                if let _ = APP.i().city{
+                    self.loadPlaces(mapPreloader)
+                }
             })
+           
             return
         }
-        
         
         if(mapPreloader){
             self.showMapPreloader()
@@ -736,19 +766,43 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         observePlaces.observeOn(ConcurrentDispatchQueueScheduler(queue: queue)).subscribe(onNext: { (placesResponse) -> Void in
             self.loadPlacesHandler(placesResponse)
             }, onError: { (errorType) -> Void in
-                networkClient.updateSettings().observeOn(ConcurrentDispatchQueueScheduler(queue: queue)).subscribeNext({ (networkResponse) -> Void in
-                    if(networkResponse.status == Status.Success){
-                        let newObserverForPlaces = self.createObservableForPlaces()
-                        newObserverForPlaces.observeOn(ConcurrentDispatchQueueScheduler(queue: queue)).subscribeNext({ (networkResponse) -> Void in
-                            self.loadPlacesHandler(networkResponse)
-                        }).addDisposableTo(self.disposeBag)
-                    } else{
-                        self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
-                        self.reloadTableAndResetAnimations()
-                    }
-                    
-                    
-                }).addDisposableTo(self.disposeBag)
+                networkClient.updateSettings().observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+                    .subscribe(onNext: { (networkResponse) -> Void in
+                        if(networkResponse.status == Status.Success){
+                            let newObserverForPlaces = self.createObservableForPlaces()
+                            newObserverForPlaces.observeOn(ConcurrentDispatchQueueScheduler(queue: queue)).subscribeNext({ (networkResponse) -> Void in
+                                self.loadPlacesHandler(networkResponse)
+                            }).addDisposableTo(self.disposeBag)
+                        } else{
+                            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                                self.places = []
+                                APP.i().places = []
+                                self.visitors = []
+                                self.table.reloadData()
+                                self.setMap()
+                                self.reloadTableAndResetAnimations()
+                            }
+                        }
+
+                        }, onError: { (errType) -> Void in
+                            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                                self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                                self.places = []
+                                APP.i().places = []
+                                self.visitors = []
+                                self.table.reloadData()
+                                self.setMap()
+                                self.hideMapPreloader()
+                               
+                            }
+                            
+                        }, onCompleted: { () -> Void in
+                            self.ifLoading = false
+                        }, onDisposed: { () -> Void in
+                            
+                    })
+                    .addDisposableTo(self.disposeBag)
             }, onCompleted: { () -> Void in
                 
                 

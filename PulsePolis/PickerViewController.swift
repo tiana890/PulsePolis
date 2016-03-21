@@ -27,13 +27,12 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
     
     var subscription: Disposable?
     
+    var disposeBag = DisposeBag()
     
     var newDate: NSDate?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        getCities()
-        customizeNavBar()
         if(ifDate){
             self.picker.hidden = true
             self.datePicker.hidden = false
@@ -46,8 +45,11 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
                 self.datePicker.setValue(ColorHelper.defaultColor, forKey: "textColor")
                 self.datePicker.datePickerMode = UIDatePickerMode.Time
             }
+        } else {
+            self.getCities()
         }
-
+        customizeNavBar()
+        
     }
     
     func customizeNavBar(){
@@ -60,21 +62,60 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
 
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-            }
-    
     func getCities(){
-        
         self.cities = APP.i().cities
         
-        for(var i = 0; i < self.cities?.count; i++){
-            if(APP.i().city?.id! == self.cities![i].id!){
-                self.picker.selectRow(i, inComponent: 0, animated: false)
+        if(self.cities?.count == 0 || self.cities == nil){
+            
+            self.picker.hidden = true
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+            indicator.startAnimating()
+            indicator.center = self.view.center
+            indicator.tag = 12345
+            self.view.addSubview(indicator)
+            
+            self.getCities({ () -> Void in
+                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    self.view.viewWithTag(12345)?.removeFromSuperview()
+                    self.picker.hidden = false
+                    self.cities = APP.i().cities
+                    
+                    self.picker.reloadAllComponents()
+                    self.picker.reloadInputViews()
+                    
+                    for(var i = 0; i < self.cities?.count; i++){
+                        if let currentCityId = APP.i().city?.id{
+                            if(currentCityId == self.cities![i].id!){
+                                self.picker.selectRow(i, inComponent: 0, animated: false)
+                            }
+                        } else {
+                            self.picker.selectRow(0, inComponent: 0, animated: false)
+                            if let citiesArray = self.cities{
+                                APP.i().city = citiesArray[0]
+                            }
+                        }
+                    }
+                    
+                }
+            })
+            
+        } else {
+            for(var i = 0; i < self.cities?.count; i++){
+                if let currentCityId = APP.i().city?.id{
+                    if(currentCityId == self.cities![i].id!){
+                        self.picker.selectRow(i, inComponent: 0, animated: false)
+                    }
+                } else {
+                    self.picker.selectRow(0, inComponent: 0, animated: false)
+                    if let citiesArray = self.cities{
+                        APP.i().city = citiesArray[0]
+                    }
+                }
             }
         }
     }
+    
+    
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -86,7 +127,6 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
                     print(vc.todayStatisticsManager.statisticsTime)
                     print(vc.todayStatisticsManager.statisticsTimeString)
                 }
-
             }
         }
         
@@ -97,8 +137,9 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(self.cities![row])
-        APP.i().city = self.cities![row]
+        if let citiesArray = self.cities{
+            APP.i().city = citiesArray[row]
+        }
     }
     
     
@@ -129,4 +170,79 @@ class PickerViewController: BaseViewController, UIPickerViewDataSource, UIPicker
         self.newDate = sender.date
     }
     
+    func getCities(handler: () -> Void){
+        let networkClient = NetworkClient()
+        
+        let queue = dispatch_queue_create("initialqueue", nil)
+        let concurrentScheduler = ConcurrentDispatchQueueScheduler(queue: queue)
+        
+        
+        networkClient.getCities().observeOn(concurrentScheduler).subscribe(onNext: { (networkResponse) -> Void in
+            self.getCitiesHandler(networkResponse)
+            handler()
+            }, onError: { (errorType) -> Void in
+                self.updateSettings(networkClient, block: { () -> Void in
+                    handler()
+                })
+            }, onCompleted: { () -> Void in
+                
+            }) { () -> Void in
+                
+            }.addDisposableTo(self.disposeBag)
+        
+    }
+    
+    func updateSettings(client: NetworkClient,block: () -> Void){
+        let queue = dispatch_queue_create("updatequeue", nil)
+        let concurrentScheduler = ConcurrentDispatchQueueScheduler(queue: queue)
+        
+        client.updateSettings().observeOn(concurrentScheduler).subscribe(onNext: { (response) -> Void in
+            if(response.status == Status.Success){
+                client.getCities().observeOn(concurrentScheduler).subscribeNext({ (citiesResponse) -> Void in
+                    self.getCitiesHandler(citiesResponse)
+                    block()
+                }).addDisposableTo(self.disposeBag)
+            } else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                })
+            }
+            }, onError: { (err) -> Void in
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                })
+                block()
+            }, onCompleted: { () -> Void in
+                
+            }) { () -> Void in
+                
+            }.addDisposableTo(self.disposeBag)
+    }
+    
+    func getCitiesHandler(citiesResponse:NetworkResponse){
+        if let response = citiesResponse as? CitiesResponse{
+            if(response.status == Status.Success){
+                APP.i().cities = response.cities
+            } else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert("Ошибка", msg: "Данные не могут быть загружены")
+                })
+                
+            }
+        }
+    }
+
+    //MARK: Alerts
+    func showAlert(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+            message: msg,
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+            style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    }
 }

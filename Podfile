@@ -20,6 +20,7 @@ target 'PulsePolis' do
     pod 'AlamofireImage', '~> 2.2.0'
     pod 'RAMAnimatedTabBarController', '~> 1.1.1'
     pod 'UICountingLabel'
+    pod 'ReachabilitySwift'
 end
 
 target 'PulsePolisTests' do
