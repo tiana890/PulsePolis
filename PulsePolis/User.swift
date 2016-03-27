@@ -40,6 +40,17 @@ class User: NSObject {
         }
     }
     
+    func getSexString() -> String{
+        
+        if(self.gender == .Male){
+            return "man"
+        } else if(self.gender == .Female){
+            return "woman"
+        }
+        
+        return "notdefined"
+    }
+    
     init(jsonFromFacebook: JSON) {
         super.init()
         /*

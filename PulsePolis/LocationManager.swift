@@ -56,7 +56,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.locationManager?.requestWhenInUseAuthorization()
         self.locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
         
-        self.locationManager?.distanceFilter = 500
+        
         self.locationManager?.allowsBackgroundLocationUpdates = true
         
 
@@ -68,18 +68,20 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 
     func inBackground()
     {
+        self.locationManager?.distanceFilter = 500
         self.locationManager?.startMonitoringSignificantLocationChanges()
         self.locationManager?.stopUpdatingLocation()
-
+        
     }
     func inForeground()
     {
 //        self.locationManager?.startMonitoringSignificantLocationChanges()
 //        self.locationManager?.stopUpdatingLocation()
-        self.locationManager?.startUpdatingLocation()
+        self.locationManager?.distanceFilter = 0
         self.locationManager?.stopMonitoringSignificantLocationChanges()
-
+        self.locationManager?.startUpdatingLocation()
     }
+    
     //MARK: -CLLocationManagerProtocol methods
 
     func startLocationManager(){
@@ -140,10 +142,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         var onceToken : dispatch_once_t = 0
    
         dispatch_once(&onceToken) {
+            
             print("BEFORE UPDATE LOCATION")
+            
             if(self.getSecondsDiffBetweenCurrentDateAndLast() > 60 || self.getSecondsDiffBetweenCurrentDateAndLast() == 0){
                 self.saveDateUpdate()
                 print("UPDATE LOCATION....")
+                self.saveFactualUpdateRecord(locations.last!)
                 let updatedLocation = locations.last
                 let sourceStringURL = (APP.i().networkManager?.domain ??  "") + (APP.i().networkManager?.methodsStructure?.getUserLocation() ?? "")
                 let myQueue = dispatch_queue_create("backgroundqueue", nil)
@@ -175,10 +180,48 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                             
                         }).addDisposableTo(self.disposeBag)
                 }
+            } else {
+                self.savePotentialUpdateRecord(locations.last!)
             }
 
         }
      }
+    
+    func saveFactualUpdateRecord(location: CLLocation){
+        let def = NSUserDefaults.standardUserDefaults()
+        let d = self.toString(NSDate())
+        let element = "factual update: " + d + " " + "lat: \(location.coordinate.latitude ?? 0)" + " lon:\(location.coordinate.longitude ?? 0)"
+        if let arr = def.objectForKey("locationRecords") as? [String]{
+            var newArr = [String]()
+            newArr.appendContentsOf(arr)
+            newArr.append(element)
+            def.setObject(newArr, forKey: "locationRecords")
+        } else {
+            var newArr = [String]()
+           
+            newArr.append(element)
+            def.setObject(newArr, forKey: "locationRecords")
+        }
+        def.synchronize()
+    }
+    
+    func savePotentialUpdateRecord(location: CLLocation){
+        let def = NSUserDefaults.standardUserDefaults()
+        let d = self.toString(NSDate())
+        let element = "potential update: " + d + " " + "lat: \(location.coordinate.latitude ?? 0)" + " lon:\(location.coordinate.longitude ?? 0)"
+        if let arr = def.objectForKey("locationRecords") as? [String]{
+            var newArr = [String]()
+            newArr.appendContentsOf(arr)
+            newArr.append(element)
+            def.setObject(newArr, forKey: "locationRecords")
+        } else {
+            var newArr = [String]()
+            
+            newArr.append(element)
+            def.setObject(newArr, forKey: "locationRecords")
+        }
+        def.synchronize()
+    }
     
     func getSecondsDiffBetweenCurrentDateAndLast() -> Int64{
         let def = NSUserDefaults.standardUserDefaults()
@@ -195,6 +238,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         } else {
             return 0
         }
+    }
+    
+    func toString(date: NSDate) -> String
+    {
+        //Get Short Time String
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "dd MMM HH:mm"
+        let str = formatter.stringFromDate(date)
+        
+        //Return Short Time String
+        return str
     }
     
     func saveDateUpdate() -> (){

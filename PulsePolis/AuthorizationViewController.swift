@@ -215,6 +215,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
                 //APP.i().getCities()
                 if let token = response.token{
                     APP.i().user?.token = token
+                    APP.i().user?.gender = .None
                     APP.i().user?.saveUser()
                     self.hideActivityIndicator()
                     self.performSegueWithIdentifier(self.START_SEGUE_IDENTIFIER, sender: self)

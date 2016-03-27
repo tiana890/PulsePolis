@@ -28,6 +28,7 @@
 		8818FB681C0EE62500CA51E0 /* PinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8818FB671C0EE62500CA51E0 /* PinView.swift */; };
 		8818FB6B1C0F022100CA51E0 /* UIImage+text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8818FB6A1C0F022100CA51E0 /* UIImage+text.swift */; };
 		8819AAE61BF4668000FD3BC4 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8819AAE51BF4668000FD3BC4 /* AuthorizationViewController.swift */; };
+		882EE2A51CA8023B00814234 /* GetUserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882EE2A41CA8023B00814234 /* GetUserInfoResponse.swift */; };
 		88385B921C12CF46008D8D23 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88385B911C12CF46008D8D23 /* ContainerViewController.swift */; };
 		88385BA71C13683B008D8D23 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 88385B941C13683B008D8D23 /* NSMutableArray+SWUtilityButtons.m */; };
 		88385BA81C13683B008D8D23 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88385B961C13683B008D8D23 /* SWCellScrollView.m */; };
@@ -146,6 +147,7 @@
 		887333991C7D9AEC001A1771 /* TodayStatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8873337F1C7D9AEC001A1771 /* TodayStatisticsManager.swift */; };
 		8873339A1C7D9AEC001A1771 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887333801C7D9AEC001A1771 /* Visitor.swift */; };
 		8873339F1C7ECF18001A1771 /* NMRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8873339E1C7ECF18001A1771 /* NMRangeSlider.m */; };
+		88AE0D151CA11B7300FFBF42 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AE0D141CA11B7300FFBF42 /* TextViewController.swift */; };
 		8C5A7CEC7ADD06FD2A656703 /* Pods_PulsePolis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C778F76FBA671BB60F8D2C25 /* Pods_PulsePolis.framework */; };
 		D002B28848CB45D3C6CCC7A6 /* Pods_PulsePolisTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AE3D4CDD943E89C77E0BE42 /* Pods_PulsePolisTests.framework */; };
 		F897AB703E0045E461CD9A8D /* Pods_PulsePolisUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1400A259A066802ED6557D7 /* Pods_PulsePolisUITests.framework */; };
@@ -200,6 +202,7 @@
 		8818FB671C0EE62500CA51E0 /* PinView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinView.swift; sourceTree = "<group>"; };
 		8818FB6A1C0F022100CA51E0 /* UIImage+text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+text.swift"; sourceTree = "<group>"; };
 		8819AAE51BF4668000FD3BC4 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
+		882EE2A41CA8023B00814234 /* GetUserInfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetUserInfoResponse.swift; sourceTree = "<group>"; };
 		88385B911C12CF46008D8D23 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		88385B931C13683B008D8D23 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+SWUtilityButtons.h"; path = "SWTableViewCell/PodFiles/NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
 		88385B941C13683B008D8D23 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+SWUtilityButtons.m"; path = "SWTableViewCell/PodFiles/NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
@@ -390,6 +393,7 @@
 		8873339D1C7ECF18001A1771 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
 		8873339E1C7ECF18001A1771 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
 		8899611D1BFF485C0041264A /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		88AE0D141CA11B7300FFBF42 /* TextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
 		9ADD6881A0AAF72B4F2035BC /* Pods-PulsePolisTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PulsePolisTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PulsePolisTests/Pods-PulsePolisTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AD9BCC0BA6A0174A29381F42 /* Pods-PulsePolisUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PulsePolisUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PulsePolisUITests/Pods-PulsePolisUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B1D36D31BFC1F37A6D3C24B6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -513,6 +517,7 @@
 				8839EB601C0595C2007186BA /* StartViewController.swift */,
 				88385BB41C145453008D8D23 /* FeedbackViewController.swift */,
 				886E68711C940A720008AB22 /* InfoViewController.swift */,
+				88AE0D141CA11B7300FFBF42 /* TextViewController.swift */,
 			);
 			path = PulsePolis;
 			sourceTree = "<group>";
@@ -809,6 +814,7 @@
 				886E68631C8AE1820008AB22 /* Status.swift */,
 				886E68651C8AE3E00008AB22 /* PlacesResponse.swift */,
 				886E686F1C929A710008AB22 /* VisitorsResponse.swift */,
+				882EE2A41CA8023B00814234 /* GetUserInfoResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -1183,6 +1189,7 @@
 				8873334E1C7D9074001A1771 /* VKOperation.m in Sources */,
 				8808B9961BF1B504002D3457 /* ViewController.swift in Sources */,
 				887333991C7D9AEC001A1771 /* TodayStatisticsManager.swift in Sources */,
+				88AE0D151CA11B7300FFBF42 /* TextViewController.swift in Sources */,
 				887333851C7D9AEC001A1771 /* BaseViewController.swift in Sources */,
 				886E685E1C8ADFCA0008AB22 /* NetworkClient.swift in Sources */,
 				887333331C7D9074001A1771 /* VKApiCaptcha.m in Sources */,
@@ -1196,6 +1203,7 @@
 				8873335B1C7D9074001A1771 /* VKUploadImage.m in Sources */,
 				8873333F1C7D9074001A1771 /* VKAuthorizeController.m in Sources */,
 				8839EB5B1C01DA27007186BA /* ProfileViewController.swift in Sources */,
+				882EE2A51CA8023B00814234 /* GetUserInfoResponse.swift in Sources */,
 				887333651C7D9074001A1771 /* VK-ios-sdk-dummy.m in Sources */,
 				88385BAA1C13683B008D8D23 /* SWTableViewCell.m in Sources */,
 				886E68681C8AE51C0008AB22 /* NetworkManager.swift in Sources */,

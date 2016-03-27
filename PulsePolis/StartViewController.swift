@@ -16,6 +16,9 @@ import RxAlamofire
 import AlamofireImage
 import SwiftyJSON
 
+import VK_ios_sdk
+import FBSDKLoginKit
+
 class StartViewController: BaseViewController {
     
     let INFO_CONTROLLER_STORYBOARD_ID = "infoViewControllerID"
@@ -51,24 +54,27 @@ class StartViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if(APP.i().user?.gender == .Female){
-            femaleSelected()
-        } else if(APP.i().user?.gender == .Male){
-            maleSelected()
-        }
-        
         avatar.image = UIImage(named: "ava_big")
         createMaskForImage(avatar)
-        if let photoUrl = APP.i().user?.photoURL{
-            if let url = NSURL(string: photoUrl){
-                if let data = NSData(contentsOfURL:url){
-                    avatar.image = UIImage(data: data)
-                    createMaskForImage(avatar)
+        self.nameLabel.text = ""
+        
+        if(ifStart){
+            self.startBtn.hidden = false
+            self.saveBtn.hidden = true
+            setGender(true)
+            updateUI()
+        } else {
+            self.startBtn.hidden = true
+            self.saveBtn.hidden = false
+            setGender(false)
+            if let type = APP.i().user?.authorizeType{
+                if(type == AuthorizeType.VK){
+                    setInfoFromVK()
+                } else if(type == AuthorizeType.Facebook){
+                    setInfoFromFacebook()
                 }
             }
         }
-        
-        self.nameLabel.text = (APP.i().user?.firstName ?? "")
         
         if (APP.i().city == nil){
             self.showIndicator()
@@ -83,13 +89,115 @@ class StartViewController: BaseViewController {
             self.cityLabel.text = APP.i().city?.city ?? "не определено"
         }
         
-        if(ifStart){
-            self.startBtn.hidden = false
-            self.saveBtn.hidden = true
-        } else {
-            self.startBtn.hidden = true
-            self.saveBtn.hidden = false
+    }
+    
+    func updateUI(){
+        avatar.image = UIImage(named: "ava_big")
+        createMaskForImage(avatar)
+        if let photoUrl = APP.i().user?.photoURL{
+            if let url = NSURL(string: photoUrl){
+                if let data = NSData(contentsOfURL:url){
+                    avatar.image = UIImage(data: data)
+                    createMaskForImage(avatar)
+                }
+            }
         }
+        self.nameLabel.text = (APP.i().user?.firstName ?? "")
+
+    }
+    
+    func setInfoFromVK(){
+        VKSdk.wakeUpSession([VK_PER_PHOTOS]) { (state, error) -> Void in
+            if(error != nil) {
+                self.showAlert("Ошибка", msg: "Ошибка входа")
+            } else if(state == VKAuthorizationState.Authorized){
+                let request = VKApi.users().get([VK_API_FIELDS:"id, first_name, bdate, sex, photo_200, age"])
+                request.executeWithResultBlock({ (response) -> Void in
+                    print(JSON(response.json))
+                    let user = User(jsonFromVK: JSON(response.json))
+                    APP.i().user?.firstName = user.firstName
+                    APP.i().user?.photoURL = user.photoURL
+                    APP.i().user?.saveUser()
+                    self.updateUI()
+                    }, errorBlock: { (error) -> Void in
+                        
+                })
+            }
+        
+        }
+
+        
+    }
+    
+    func setInfoFromFacebook(){
+        if(FBSDKAccessToken.currentAccessToken() != nil){
+            let fbGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "bio, first_name, last_name, gender, picture.width(200).height(200), age_range"])
+            
+            fbGraphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+                if(error == nil){
+                    let user = User(jsonFromFacebook: JSON(result))
+                    APP.i().user?.firstName = user.firstName
+                    APP.i().user?.photoURL = user.photoURL
+                    APP.i().user?.saveUser()
+                    self.updateUI()
+                } else{
+                    print(error.description)
+                }
+            })
+        }
+
+    }
+    
+    func setGender(checkServer: Bool){
+        if(APP.i().user?.gender == .Female){
+            femaleSelected()
+        } else if(APP.i().user?.gender == .Male){
+            maleSelected()
+        } else {
+            if(checkServer){
+                self.getUserInfo()
+            }
+        }
+    }
+    
+    func getUserInfo(){
+        let networkClient = NetworkClient()
+        let queue = dispatch_queue_create("queue",nil)
+        
+        subscription = networkClient.getUserInfo().observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+        .debug()
+        .subscribe(onNext: { (networkResponse) -> Void in
+            self.getUserInfoHandler(networkResponse)
+            }, onError: { (errType) -> Void in
+                print(errType)
+            }, onCompleted: { () -> Void in
+                
+            }, onDisposed: { () -> Void in
+                
+        })
+        self.addSubscription(subscription!)
+
+    }
+    
+    func getUserInfoHandler(networkResponse: NetworkResponse){
+        dispatch_async(dispatch_get_main_queue(), {
+            
+            if let response = networkResponse as? GetUserInfoResponse{
+                print(response.status)
+                if(response.status == Status.Success){
+                    if let sex = response.sex{
+                        if(sex == "woman"){
+                            APP.i().user?.gender = Gender.Female
+                        } else if(sex == "man"){
+                            APP.i().user?.gender = Gender.Male
+                        }
+                        APP.i().user?.saveUser()
+                        self.setGender(false)
+                    }
+                }
+            }
+            
+        })
     }
     
     @IBAction func selectCity(sender: AnyObject) {
@@ -140,7 +248,6 @@ class StartViewController: BaseViewController {
     @IBAction func maleBtnPressed(sender: AnyObject) {
         maleSelected()
         APP.i().user?.gender = Gender.Male
-        
     }
     
     func createMaskForImage(image: UIImageView){
@@ -176,5 +283,48 @@ class StartViewController: BaseViewController {
         if(segue.identifier == SAVE_SEGUE){
             APP.i().user?.saveUser()
         }
+    }
+    
+    @IBAction func startBtnPressed(sender: AnyObject) {
+        if(ifStart){
+            self.goToContainerController()
+        } else {
+            self.sendUserInfo()
+        }
+        
+    }
+    
+    func sendUserInfo(){
+        let networkClient = NetworkClient()
+        let queue = dispatch_queue_create("queue",nil)
+        
+        subscription = networkClient.setUserInfo().observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .debug()
+            .subscribe(onNext: { (networkResponse) -> Void in
+                dispatch_async(dispatch_get_main_queue(), {
+                    if(networkResponse.status == Status.Success){
+                    
+                        //self.performSegueWithIdentifier(self.SAVE_SEGUE, sender: self)
+                        self.goToContainerController()
+                    
+                    } else {
+                        self.showAlert("", msg: networkResponse.errMsg ?? "")
+                    }
+                })
+                }, onError: { (errType) -> Void in
+                    print(errType)
+                }, onCompleted: { () -> Void in
+                    
+                }, onDisposed: { () -> Void in
+                    
+            })
+        self.addSubscription(subscription!)
+    }
+    
+    func goToContainerController(){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("containerVC")
+        self.navigationController?.pushViewController(vc, animated: true)
+
     }
 }

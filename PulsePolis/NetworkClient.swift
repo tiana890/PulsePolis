@@ -79,12 +79,36 @@ class NetworkClient: NSObject {
     
     func getForecastPlaces(cityId: String, time: String) -> Observable<NetworkResponse>{
         let queue = dispatch_queue_create("queue",nil)
+        
         return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getForecastURL() ?? ""), parameters: ["token": (APP.i().user?.token ?? ""), "city_id": cityId, "time": time], encoding: .URL, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .debug()
             .map({ (response, object) -> PlacesResponse in
                 return PlacesResponse(json: JSON(object))
             })
+    }
+    
+    func getUserInfo() -> Observable<NetworkResponse>{
+        let queue = dispatch_queue_create("queue",nil)
+        print((APP.i().networkManager?.domain ?? "") + ("/hotjson/v1.0/getuserinfo.php"/*APP.i().networkManager?.methodsStructure?.getForecastURL()*/ ?? ""))
+        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + ("/hotjson/v1.0/getuserinfo"/*APP.i().networkManager?.methodsStructure?.getForecastURL()*/ ?? ""), parameters: ["token": (APP.i().user?.token ?? "")], encoding: .URL, headers: nil)
+            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .debug()
+            .map({ (response, object) -> GetUserInfoResponse in
+                return GetUserInfoResponse(json: JSON(object))
+            })
+    }
+    
+    func setUserInfo() -> Observable<NetworkResponse>{
+        let queue = dispatch_queue_create("queue",nil)
+        let parametersDict:[String: AnyObject] = ["name": APP.i().user?.firstName ?? "", "sex": APP.i().user?.getSexString() ?? "notdefined" , "token": (APP.i().user?.token ?? "")]
+        return requestData(.POST, (APP.i().networkManager?.domain ?? "") + ("/hotjson/v1.0/setuserinfo.php" ?? ""), parameters: parametersDict, encoding: .URL, headers: nil)
+            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .debug()
+            .map({ (response, data) -> NetworkResponse in
+                return NetworkResponse(json: JSON(data: data))
+            })
+
     }
     
     func defineCity() -> Observable<NetworkResponse>{
