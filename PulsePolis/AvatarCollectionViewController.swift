@@ -231,12 +231,13 @@ class AvatarCollectionViewController: BaseViewController, UICollectionViewDataSo
                 createMaskForImage(cell.avatarImage)
             }
             if let checkin = visitor?.checkin{
-                if (checkin.characters.count > 18){
-                    let str = (checkin as NSString).substringWithRange(NSMakeRange(11, 5)) as String
-                    cell.checkin.text = "Чекин в " + str
-                } else {
-                    cell.checkin.text = ""
-                }
+                cell.checkin.text = checkin
+//                if (checkin.characters.count > 18){
+//                    let str = (checkin as NSString).substringWithRange(NSMakeRange(11, 5)) as String
+//                    cell.checkin.text = "Чекин в " + str
+//                } else {
+//                    cell.checkin.text = ""
+//                }
             } else {
                 cell.checkin.text = ""
             }

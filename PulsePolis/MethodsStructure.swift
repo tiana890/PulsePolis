@@ -25,6 +25,8 @@ class MethodsStructure: NSObject {
     func getUserLocation() -> String{ return dict["userlocation"] ?? "" }
     func getVisitors() -> String{ return dict["visitors"] ?? "" }
     func getStat() -> String{ return dict["stat"] ?? "" }
+    func getUserInfoURL() -> String{ return dict["getuserinfo"] ?? "" }
+    func setUserInfoURL() -> String{ return dict["setuserinfo"] ?? "" }
     
     init(dictionary: [String: AnyObject]) {
         super.init()

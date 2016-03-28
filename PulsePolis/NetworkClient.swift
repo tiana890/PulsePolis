@@ -90,8 +90,7 @@ class NetworkClient: NSObject {
     
     func getUserInfo() -> Observable<NetworkResponse>{
         let queue = dispatch_queue_create("queue",nil)
-        print((APP.i().networkManager?.domain ?? "") + ("/hotjson/v1.0/getuserinfo.php"/*APP.i().networkManager?.methodsStructure?.getForecastURL()*/ ?? ""))
-        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + ("/hotjson/v1.0/getuserinfo"/*APP.i().networkManager?.methodsStructure?.getForecastURL()*/ ?? ""), parameters: ["token": (APP.i().user?.token ?? "")], encoding: .URL, headers: nil)
+        return requestJSON(.GET, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.getUserInfoURL() ?? ""), parameters: ["token": (APP.i().user?.token ?? "")], encoding: .URL, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .debug()
             .map({ (response, object) -> GetUserInfoResponse in
@@ -101,12 +100,14 @@ class NetworkClient: NSObject {
     
     func setUserInfo() -> Observable<NetworkResponse>{
         let queue = dispatch_queue_create("queue",nil)
-        let parametersDict:[String: AnyObject] = ["name": APP.i().user?.firstName ?? "", "sex": APP.i().user?.getSexString() ?? "notdefined" , "token": (APP.i().user?.token ?? "")]
-        return requestData(.POST, (APP.i().networkManager?.domain ?? "") + ("/hotjson/v1.0/setuserinfo.php" ?? ""), parameters: parametersDict, encoding: .URL, headers: nil)
+        let parametersDict:[String: AnyObject] = ["name": APP.i().user?.firstName ?? "", "sex": APP.i().user?.getSexString() ?? "notdefined" , "token": (APP.i().user?.token ?? ""), "type" : (APP.i().user?.auth ?? "")]
+        return requestString(.POST, (APP.i().networkManager?.domain ?? "") + (APP.i().networkManager?.methodsStructure?.setUserInfoURL() ?? ""), parameters: parametersDict, encoding: .URL, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .debug()
-            .map({ (response, data) -> NetworkResponse in
-                return NetworkResponse(json: JSON(data: data))
+            .map({ (response, string) -> NetworkResponse in
+                print(string)
+                let json = JSON.parse(string)
+                return NetworkResponse(json: json)
             })
 
     }

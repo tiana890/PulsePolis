@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         self.ageLabel.hidden = true
-        nameLabel.text = (APP.i().user?.firstName ?? "") + " " + (APP.i().user?.lastName ?? "")
+        nameLabel.text = (APP.i().user?.firstName ?? "") /*+ " " + (APP.i().user?.lastName ?? "")*/
         ageLabel.text = "\(APP.i().user?.age)"
     }
     

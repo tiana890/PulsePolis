@@ -47,6 +47,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    var timer: NSTimer?
+    
     override init() {
         super.init()
         if (self.locationManager == nil){
@@ -79,7 +81,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 //        self.locationManager?.stopUpdatingLocation()
         self.locationManager?.distanceFilter = 0
         self.locationManager?.stopMonitoringSignificantLocationChanges()
-        self.locationManager?.startUpdatingLocation()
+        self.timer?.invalidate()
+       // self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "updateLoc", userInfo: nil, repeats: true)
+        //self.locationManager?.startUpdatingLocation()
     }
     
     //MARK: -CLLocationManagerProtocol methods
@@ -137,6 +141,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         startLocationManager()
     }
 
+    func updateLoc(){
+        self.locationManager?.requestLocation()
+    }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var onceToken : dispatch_once_t = 0
@@ -258,7 +265,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        print(newLocation)
+        
     }
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         

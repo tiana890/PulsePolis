@@ -47,52 +47,67 @@ class StartViewController: BaseViewController {
     
     
     var ifStart = true
+    
+    var ifFromSelectCity = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        avatar.image = UIImage(named: "ava_big")
-        createMaskForImage(avatar)
-        self.nameLabel.text = ""
-        
-        if(ifStart){
-            self.startBtn.hidden = false
-            self.saveBtn.hidden = true
-            setGender(true)
-            updateUI()
-        } else {
-            self.startBtn.hidden = true
-            self.saveBtn.hidden = false
-            setGender(false)
-            if let type = APP.i().user?.authorizeType{
-                if(type == AuthorizeType.VK){
-                    setInfoFromVK()
-                } else if(type == AuthorizeType.Facebook){
-                    setInfoFromFacebook()
+        if(!self.ifFromSelectCity){
+            
+            avatar.image = UIImage(named: "ava_big")
+            createMaskForImage(avatar)
+            self.nameLabel.text = ""
+            
+            if(ifStart){
+                self.startBtn.hidden = false
+                self.saveBtn.hidden = true
+                setGender(true)
+                updateUI()
+            } else {
+                let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+                indicator.center = CGPoint(x: self.view.frame.width/2, y: self.avatar.center.y)
+                indicator.tag = 123456
+                indicator.startAnimating()
+                self.view.addSubview(indicator)
+                
+                self.startBtn.hidden = true
+                self.saveBtn.hidden = false
+                setGender(false)
+                if let type = APP.i().user?.authorizeType{
+                    if(type == AuthorizeType.VK){
+                        setInfoFromVK()
+                    } else if(type == AuthorizeType.Facebook){
+                        setInfoFromFacebook()
+                    }
                 }
             }
+            
+            if (APP.i().city == nil){
+                self.showIndicator()
+                APP.i().defineCity({ () -> Void in
+                    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                        self.hideIndicator()
+                        self.cityLabel.text = APP.i().city?.city ?? "не определено"
+                    }
+                })
+            } else {
+                self.hideIndicator()
+                self.cityLabel.text = APP.i().city?.city ?? "не определено"
+            }
+        } else {
+            self.ifFromSelectCity = true
         }
         
-        if (APP.i().city == nil){
-            self.showIndicator()
-            APP.i().defineCity({ () -> Void in
-                dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                    self.hideIndicator()
-                    self.cityLabel.text = APP.i().city?.city ?? "не определено"
-                }
-            })
-        } else {
-            self.hideIndicator()
-            self.cityLabel.text = APP.i().city?.city ?? "не определено"
-        }
         
     }
     
     func updateUI(){
         avatar.image = UIImage(named: "ava_big")
+        self.view.viewWithTag(123456)?.removeFromSuperview()
         createMaskForImage(avatar)
         if let photoUrl = APP.i().user?.photoURL{
             if let url = NSURL(string: photoUrl){
@@ -120,7 +135,7 @@ class StartViewController: BaseViewController {
                     APP.i().user?.saveUser()
                     self.updateUI()
                     }, errorBlock: { (error) -> Void in
-                        
+                    self.updateUI()
                 })
             }
         
@@ -142,6 +157,7 @@ class StartViewController: BaseViewController {
                     self.updateUI()
                 } else{
                     print(error.description)
+                    self.updateUI()
                 }
             })
         }
@@ -196,13 +212,14 @@ class StartViewController: BaseViewController {
                     }
                 }
             }
-            
         })
     }
     
     @IBAction func selectCity(sender: AnyObject) {
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier("pickerControllerID")
+        self.ifFromSelectCity = true
         self.presentViewController(pickerViewController, animated: true, completion: nil)
     }
     
@@ -273,6 +290,19 @@ class StartViewController: BaseViewController {
         
     }
     
+    func showAlertWithCloseHandler(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+            message: msg,
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (alertAction) -> Void in
+            self.goToContainerController()
+        }
+        
+        alert.addAction(cancelAction)
+        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func showPolitics(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let pickerViewController = storyboard.instantiateViewControllerWithIdentifier(INFO_CONTROLLER_STORYBOARD_ID)
@@ -295,6 +325,14 @@ class StartViewController: BaseViewController {
     }
     
     func sendUserInfo(){
+        
+        self.saveBtn.hidden = true
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        indicator.center = self.saveBtn.center
+        indicator.startAnimating()
+        indicator.tag = 13579
+        self.view.addSubview(indicator)
+        
         let networkClient = NetworkClient()
         let queue = dispatch_queue_create("queue",nil)
         
@@ -302,23 +340,31 @@ class StartViewController: BaseViewController {
             .debug()
             .subscribe(onNext: { (networkResponse) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
+                    self.view.viewWithTag(13579)?.removeFromSuperview()
+                    self.saveBtn.hidden = false
                     if(networkResponse.status == Status.Success){
-                    
-                        //self.performSegueWithIdentifier(self.SAVE_SEGUE, sender: self)
                         self.goToContainerController()
-                    
                     } else {
-                        self.showAlert("", msg: networkResponse.errMsg ?? "")
+                        self.treatError()
                     }
                 })
                 }, onError: { (errType) -> Void in
-                    print(errType)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.view.viewWithTag(13579)?.removeFromSuperview()
+                        self.saveBtn.hidden = false
+                        self.treatError()
+                    })
                 }, onCompleted: { () -> Void in
-                    
+                   
                 }, onDisposed: { () -> Void in
                     
             })
         self.addSubscription(subscription!)
+    }
+    
+    func treatError(){
+        
+        self.showAlertWithCloseHandler("Ошибка", msg: "Невозможно сохранить данные" ?? "")
     }
     
     func goToContainerController(){

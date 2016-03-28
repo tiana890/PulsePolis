@@ -2323,11 +2323,8 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Чекин в 19:20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TAe-v3-w0P">
-                                                    <rect key="frame" x="54" y="229" width="73" height="11"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="73" id="8Rz-qQ-mFF"/>
-                                                    </constraints>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Чекин в 19:20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TAe-v3-w0P">
+                                                    <rect key="frame" x="8" y="226" width="164" height="11"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="9"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="0.70038167938931295" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2338,14 +2335,21 @@
                                         <constraints>
                                             <constraint firstItem="TAe-v3-w0P" firstAttribute="centerX" secondItem="NU2-fX-LvL" secondAttribute="centerX" id="2ZM-Sr-4E3"/>
                                             <constraint firstAttribute="leadingMargin" secondItem="NU2-fX-LvL" secondAttribute="leading" id="Ch8-Ve-NG7"/>
+                                            <constraint firstItem="TAe-v3-w0P" firstAttribute="trailing" secondItem="NU2-fX-LvL" secondAttribute="trailing" id="GFV-zW-3yx"/>
                                             <constraint firstItem="DeL-SU-mag" firstAttribute="leading" secondItem="3MD-u2-qhb" secondAttribute="leadingMargin" constant="-8" id="Y00-AO-38t"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="DeL-SU-mag" secondAttribute="trailing" constant="-8" id="Zt2-lT-5uc"/>
                                             <constraint firstItem="TAe-v3-w0P" firstAttribute="top" secondItem="NU2-fX-LvL" secondAttribute="bottom" constant="4" id="dsp-hC-Gqb"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="NU2-fX-LvL" secondAttribute="trailing" id="enh-bR-62k"/>
                                             <constraint firstItem="NU2-fX-LvL" firstAttribute="top" secondItem="DeL-SU-mag" secondAttribute="bottom" constant="25" id="fAc-M0-0c4"/>
                                             <constraint firstItem="DeL-SU-mag" firstAttribute="top" secondItem="3MD-u2-qhb" secondAttribute="topMargin" constant="-8" id="nY7-6M-Eiu"/>
+                                            <constraint firstItem="TAe-v3-w0P" firstAttribute="leading" secondItem="NU2-fX-LvL" secondAttribute="leading" id="rPc-UK-3ra"/>
                                         </constraints>
                                         <size key="customSize" width="180" height="240"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="2ZM-Sr-4E3"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
                                             <outlet property="avatarImage" destination="DeL-SU-mag" id="SJf-D1-Gtf"/>
                                             <outlet property="checkin" destination="TAe-v3-w0P" id="gD3-RW-6gb"/>
