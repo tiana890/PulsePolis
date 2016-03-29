@@ -34,4 +34,42 @@ class TodayStatisticsManager: NSObject {
         
         return (minute >= 10) ? "\(hour):\(minute)" : "\(hour):0\(minute)"
     }
+    
+    static func getTitleForTime() -> String{
+        let dateFormatter = NSDateFormatter()
+        //dateFormatter.dateFormat = "Your date Format"
+        //let date = dateFormatter.dateFromString(string1)
+        let date = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        var comp = calendar.components([.Hour, .Minute], fromDate: date)
+        var hour = comp.hour
+        var minute = comp.minute
+        
+        if(minute <= 30){
+            comp.minute = 30
+        } else {
+            comp.minute = 0
+            comp.hour = hour + 1
+            if(comp.hour == 24){
+                comp.hour = 0
+            }
+        }
+        var newDate = calendar.dateFromComponents(comp)
+        
+        var title = ""
+        if(comp.hour < 10){
+            title = "0\(comp.hour):"
+        } else {
+            title = "\(comp.hour):"
+        }
+        
+        if(comp.minute < 10){
+            title = title + "0\(comp.minute)"
+        } else {
+            title = title + "\(comp.minute)"
+        }
+        return title
+        
+    }
+
 }

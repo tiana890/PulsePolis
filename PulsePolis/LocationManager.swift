@@ -58,7 +58,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.locationManager?.requestWhenInUseAuthorization()
         self.locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
         
-        
         self.locationManager?.allowsBackgroundLocationUpdates = true
         
 
@@ -81,7 +80,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 //        self.locationManager?.stopUpdatingLocation()
         self.locationManager?.distanceFilter = 0
         self.locationManager?.stopMonitoringSignificantLocationChanges()
-        self.timer?.invalidate()
+        self.locationManager?.startUpdatingLocation()
+       // self.timer?.invalidate()
        // self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "updateLoc", userInfo: nil, repeats: true)
         //self.locationManager?.startUpdatingLocation()
     }
@@ -152,7 +152,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             
             print("BEFORE UPDATE LOCATION")
             
-            if(self.getSecondsDiffBetweenCurrentDateAndLast() > 60 || self.getSecondsDiffBetweenCurrentDateAndLast() == 0){
+            if(self.getSecondsDiffBetweenCurrentDateAndLast() > 300 || self.getSecondsDiffBetweenCurrentDateAndLast() == 0){
                 self.saveDateUpdate()
                 print("UPDATE LOCATION....")
                 self.saveFactualUpdateRecord(locations.last!)

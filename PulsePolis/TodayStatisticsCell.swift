@@ -122,8 +122,6 @@ class TodayStatisticsCell: UITableViewCell {
             }
         }
         var newDate = calendar.dateFromComponents(comp)
-        print(comp.hour)
-        print(newDate)
         
         self.todaySegmentedControl.removeAllSegments()
         
@@ -166,5 +164,5 @@ class TodayStatisticsCell: UITableViewCell {
         }
     }
     
-    
+       
 }

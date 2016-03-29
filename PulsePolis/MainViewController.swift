@@ -717,7 +717,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func statisticsPressed(sender: UIButton) {
-        self.statisticsMode = !sender.selected
+        self.statisticsMode = !self.statisticsMode
         sender.selected = !sender.selected
         if(!ifLoading){
             loadPlaces(true)
@@ -856,9 +856,9 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         let observePlaces:Observable<NetworkResponse>!
         if(self.statisticsMode){
             if(self.todayStatisticsManager.segmentIndex == 0){
-                observePlaces = networkClient.getForecastPlaces(cityId ?? "", time: self.todayStatisticsManager.todayValue ?? "")
+                observePlaces = networkClient.getForecastPlaces(cityId ?? "", time: self.todayStatisticsManager.todayValue ?? TodayStatisticsManager.getTitleForTime())
             } else {
-                observePlaces = networkClient.getStatisticsPlaces(cityId ?? "", time: self.todayStatisticsManager.statisticsTimeString ?? "", day: "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)")
+                observePlaces = networkClient.getStatisticsPlaces(cityId ?? "", time: self.todayStatisticsManager.statisticsTimeString ?? TodayStatisticsManager.getTitleForTime(), day: "\(self.todayStatisticsManager.statisticsSelectedSegmentIndex)")
             }
         } else {
             observePlaces = networkClient.getPlaces(cityId ?? "")

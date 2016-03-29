@@ -100,6 +100,7 @@ class StartViewController: BaseViewController {
             }
         } else {
             self.ifFromSelectCity = true
+            self.cityLabel.text = APP.i().city?.city ?? "не определено"
         }
         
         
@@ -316,17 +317,16 @@ class StartViewController: BaseViewController {
     }
     
     @IBAction func startBtnPressed(sender: AnyObject) {
-        if(ifStart){
-            self.goToContainerController()
-        } else {
-            self.sendUserInfo()
-        }
+       
+        self.sendUserInfo()
+        
         
     }
     
     func sendUserInfo(){
         
         self.saveBtn.hidden = true
+        self.startBtn.hidden = true
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
         indicator.center = self.saveBtn.center
         indicator.startAnimating()
@@ -341,7 +341,11 @@ class StartViewController: BaseViewController {
             .subscribe(onNext: { (networkResponse) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
                     self.view.viewWithTag(13579)?.removeFromSuperview()
-                    self.saveBtn.hidden = false
+                    if(!self.ifStart){
+                        self.saveBtn.hidden = false
+                    } else {
+                        self.startBtn.hidden = false
+                    }
                     if(networkResponse.status == Status.Success){
                         self.goToContainerController()
                     } else {
@@ -351,7 +355,11 @@ class StartViewController: BaseViewController {
                 }, onError: { (errType) -> Void in
                     dispatch_async(dispatch_get_main_queue(), {
                         self.view.viewWithTag(13579)?.removeFromSuperview()
-                        self.saveBtn.hidden = false
+                        if(!self.ifStart){
+                            self.saveBtn.hidden = false
+                        } else {
+                            self.startBtn.hidden = false
+                        }
                         self.treatError()
                     })
                 }, onCompleted: { () -> Void in
