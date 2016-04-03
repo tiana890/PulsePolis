@@ -152,12 +152,14 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             
             print("BEFORE UPDATE LOCATION")
             
-            if(self.getSecondsDiffBetweenCurrentDateAndLast() > 300 || self.getSecondsDiffBetweenCurrentDateAndLast() == 0){
+            if(self.getSecondsDiffBetweenCurrentDateAndLast() > 60 || self.getSecondsDiffBetweenCurrentDateAndLast() == 0){
                 self.saveDateUpdate()
                 print("UPDATE LOCATION....")
                 self.saveFactualUpdateRecord(locations.last!)
                 let updatedLocation = locations.last
-                let sourceStringURL = (APP.i().networkManager?.domain ??  "") + (APP.i().networkManager?.methodsStructure?.getUserLocation() ?? "")
+                //let sourceStringURL = (APP.i().networkManager?.domain ??  "") + (APP.i().networkManager?.methodsStructure?.getUserLocation() ?? "")
+                let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/userlocation"
+                print(sourceStringURL)
                 let myQueue = dispatch_queue_create("backgroundqueue", nil)
                 
                 if let user = APP.i().user{
