@@ -49,7 +49,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
+         APP.i().locationManager?.stopLocationManager()
     }
     
     override func didReceiveMemoryWarning() {

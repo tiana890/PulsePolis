@@ -103,9 +103,6 @@ class APP{
             }) { () -> Void in
                 
             }.addDisposableTo(self.disposeBag)
-        
-        
-        
     }
     
     func updateSettings(client: NetworkClient,block: () -> Void){

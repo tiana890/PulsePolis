@@ -113,7 +113,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     var ifLoading = false
     
-    var locationManager: LocationManager?
     
     @IBOutlet var customTabBar: UITabBar!
 
@@ -128,9 +127,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        locationManager = LocationManager()
-        locationManager?.startLocationManager()
         
         mapView.delegate = self
         
@@ -956,7 +952,7 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     @IBAction func userLocationPressed(sender: AnyObject) {
         
-        if let loc = locationManager?.locationCoordinate{
+        if let loc = APP.i().locationManager?.locationCoordinate{
             let camera = MGLMapCamera()
             camera.centerCoordinate = loc
             mapView.setCenterCoordinate(loc, zoomLevel: 15, animated: false)

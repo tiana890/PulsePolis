@@ -56,9 +56,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         self.locationManager?.delegate = self
         self.locationManager?.requestWhenInUseAuthorization()
-        self.locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        
         
         self.locationManager?.allowsBackgroundLocationUpdates = true
+        self.locationManager?.pausesLocationUpdatesAutomatically = true
         
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "inBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)
@@ -71,6 +73,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     {
         self.locationManager?.distanceFilter = 500
         self.locationManager?.startMonitoringSignificantLocationChanges()
+        //self.locationManager?.allowDeferredLocationUpdatesUntilTraveled(300, timeout: 90)
         self.locationManager?.stopUpdatingLocation()
         
     }
@@ -78,12 +81,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     {
 //        self.locationManager?.startMonitoringSignificantLocationChanges()
 //        self.locationManager?.stopUpdatingLocation()
-        self.locationManager?.distanceFilter = 0
         self.locationManager?.stopMonitoringSignificantLocationChanges()
-        self.locationManager?.startUpdatingLocation()
-       // self.timer?.invalidate()
-       // self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "updateLoc", userInfo: nil, repeats: true)
-        //self.locationManager?.startUpdatingLocation()
+        self.timer?.invalidate()
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(300, target: self, selector: "updateLoc", userInfo: nil, repeats: true)
     }
     
     //MARK: -CLLocationManagerProtocol methods
@@ -152,7 +152,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             
             print("BEFORE UPDATE LOCATION")
             
-            if(self.getSecondsDiffBetweenCurrentDateAndLast() > 60 || self.getSecondsDiffBetweenCurrentDateAndLast() == 0){
+            if(self.getSecondsDiffBetweenCurrentDateAndLast() > 200 || self.getSecondsDiffBetweenCurrentDateAndLast() == 0 && APP.i().user?.token != nil){
                 self.saveDateUpdate()
                 print("UPDATE LOCATION....")
                 self.saveFactualUpdateRecord(locations.last!)

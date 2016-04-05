@@ -56,6 +56,7 @@ class StartViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        APP.i().locationManager?.startLocationManager()
         if(!self.ifFromSelectCity){
             
             avatar.image = UIImage(named: "ava_big")
@@ -104,6 +105,11 @@ class StartViewController: BaseViewController {
         }
         
         
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        APP.i().locationManager?.stopLocationManager()
     }
     
     func updateUI(){
