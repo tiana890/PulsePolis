@@ -317,14 +317,25 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func mainButtonPressed(button: UIButton){
-        let bounceAnimation = RAMBounceAnimation()
-        bounceAnimation.playAnimation(button.imageView!, textLabel: UILabel())
-        //self.favoritesMode = false
         self.ifAnimateCells = true
         if(!ifLoading){
             //self.customTabBar.selectedItem = self.customTabBar.items![0]
+            
+            self.mapView.removeAnnotations(self.mapView.annotations ?? [])
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+            indicator.tag = 1111
+            indicator.startAnimating()
+            let screen = UIScreen.mainScreen().bounds
+            indicator.center = CGPoint(x: screen.width/2, y: self.tableHeaderHeight/2 + 44)
+            self.mapView.addSubview(indicator)
+            
+            APP.i().locationManager?.clearDateUpdateAndUpdateLocation()
             loadPlaces(false)
         }
+        let bounceAnimation = RAMBounceAnimation()
+        bounceAnimation.playAnimation(button.imageView!, textLabel: UILabel())
+        //self.favoritesMode = false
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -336,12 +347,12 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.mapView.removeAnnotations(self.annotations)
         self.annotations.removeAll()
         self.annotationDict.removeAll()
+        self.mapView.viewWithTag(1111)?.removeFromSuperview()
         
         var array = self.filteredPlaces
         if(favoritesMode){
             array = self.favorites
         }
-        
         
         for(place) in array{
             
@@ -758,6 +769,21 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         let networkClient = NetworkClient()
         
+        //*****Changes
+        
+        if let cell = self.table.cellForRowAtIndexPath(NSIndexPath(forItem: 1, inSection: 0)) as? AvatarCell{
+            print(cell)
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            indicator.center = cell.contentView.center ?? CGPoint(x: 0,y: 0)
+            indicator.tag = 5555
+            
+            cell.contentView.addSubview(indicator)
+            indicator.startAnimating()
+            cell.collectionView.hidden = true
+        }
+
+
+        
         let observePlaces = self.createObservableForPlaces()
         observePlaces.observeOn(ConcurrentDispatchQueueScheduler(queue: queue)).subscribe(onNext: { (placesResponse) -> Void in
             self.loadPlacesHandler(placesResponse)
@@ -870,16 +896,6 @@ class MainViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             if(self.visitors.count > 0){
                 self.visitors.removeAll()
                 dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                    if let cell = self.table.cellForRowAtIndexPath(NSIndexPath(forItem: 1, inSection: 0)) as? AvatarCell{
-                        print(cell)
-                        let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
-                        indicator.center = cell.contentView.center ?? CGPoint(x: 0,y: 0)
-                        indicator.tag = 5555
-                        
-                        cell.contentView.addSubview(indicator)
-                        indicator.startAnimating()
-                        cell.collectionView.hidden = true
-                    }
                     
                 }
                 

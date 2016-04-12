@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         VKSdk.initializeWithAppId("5144665")
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        APP.i().locationManager?.startLocationManager()
+        
         return true
     }
 
@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        let locationManager = APP.i().locationManager
     }
     
 

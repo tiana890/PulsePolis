@@ -44,12 +44,12 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideActivityIndicator()
-        APP.i().locationManager?.startLocationManager()
+        //APP.i().locationManager?.startLocationManager()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-         APP.i().locationManager?.stopLocationManager()
+         //APP.i().locationManager?.stopLocationManager()
     }
     
     override func didReceiveMemoryWarning() {
@@ -181,6 +181,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
 //        }
 //        nameForAuth += APP.i().user?.lastName ?? ""
         
+        
         let networkClient = NetworkClient()
         networkClient.authorize(sex, name: nameForAuth ?? "").observeOn(MainScheduler.instance)
         .debug()
@@ -214,6 +215,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
             if (response.status == Status.Success){
                 //APP.i().getCities()
                 if let token = response.token{
+                    APP.i().locationManager?.clearDateUpdateAndUpdateLocation()
                     APP.i().user?.token = token
                     APP.i().user?.saveUser()
                     self.hideActivityIndicator()

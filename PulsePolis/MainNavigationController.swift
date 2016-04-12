@@ -56,7 +56,9 @@ class MainNavigationController: UINavigationController {
         let favManager = FavoritesManager()
         favManager.removeAllFromFavorites()
         APP.i().settingsManager = SettingsManager()
+        
     }
+    
     
     /*
     // MARK: - Navigation

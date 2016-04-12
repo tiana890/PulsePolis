@@ -56,8 +56,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         self.locationManager?.delegate = self
         self.locationManager?.requestWhenInUseAuthorization()
-        self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        
+        self.locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
         
         self.locationManager?.allowsBackgroundLocationUpdates = true
         self.locationManager?.pausesLocationUpdatesAutomatically = true
@@ -73,17 +72,23 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     {
         self.locationManager?.distanceFilter = 500
         self.locationManager?.startMonitoringSignificantLocationChanges()
-        //self.locationManager?.allowDeferredLocationUpdatesUntilTraveled(300, timeout: 90)
         self.locationManager?.stopUpdatingLocation()
+        self.timer?.invalidate()
+        self.clearDateUpdate()
         
     }
     func inForeground()
     {
-//        self.locationManager?.startMonitoringSignificantLocationChanges()
-//        self.locationManager?.stopUpdatingLocation()
+
         self.locationManager?.stopMonitoringSignificantLocationChanges()
         self.timer?.invalidate()
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(300, target: self, selector: "updateLoc", userInfo: nil, repeats: true)
+        self.updateLoc()
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(300, target: self, selector: #selector(LocationManager.updateLoc), userInfo: nil, repeats: true)
+    }
+    
+    func clearDateUpdateAndUpdateLocation(){
+        self.clearDateUpdate()
+        self.updateLoc()
     }
     
     //MARK: -CLLocationManagerProtocol methods
@@ -142,7 +147,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func updateLoc(){
+        
         self.locationManager?.requestLocation()
+        
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -263,6 +270,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func saveDateUpdate() -> (){
         let def = NSUserDefaults.standardUserDefaults()
         def.setObject("\(NSDate().timeIntervalSince1970)", forKey: "currentDate")
+        def.synchronize()
+    }
+    
+    func clearDateUpdate() -> (){
+        let def = NSUserDefaults.standardUserDefaults()
+        def.setObject("\(NSTimeIntervalSince1970)", forKey: "currentDate")
         def.synchronize()
     }
 
