@@ -71,15 +71,14 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func inBackground()
     {
         self.locationManager?.distanceFilter = 500
-        self.locationManager?.startMonitoringSignificantLocationChanges()
         self.locationManager?.stopUpdatingLocation()
+        self.locationManager?.startMonitoringSignificantLocationChanges()
         self.timer?.invalidate()
         self.clearDateUpdate()
         
     }
     func inForeground()
     {
-
         self.locationManager?.stopMonitoringSignificantLocationChanges()
         self.timer?.invalidate()
         self.updateLoc()

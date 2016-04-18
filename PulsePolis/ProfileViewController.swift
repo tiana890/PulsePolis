@@ -27,10 +27,17 @@ class ProfileViewController: UIViewController {
     var avatarURL: String?
     @IBOutlet var nameLabel: UILabel!
     
+    @IBOutlet var constraint: NSLayoutConstraint!
     var reachability: Reachability?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let screenSize = UIScreen.mainScreen().bounds.size
+        if(screenSize.height == 480.0){
+            self.constraint.constant = 85.0
+            
+        }
         
         // Do any additional setup after loading the view.
         self.ageLabel.hidden = true

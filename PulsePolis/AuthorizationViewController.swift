@@ -30,6 +30,7 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     @IBOutlet var facebookLabel: UILabel!
     @IBOutlet var vkLabel: UILabel!
     
+    @IBOutlet var constraint: NSLayoutConstraint!
     var url: String?
     
     var disposeBag = DisposeBag()
@@ -38,7 +39,12 @@ class AuthorizationViewController: BaseViewController, VKSdkDelegate {
     //MARK: UIViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
+        let screenSize = UIScreen.mainScreen().bounds.size
+        if(screenSize.height == 480.0){
+            self.constraint.constant = -50.0
+        }
+        
     }
     
     override func viewWillAppear(animated: Bool) {

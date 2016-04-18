@@ -40,10 +40,21 @@ class StartViewController: BaseViewController {
     @IBOutlet var indicator: UIActivityIndicatorView!
     @IBOutlet var defineCityLabel: UILabel!
     
+    @IBOutlet var centerConstraint: NSLayoutConstraint!
+    @IBOutlet var startBtnConstraint: NSLayoutConstraint!
+    @IBOutlet var saveBtnContraint: NSLayoutConstraint!
+    @IBOutlet var constraint: NSLayoutConstraint!
+    @IBOutlet var genderConstraint: NSLayoutConstraint!
+    @IBOutlet var genderNameConstraint: NSLayoutConstraint!
+    
+    @IBOutlet var avatarConstraint: NSLayoutConstraint!
+    @IBOutlet var genderQuestionConstraint: NSLayoutConstraint!
+    @IBOutlet var genderQuestionConstraint2: NSLayoutConstraint!
     var subscription: Disposable?
     
     let selectedColor = ColorHelper.defaultColor
     let color = UIColor(red: 150.0/255.0, green: 153.0/255.0, blue: 157.0/255.0, alpha: 1.0)
+    
     
     
     var ifStart = true
@@ -52,6 +63,19 @@ class StartViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let screenSize = UIScreen.mainScreen().bounds.size
+        if(screenSize.height == 480.0){
+            self.constraint.constant = 0.0
+            self.startBtnConstraint.constant = 10.0
+            self.saveBtnContraint.constant = 10.0
+            self.genderConstraint.constant = 0.0
+            self.genderNameConstraint.constant = 7.0
+            self.centerConstraint.constant = 0.0
+            self.genderQuestionConstraint.constant = 7.0
+            self.genderQuestionConstraint2.constant = 7.0
+            self.avatarConstraint.constant = -60.0
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
