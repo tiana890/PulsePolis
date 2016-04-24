@@ -55,12 +55,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             self.locationManager = CLLocationManager()
         }
         self.locationManager?.delegate = self
-        self.locationManager?.requestWhenInUseAuthorization()
+        self.locationManager?.requestAlwaysAuthorization()
+        
         self.locationManager?.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        
+        self.locationManager?.distanceFilter = 500
         self.locationManager?.allowsBackgroundLocationUpdates = true
-        self.locationManager?.pausesLocationUpdatesAutomatically = true
-        
+        self.locationManager?.pausesLocationUpdatesAutomatically = false
+        print(self.locationManager?.pausesLocationUpdatesAutomatically)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "inBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "inForeground", name: UIApplicationDidBecomeActiveNotification, object: nil)
@@ -70,12 +71,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 
     func inBackground()
     {
-        self.locationManager?.distanceFilter = 500
-        self.locationManager?.stopUpdatingLocation()
         self.locationManager?.startMonitoringSignificantLocationChanges()
+        self.locationManager?.stopUpdatingLocation()
+        
         self.timer?.invalidate()
         self.clearDateUpdate()
-        
+        print(self.locationManager?.pausesLocationUpdatesAutomatically)
     }
     func inForeground()
     {
@@ -83,6 +84,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.timer?.invalidate()
         self.updateLoc()
         self.timer = NSTimer.scheduledTimerWithTimeInterval(300, target: self, selector: #selector(LocationManager.updateLoc), userInfo: nil, repeats: true)
+        print(self.locationManager?.pausesLocationUpdatesAutomatically)
     }
     
     func clearDateUpdateAndUpdateLocation(){
