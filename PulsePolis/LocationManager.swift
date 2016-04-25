@@ -71,11 +71,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 
     func inBackground()
     {
+        self.timer?.invalidate()
+        self.clearDateUpdate()
         self.locationManager?.startMonitoringSignificantLocationChanges()
         self.locationManager?.stopUpdatingLocation()
         
-        self.timer?.invalidate()
-        self.clearDateUpdate()
         print(self.locationManager?.pausesLocationUpdatesAutomatically)
     }
     func inForeground()
@@ -155,7 +155,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var onceToken : dispatch_once_t = 0
-   
+        
+        self.savePotentialUpdateRecord(locations.last ?? CLLocation())
         dispatch_once(&onceToken) {
             
             print("BEFORE UPDATE LOCATION")
@@ -163,7 +164,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             if(self.getSecondsDiffBetweenCurrentDateAndLast() > 200 || self.getSecondsDiffBetweenCurrentDateAndLast() == 0 && APP.i().user?.token != nil){
                 self.saveDateUpdate()
                 print("UPDATE LOCATION....")
-                self.saveFactualUpdateRecord(locations.last!)
+                self.saveFactualUpdateRecord(locations.last ?? CLLocation())
                 let updatedLocation = locations.last
                 //let sourceStringURL = (APP.i().networkManager?.domain ??  "") + (APP.i().networkManager?.methodsStructure?.getUserLocation() ?? "")
                 let sourceStringURL = "http://hotfinder.ru/hotjson/v1.0/userlocation"
